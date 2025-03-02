@@ -80,9 +80,17 @@ function evalScript(script, callback) {
 }
 
 function check_git_hash(xml) {
-    if (xml.find("full_data").attr("git_hash") != get_git_sha()) {
+    // Check that the git hash of the main plugin and the extension are the same
+    const plugin_hash = xml.find("full_data").attr("git_hash")
+    const ui_hash = get_git_sha()
+    if (plugin_hash != ui_hash) {
         alert(
-            "The git hash of the LaTeX2AI plugin and the UI does not match! Did you forget to update one of them?"
+            "The git hashes of the LaTeX2AI plugin and the UI do not match! " +
+                "Did you forget to update one of them?" +
+                "\nThe plugin hash is: " +
+                plugin_hash.slice(0, 8) +
+                "\nThe UI hash is: " +
+                ui_hash.slice(0, 8)
         )
     }
 }
