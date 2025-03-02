@@ -202,7 +202,7 @@ function update_create_item(event) {
     var xmlData = $.parseXML(event.data)
     var $xml = $(xmlData)
 
-    check_git_hash($xml)
+    check_ui_path_and_git_hash($xml)
 
     var xml_form_data = $xml.find("form_data")
     var xml_l2a_item = xml_form_data.find("LaTeX2AI_item")
@@ -268,7 +268,7 @@ function set_close_on_focus(event) {
     var xmlData = $.parseXML(event.data)
     var $xml = $(xmlData)
 
-    check_git_hash($xml)
+    check_ui_path_and_git_hash($xml)
 
     var l2a_xml = $xml.find("form_data")
 

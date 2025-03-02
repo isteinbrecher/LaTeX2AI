@@ -184,7 +184,7 @@ function update_form(event) {
     // We do this by simply checking which items are given and set them accordingly
     var xmlData = $.parseXML(event.data)
     var $xml = $(xmlData)
-    check_git_hash($xml)
+    check_ui_path_and_git_hash($xml)
 
     var form_data = $xml.find("form_data")
 

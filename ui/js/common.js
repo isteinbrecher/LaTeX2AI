@@ -79,7 +79,23 @@ function evalScript(script, callback) {
     new CSInterface().evalScript(script, callback)
 }
 
-function check_git_hash(xml) {
+function check_ui_path_and_git_hash(xml) {
+    // Check that the old extension name "isteinbrecher" does not appear in the UI path
+    const extension_path = window.__adobe_cep__.getSystemPath("extension")
+    const contains_old_path = extension_path
+        .toLowerCase()
+        .includes("com.isteinbrecher.latex2ai")
+    if (contains_old_path) {
+        alert(
+            "Your LaTeX2AI user interface folder seems to be outdated. " +
+                'Please remove the folder "' +
+                extension_path +
+                '" and install the new "com.latex2ai.latex2ai" folder.\n\n' +
+                "For more information have a look at the install instructions under\n" +
+                "https://github.com/LaTeX2AI/LaTeX2AI"
+        )
+    }
+
     // Check that the git hash of the main plugin and the extension are the same
     const plugin_hash = xml.find("full_data").attr("git_hash")
     const ui_hash = get_git_sha()

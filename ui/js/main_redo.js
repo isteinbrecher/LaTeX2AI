@@ -88,7 +88,7 @@ function update_form(event) {
     var xmlData = $.parseXML(event.data)
     var $xml = $(xmlData)
 
-    check_git_hash($xml)
+    check_ui_path_and_git_hash($xml)
 
     var redo_xml = $xml.find("form_data")
     $("#items_all_label").prop(

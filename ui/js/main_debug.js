@@ -96,7 +96,7 @@ function update_create_form(event) {
     var xmlData = $.parseXML(event.data)
     var $xml = $(xmlData)
 
-    check_git_hash($xml)
+    check_ui_path_and_git_hash($xml)
 
     var l2a_xml = $xml.find("form_data")
 
