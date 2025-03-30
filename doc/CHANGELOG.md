@@ -1,6 +1,8 @@
 # Changelog
 
 -   **pre-release**
+    -   Features:
+        -   Pressing `Escape` in the debug form now returns to the item form instead of ending the item create/edit process.
     -   Bug fixes:
         -   Fix bug that could arise when the item vector inside the annotator contained items with non-valid pointers
 -   **v1.0.2**
