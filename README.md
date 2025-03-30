@@ -146,7 +146,7 @@ It is not required to keep track of the files in the `links` folder, LaTeX2AI ma
 
 ## Creative Cloud documents
 
-LaTeX2AI currently does not work with _Creative Cloud documents_. However, if the document is stored in the _Creative Cloud Files_ folder on the disk, LaTeX2AI should work as expected.
+LaTeX2AI currently does not work with _Creative Cloud documents_.
 
 # Work that uses LaTeX2AI
 
