@@ -1,6 +1,6 @@
 # Changelog
 
--   **pre-release**
+-   **v1.0.3**
     -   Features:
         -   Pressing `Escape` in the debug form now returns to the item form instead of ending the item create/edit process.
     -   Bug fixes:
