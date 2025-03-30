@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // MIT License
 //
-// Copyright (c) 2020-2024 Ivo Steinbrecher
+// Copyright (c) 2020-2025 Ivo Steinbrecher
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -102,10 +102,8 @@ ASErr L2APlugin::Notify(AINotifierMessage* message)
         {
             // Selection of art items changed in the document.
 
-            // Invalidate the entire document view bounds.
+            // Update the annotator view bounds and the internal item vector.
             annotator_->InvalAnnotation();
-
-            // If the annotator is active, update the item vector.
             annotator_->ArtSelectionChanged();
 
             // Check if there is a single isolated l2a item.
@@ -126,6 +124,10 @@ ASErr L2APlugin::Notify(AINotifierMessage* message)
             {
                 L2A::AI::UndoActivate();
                 L2A::CheckItemDataStructure();
+
+                // Update the annotator view bounds and the internal item vector.
+                annotator_->InvalAnnotation();
+                annotator_->ArtSelectionChanged();
             }
         }
         else if (message->notifier == notify_CSXS_plugplug_setup_complete_)

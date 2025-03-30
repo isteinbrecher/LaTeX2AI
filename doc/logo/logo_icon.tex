@@ -1,7 +1,7 @@
 % -----------------------------------------------------------------------------
 % MIT License
 %
-% Copyright (c) 2020-2024 Ivo Steinbrecher
+% Copyright (c) 2020-2025 Ivo Steinbrecher
 %
 % Permission is hereby granted, free of charge, to any person obtaining a copy
 % of this software and associated documentation files (the "Software"), to deal
@@ -77,6 +77,17 @@
 \draw [yel,fill=back,thick] (-\sizeHalf,-\sizeHalf) rectangle (\sizeHalf,\sizeHalf);
 \node [anchor=base,inner sep=0pt](L) at (-3.25pt,-3pt) {\textcolor{yel}{\bfseries \textit{L}}};
 \node [anchor=base,inner sep=0pt] (A) at (3pt,-3pt) {\sffamily \bfseries \textcolor{yel}{A}};
+\end{tikzpicture}%
+\end{lta}
+
+% Black white large square icon
+\renewcommand{\sizeHalf}{6.5pt}
+\begin{lta}
+\begin{tikzpicture}
+\draw [opacity=0] (-\sizeHalf,-\sizeHalf) rectangle (\sizeHalf,\sizeHalf);
+\node [anchor=base,inner sep=0pt](L) at (-3.15pt,-3pt) {$L$};
+\node [anchor=base,inner sep=0pt] (two) at (-0.1pt,0.5pt) {\tiny 2};
+\node [anchor=base,inner sep=0pt] (A) at (3.15pt,-3pt) {\sffamily \bfseries A};
 \end{tikzpicture}%
 \end{lta}
 

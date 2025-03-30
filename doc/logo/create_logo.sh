@@ -2,7 +2,7 @@
 # -----------------------------------------------------------------------------
 # MIT License
 #
-# Copyright (c) 2020-2024 Ivo Steinbrecher
+# Copyright (c) 2020-2025 Ivo Steinbrecher
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ gs -dFirstPage=1 -dLastPage=1 -sDEVICE=pngalpha -dTextAlphaBits=4 -r2442 -o logo
 gs -dFirstPage=2 -dLastPage=2 -sDEVICE=pngalpha -dTextAlphaBits=4 -r2442 -o logo_color.png logo_icon.pdf
 gs -dFirstPage=3 -dLastPage=3 -sDEVICE=pngalpha -dTextAlphaBits=4 -r2442 -o logo_square.png logo_icon.pdf
 gs -dFirstPage=4 -dLastPage=4 -sDEVICE=pngalpha -dTextAlphaBits=4 -r1250 -o icon_256.png logo_icon.pdf
+gs -dFirstPage=5 -dLastPage=5 -sDEVICE=pngalpha -dTextAlphaBits=4 -r2442 -o logo_square_bw.png logo_icon.pdf
 
 # Create the image placement
 pdflatex item_placement.tex

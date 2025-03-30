@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // MIT License
 //
-// Copyright (c) 2020-2024 Ivo Steinbrecher
+// Copyright (c) 2020-2025 Ivo Steinbrecher
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@
 #define L2A_PLUGIN_NAME "LaTeX2AI"
 
 //! Version of the plugin.
-#define L2A_VERSION_STRING_ "1.0.2"
+#define L2A_VERSION_STRING_ "1.0.3"
 
 //! Icon IDs.
 #define TOOL_ICON_CREATE_DARK_ID 19000        // icon for create mode in dark mode

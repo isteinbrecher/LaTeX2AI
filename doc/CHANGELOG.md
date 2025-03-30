@@ -1,5 +1,10 @@
 # Changelog
 
+-   **v1.0.3**
+    -   Features:
+        -   Pressing `Escape` in the debug form now returns to the item form instead of ending the item create/edit process.
+    -   Bug fixes:
+        -   Fix bug that could arise when the item vector inside the annotator contained items with non-valid pointers
 -   **v1.0.2**
     -   Bug fixes:
         -   Fix bug that caused Illustrator to crash when deselecting all active LaTeX2AI elements [#189](https://github.com/isteinbrecher/latex2ai/issues/189).

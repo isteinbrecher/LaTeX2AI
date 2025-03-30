@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // MIT License
 //
-// Copyright (c) 2020-2024 Ivo Steinbrecher
+// Copyright (c) 2020-2025 Ivo Steinbrecher
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -987,6 +987,11 @@ void L2A::AI::GetIsHiddenLocked(const AIArtHandle& art_item, bool& is_hidden, bo
         if (attributes & kArtHidden) is_hidden = true;
     }
 }
+
+/**
+ *
+ */
+bool L2A::AI::IsValidArt(const AIArtHandle& art_item) { return sAIArt->ValidArt(art_item, true); }
 
 /**
  *
