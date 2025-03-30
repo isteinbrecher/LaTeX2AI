@@ -61,9 +61,7 @@ void L2A::UTIL::CheckGithubVersion()
     try
     {
         // Get the packages in the GitHub repository.
-        ai::UnicodeString command("curl -s https://api.github.com/repos/isteinbrecher/latex2ai/releases");
-        ai::UnicodeString result;
-
+        ai::UnicodeString command("curl -L -s https://api.github.com/repos/isteinbrecher/latex2ai/releases");
         auto command_result = L2A::UTIL::ExecuteCommandLine(command);
         std::string curl_output = L2A::UTIL::StringAiToStd(command_result.output_);
         if (curl_output == "") return;
