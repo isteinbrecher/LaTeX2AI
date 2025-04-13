@@ -1,8 +1,8 @@
 ![LaTeX2AI](/doc/logo/logo_black.png?raw=true)
 
-LaTeX2AI is a plugin for Adobe Illustrator (MacOS and Windows) that enables the use of editable text labels typeset in LaTeX inside an Illustrator document.
+LaTeX2AI is a plugin for Adobe Illustrator (macOS and Windows) that enables the use of editable text labels typeset in LaTeX inside an Illustrator document.
 
-# License & How to cite
+# License & How to Cite
 
 LaTeX2AI is under the MIT license, see [./LICENSE](LICENSE).
 If you use LaTeX2AI to create figures for your work, please acknowledge it with a link to the GitHub repository.
@@ -20,170 +20,174 @@ You can also add your work to [Work that uses LaTeX2AI](#work-that-uses-latex2ai
 The following software dependencies are required to run LaTeX2AI:
 
 -   A LaTeX compiler such as [TeX Live](https://www.tug.org/texlive) or [MiKTeX](https://miktex.org)
--   [Ghost script](https://www.ghostscript.com)
+-   [Ghostscript](https://www.ghostscript.com)
 
 ### Windows
 
-1. Download LaTeX2AI from the [GitHub release page](https://github.com/isteinbrecher/latex2ai/releases)
-1. Unzip the `.zip` file
-1. Copy the user interface folder `com.isteinbrecher.latex2ai`
+1. Download LaTeX2AI from the [GitHub release page](https://github.com/isteinbrecher/latex2ai/releases).
+1. Unzip the `.zip` file.
+1. Copy the user interface folder `com.isteinbrecher.latex2ai`:
 
-    - LaTeX2AI installation only for **_current_ user**:
-        - Copy `com.isteinbrecher.latex2ai` to `C:\Users\<USERNAME>\AppData\Roaming\Adobe\CEP\extensions` (the directory might have to be created)
-    - LaTeX2AI installation for **_all_ users** (requires administrator privileges):
+    - Installation for **current user**:
+        - Copy `com.isteinbrecher.latex2ai` to `C:\Users\<USERNAME>\AppData\Roaming\Adobe\CEP\extensions` (you may need to create this directory).
+    - Installation for **all users** (requires administrator privileges):
         - Copy `com.isteinbrecher.latex2ai` to `C:\Program Files\Common Files\Adobe\CEP\extensions\`
 
-1. Copy the plugin
+1. Copy the plugin:
 
-    - LaTeX2AI installation only for **_current_ user**:
-        - Copy `WIN/LaTeX2AI.aip` to an arbitrary directory. This directory has to be set as the Adobe Illustrator Plugin directory via `Edit/Preferences/Plug-ins & Scratch Disks.../Additional Plug-ins Folder/`
-    - LaTeX2AI installation for **_all_ users** (requires administrator privileges):
+    - Installation for **current user**:
+        - Copy `WIN/LaTeX2AI.aip` to any directory. Set this as the Adobe Illustrator plugin directory via `Edit > Preferences > Plug-ins & Scratch Disks... > Additional Plug-ins Folder`.
+    - Installation for **all users** (requires administrator privileges):
         - Copy `WIN/LaTeX2AI.aip` to `C:\Program Files\Adobe\Adobe Illustrator <YOUR VERSION>\Plug-ins\`
 
-1. After a restart of Adobe Illustrator, you can display the LaTeX2AI tools with `Window/Toolbars/Advanced`.
+1. Restart Adobe Illustrator. Display the LaTeX2AI tools via `Window > Toolbars > Advanced`.
 
 To uninstall LaTeX2AI, delete the files you copied.
 
 ### macOS
 
-1. Download LaTeX2AI from the [GitHub release page](https://github.com/isteinbrecher/latex2ai/releases)
-1. Unzip the file
-1. Copy the user interface folder `com.isteinbrecher.latex2ai`
+1. Download LaTeX2AI from the [GitHub release page](https://github.com/isteinbrecher/latex2ai/releases).
+1. Unzip the file.
+1. Copy the user interface folder `com.isteinbrecher.latex2ai`:
 
-    - LaTeX2AI installation only for **_current_ user**:
+    - Installation for **current user**:
         - Copy `com.isteinbrecher.latex2ai` to `~/Library/Application Support/Adobe/CEP/extensions/`
-    - LaTeX2AI installation for **_all_ users** (requires administrator privileges):
+    - Installation for **all users** (requires administrator privileges):
         - Copy `com.isteinbrecher.latex2ai` to `/Library/Application Support/Adobe/CEP/extensions/`
 
-1. Copy the plugin
+1. Copy the plugin:
 
-    - LaTeX2AI installation only for **_current_ user**:
-        - Copy `macOS/LaTeX2AI.aip` to an arbitrary directory. This directory has to be set as the Adobe Illustrator Plugin directory via `Edit/Preferences/Plug-ins & Scratch Disks.../Additional Plug-ins Folder/`
-    - LaTeX2AI installation for **_all_ users** (requires administrator privileges):
+    - Installation for **current user**:
+        - Copy `macOS/LaTeX2AI.aip` to any directory. Set this as the Adobe Illustrator plugin directory via `Edit > Preferences > Plug-ins & Scratch Disks... > Additional Plug-ins Folder`.
+    - Installation for **all users** (requires administrator privileges):
         - Copy `macOS/LaTeX2AI.aip` to `/Applications/Adobe Illustrator <YOUR VERSION>/Plug-ins/`
 
-1. After a restart of Adobe Illustrator, you can display the LaTeX2AI tools with `Window/Toolbars/Advanced`.
+1. Restart Adobe Illustrator. Display the LaTeX2AI tools via `Window > Toolbars > Advanced`.
 
-    > Depending on your system settings you might get the following error message when starting Illustrator
-    >
-    > <img src="/doc/images/macos_permission_error.png?raw=true" alt="macOS permission error" height="350" title="Create / Edit">
-    >
-    > This can be resolved by explicitly allowing the gatekeeper to run LaTeX2AI ([see also this thread](https://apple.stackexchange.com/questions/58509/how-can-i-open-a-single-app-by-an-unidentified-developer-without-allowing-all)). To do so, open the terminal and type:
-    >
-    > ```bash
-    > xattr -d com.apple.quarantine <PATH TO LaTeXAI.aip>
-    > ```
-    >
-    > If you have installed LaTeX2AI for _all_ users you need to run this command with administrator privileges:
-    >
-    > ```bash
-    > sudo xattr -d com.apple.quarantine <PATH TO LaTeXAI.aip>
-    > ```
+> Depending on your system settings, you might get the following error message when starting Illustrator:
+>
+> <img src="/doc/images/macos_permission_error.png?raw=true" alt="macOS permission error" height="350" title="Create / Edit">
+>
+> This can be resolved by explicitly allowing the gatekeeper to run LaTeX2AI ([see also this thread](https://apple.stackexchange.com/questions/58509/how-can-i-open-a-single-app-by-an-unidentified-developer-without-allowing-all)). To do so, open the terminal and type:
+>
+> ```bash
+> xattr -d com.apple.quarantine <PATH TO LaTeX2AI.aip>
+> ```
+>
+> If you have installed LaTeX2AI for _all_ users, you need to run this command with administrator privileges:
+>
+> ```bash
+> sudo xattr -d com.apple.quarantine <PATH TO LaTeX2AI.aip>
+> ```
 
 To uninstall LaTeX2AI, delete the files you copied.
 
-# How to use LaTeX2AI
+# How to Use LaTeX2AI
 
 LaTeX2AI adds four buttons to the main toolbar:
 
--   ![Create / Edit](/doc/images/tool_create.png?raw=true "Create / Edit") **Create / Edit**: Edit an existing label by clicking on it, or creating a new one by clicking somewhere in the document.
--   ![Redo items](/doc/images/tool_redo.png?raw=true "Redo labels") **Redo LaTeX2AI labels**: This allows for the LaTeX recompilation and/or scaling reset of all existing LaTeX2AI labels.
--   ![LaTeX2AI options](/doc/images/tool_options.png?raw=true "LaTeX2AI options") **LaTeX2AI options**: Open a form where the global LaTeX2AI options can be set. Also the LaTeX header can be opened in an external application.
--   ![Save document as PDF](/doc/images/tool_save_as_pdf.png?raw=true "Save document as PDF") **Save as PDF**: Save the current `.ai` document as a `.pdf` document with the same name. The LaTeX2AI labels are included into the created `.pdf` document.
+-   ![Create / Edit](/doc/images/tool_create.png?raw=true "Create / Edit") **Create / Edit**: Edit an existing label by clicking on it, or create a new one by clicking somewhere in the document.
+-   ![Redo items](/doc/images/tool_redo.png?raw=true "Redo labels") **Redo LaTeX2AI labels**: Recompile or reset the scale of all existing LaTeX2AI labels.
+-   ![LaTeX2AI options](/doc/images/tool_options.png?raw=true "LaTeX2AI options") **LaTeX2AI options**: Open a form to set global LaTeX2AI options and edit the LaTeX header in an external application.
+-   ![Save document as PDF](/doc/images/tool_save_as_pdf.png?raw=true "Save document as PDF") **Save as PDF**: Save the current `.ai` document as a `.pdf` with the same name. The LaTeX2AI labels are included.
 
-These buttons are the main way of interacting with LaTeX2AI.
-Additionally, double clicking on a LaTeX2AI label will enable the edit mode for that label.
+You can also double-click on a LaTeX2AI label to enter edit mode.
 
-## Create / Edit a LaTeX2AI label
+## Create / Edit a LaTeX2AI Label
 
-The following form appears when creating or editing LaTeX2AI labels:
+This form appears when creating or editing labels:
 
-![Create / Edit](/doc/images/create_edit_ui.png?raw=true "The LaTeX2aI Create / Edit form")
+![Create / Edit](/doc/images/create_edit_ui.png?raw=true "The LaTeX2AI Create / Edit form")
 
 ### Placement
 
-This option defines how a label behaves when it its size changes.
-Take for example the well-known formula `$\sum_{k=0}^{\infty}\frac{x^k}{k!}$` which is placed inside a rectangle:
+This option defines how a label behaves when its size changes.
+
+Take for example the well-known formula `$\sum_{k=0}^{\infty}\frac{x^k}{k!}$` placed inside a rectangle:
 
 ![Placement small](/doc/images/placement_small.png?raw=true)
 
-The green box indicates the size of the LaTeX2I label and the dot describes the placement of the label. If the size changes due to a change in the LaTeX code, the position of this dot relative to the label will stay the same.
-If the previous label is now changed to `\displaystyle` we get the following result:
+The green box shows the size of the label, and the dot marks the placement anchor. When the LaTeX code changes and affects the label size, this anchor point stays in the same position relative to the rectangle.
+
+If the label is changed to `\displaystyle`:
 
 ![Placement large](/doc/images/placement_large.png?raw=true)
 
-The size of the label changed due to a change in the underlying LaTeX code, but the position (the indicated dot) stayed the same.
+The size changes, but the anchor position remains fixed.
 
-#### Baseline placement
+#### Baseline Placement
 
-Additionally, there is the possibility of a _baseline_ placement.
-This will result in a label where the baseline is exactly in the vertical center of the label.
-This label can now be easily adjusted and snapped to align with another baseline label or Illustrator text:
+An additional placement option is _baseline_, which centers the label's baseline vertically. This allows for an easy alignment with other baseline LaTeX2AI labels or Illustrator text:
 
 ![Placement baseline](/doc/images/placement_baseline.png?raw=true)
 
-## Item scaling behavior
+## Item Scaling Behavior
 
-Per default, LaTeX2AI places the LaTeX labels inside Illustrator with a scale of 1:1, i.e., 1pt in the LaTeX label is 1pt in the Illustrator document.
-For example, if the LaTeX item is created with a font size of 12pt the font will match Illustrator text with 12pt.
-The user can resize the labels like any other Illustrator object, however, be aware that every time the LaTeX code of a label changes, the scale is reset to 1:1.
+By default, LaTeX2AI inserts labels with a 1:1 scale: 1pt in LaTeX equals 1pt in Illustrator.
+For example, LaTeX labels with 12pt font match Illustrator text set to 12pt.
 
-The recommended way of using LaTeX2AI is to always have items at a scale of 1:1.
-By doing so, the exported Illustrator document can be simply included into a LaTeX document with the `\includegraphics` option `scale=1`, and the font size of the labels in the figures will exactly match the font size of the document (assuming that the header options are the same).
-With the LaTeX2AI tool **Redo items**, one can easily reset the scaling of all LaTeX2AI items in the document.
+Labels can be resized like other Illustrator objects, but modifying the LaTeX code resets them to 1:1 scale.
 
-## LaTeX header
+The recommended approach is to keep items at 1:1 scale. This ensures consistent font sizes when exporting and including the artwork in LaTeX documents with `\includegraphics[scale=1]`.
 
-LaTeX2AI assumed that all Illustrator files in the same directory use the same LaTeX header `LaTeX2AI_header.tex` (if no one exits in the directory, it will be created the first time it is needed).
-This header can be edited to include packages and macros needed for the labels.
+Use the **Redo items** tool to reset the scale of all LaTeX2AI items.
 
-## File structure
+## LaTeX Header
 
-The `.pdf` files for the LaTeX labels are stored in the `links` subfolder of the document directory.
-It is not required to keep track of the files in the `links` folder, LaTeX2AI manages and deletes unused label files.
+LaTeX2AI assumes that all Illustrator files in the same folder share the same LaTeX header: `LaTeX2AI_header.tex`.
 
-# Known issues
+If this file doesn't exist, it is created when needed. You can edit this file to add packages or macros.
 
-## Creative Cloud documents
+## File Structure
 
-LaTeX2AI currently does not work with _Creative Cloud documents_.
+LaTeX label `.pdf` files are stored in the `links` subfolder of the document directory.
+LaTeX2AI automatically manages these files and deletes unused ones.
 
-# Work that uses LaTeX2AI
+# Known Issues
 
-An incomplete list of work that uses LaTeX2AI
+## Creative Cloud Documents
 
--   Toenniessen, F.: Die Homotopie der Sphären - Eine Einführung in Spektralsequenzen, Lokalisierungen und Kohomologie-Operationen, Springer Verlag Heidelberg, 2023.
--   Steinbrecher, I., Popp, A., Meier, C.: Consistent coupling of positions and rotations for embedding 1D Cosserat beams into 3D solid volumes. Comput Mech (2021), [Open Access](https://doi.org/10.1007/s00466-021-02111-4)
--   Steinbrecher, I., Mayr, M., Grill, M.J., Kremheller, J., Meier, C., Popp, A.: A mortar-type finite element approach for embedding 1D beams into 3D solid volumes, Comput Mech (2020), 66(6):1377-1398, [Open Access](https://doi.org/10.1007/s00466-020-01907-0)
--   Steinbrecher, I., Humer, A., Vu-Quoc, L.: On the numerical modeling of sliding beams: A comparison of different approaches, Journal of Sound and Vibration, 408:270-290, [Open Access](https://doi.org/10.1016/j.jsv.2017.07.010)
+LaTeX2AI does **not** currently support _Creative Cloud documents_.
+
+# Work That Uses LaTeX2AI
+
+An incomplete list of work that uses LaTeX2AI:
+
+-   Toenniessen, F.: _Die Homotopie der Sphären - Eine Einführung in Spektralsequenzen, Lokalisierungen und Kohomologie-Operationen_, Springer Verlag Heidelberg, 2023.
+-   Steinbrecher, I., Popp, A., Meier, C.: _Consistent coupling of positions and rotations for embedding 1D Cosserat beams into 3D solid volumes._ Comput Mech (2021), [Open Access](https://doi.org/10.1007/s00466-021-02111-4)
+-   Steinbrecher, I., Mayr, M., Grill, M.J., Kremheller, J., Meier, C., Popp, A.: _A mortar-type finite element approach for embedding 1D beams into 3D solid volumes_, Comput Mech (2020), 66(6):1377-1398, [Open Access](https://doi.org/10.1007/s00466-020-01907-0)
+-   Steinbrecher, I., Humer, A., Vu-Quoc, L.: _On the numerical modeling of sliding beams: A comparison of different approaches_, Journal of Sound and Vibration, 408:270-290, [Open Access](https://doi.org/10.1016/j.jsv.2017.07.010)
 
 # Contributing
 
-If you are interested in contributing to LaTeX2AI, we welcome your collaboration.
-For general questions, feature request and bug reports please open an [issue](https://github.com/isteinbrecher/latex2ai/issues).
+We welcome contributions to LaTeX2AI.
 
-If you contribute actual code, fork the repository and make the changes in a feature branch.
-Depending on the topic and amount of changes you also might want to open an [issue](https://github.com/isteinbrecher/latex2ai/issues).
-To merge your changes into the main LaTeX2AI repository, create a pull request to the `develop` branch (this branch will be merged into `main` with the next release).
-A few things to keep in mind:
+For general questions, feature requests, or bug reports, please open an [issue](https://github.com/isteinbrecher/latex2ai/issues).
 
--   Compile a debug build and run the framework tests in Illustrator ![Framework tests](/doc/images/tool_testing.png?raw=true "Framework tests").
-    You might also consider adding tests for your changes (`./src/tests`).
--   Run the `python3` script `./scripts/check_license.py` to ensure that all added source files have the correct license header.
--   LaTeX2AI uses `clang-format` to format the C++ code.
-    Make sure to apply clang format to the changed source files:
-    -   With the Visual Studio solution in the repository this can be done with `Crtl-K` followed by `Ctrl-D`.
-    -   On macOS you can use the following command (run in the root directory of LaTeX2AI):
+To contribute code:
+
+1. Fork the repository and work in a feature branch.
+1. Consider opening an issue for discussion if your changes are substantial.
+1. When ready, create a pull request to the `develop` branch.
+
+Please also:
+
+-   Compile a debug build and run framework tests in Illustrator ![Framework tests](/doc/images/tool_testing.png?raw=true "Framework tests").
+-   Consider adding tests in `./src/tests`.
+-   Run `./scripts/check_license.py` to ensure proper license headers.
+-   Format code with `clang-format`:
+    -   In Visual Studio: `Ctrl-K`, then `Ctrl-D`.
+    -   On macOS:
         ```bash
         find src -iname '*.h' -o -iname '*.cpp' | xargs clang-format -i
         ```
--   Add a short description of your changes to the [Changelog](doc/CHANGELOG.md).
+-   Add a description of your changes to the [Changelog](doc/CHANGELOG.md).
 -   Feel free to add yourself to the [./CONTRIBUTORS](CONTRIBUTORS) file.
 
-# Build LaTeX2AI from source
+# Build LaTeX2AI from Source
 
-Instructions on how to build LaTeX2AI from source can be found [here](doc/BUILD_FROM_SOURCE.md)
+Instructions are available [here](doc/BUILD_FROM_SOURCE.md).
 
 # Changelog
 
-A detailed changelog can be found [here](doc/CHANGELOG.md)
+See the detailed [changelog](doc/CHANGELOG.md).
