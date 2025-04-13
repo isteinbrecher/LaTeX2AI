@@ -33,6 +33,7 @@
 
 #include "AppContext.hpp"
 
+#include <set>
 
 // Forward declarations.
 class L2APlugin;
@@ -116,6 +117,11 @@ namespace L2A
              */
             ai::FilePath GetPdfFileDirectory();
 
+            /**
+             * \brief Get the direcotry where l2a files will be placed for the label strategy "local".
+             */
+            ai::FilePath GetPdfFileDirectoryLocal();
+
            public:
             //! File that stores global application data.
             ai::FilePath application_data_path_;
@@ -146,6 +152,9 @@ namespace L2A
 
             //! Strategy on how to handle the created LaTeX2AI item files
             LabelStrategy label_strategy_;
+
+            //! Track for which files warnings regarding the label strategy have already been issued in this session
+            std::set<std::filesystem::path> label_strategy_warning_tracker_;
 
             //! Flag for warning if ai file is not saved.
             bool warning_ai_not_saved_;

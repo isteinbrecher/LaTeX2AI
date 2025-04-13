@@ -248,6 +248,24 @@ bool L2A::GLOBAL::Global::SetFromParameterList(const L2A::UTIL::ParameterList& p
  */
 ai::FilePath L2A::GLOBAL::Global::GetPdfFileDirectory()
 {
+    if (label_strategy_ == LabelStrategy::label_strategy_temp_)
+    {
+        ai::FilePath path = L2A::UTIL::GetTemporaryDirectory();
+        path = path.GetParent();
+        path.AddComponent(ai::UnicodeString(L2A::NAMES::pdf_file_directory_));
+        return path;
+    }
+    else
+    {
+        return GetPdfFileDirectoryLocal();
+    }
+}
+
+/**
+ *
+ */
+ai::FilePath L2A::GLOBAL::Global::GetPdfFileDirectoryLocal()
+{
     ai::FilePath path = L2A::UTIL::GetDocumentPath();
     path = path.GetParent();
     path.AddComponent(ai::UnicodeString(L2A::NAMES::pdf_file_directory_));
