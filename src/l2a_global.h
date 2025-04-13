@@ -111,6 +111,11 @@ namespace L2A
              */
             bool SetFromParameterList(const L2A::UTIL::ParameterList& parameter_list);
 
+            /**
+             * \brief Get the direcotry where l2a files will be placed for the current document.
+             */
+            ai::FilePath GetPdfFileDirectory();
+
            public:
             //! File that stores global application data.
             ai::FilePath application_data_path_;
