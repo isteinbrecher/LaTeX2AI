@@ -132,11 +132,6 @@ namespace L2A
         ai::UnicodeString GetDocumentName();
 
         /**
-         * \brief Get the direcotry where l2a files will be placed for the current document.
-         */
-        ai::FilePath GetPdfFileDirectory();
-
-        /**
          * \brief Find all files in a folder matching a regular expression.
          */
         std::vector<ai::FilePath> FindFilesInFolder(const ai::FilePath& folder, const ai::UnicodeString& regex);

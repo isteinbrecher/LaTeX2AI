@@ -246,6 +246,17 @@ bool L2A::GLOBAL::Global::SetFromParameterList(const L2A::UTIL::ParameterList& p
 /**
  *
  */
+ai::FilePath L2A::GLOBAL::Global::GetPdfFileDirectory()
+{
+    ai::FilePath path = L2A::UTIL::GetDocumentPath();
+    path = path.GetParent();
+    path.AddComponent(ai::UnicodeString(L2A::NAMES::pdf_file_directory_));
+    return path;
+}
+
+/**
+ *
+ */
 void L2A::GLOBAL::CheckGlobal()
 {
     if (_l2a_global == nullptr) l2a_error("The global object is not defined!");

@@ -259,7 +259,7 @@ ai::FilePath L2A::Item::GetPDFPath() const
 {
     ai::UnicodeString pdf_file_hash = property_.GetPDFFileHash();
     if (pdf_file_hash.empty()) l2a_error("File hash should not be empty.");
-    ai::FilePath pdf_path = L2A::UTIL::GetPdfFileDirectory();
+    ai::FilePath pdf_path = L2A::GlobalMutable().GetPdfFileDirectory();
     ai::UnicodeString document_name = L2A::UTIL::GetDocumentName();
     pdf_path.AddComponent(document_name + L2A::NAMES::pdf_item_post_fix_ + pdf_file_hash + ".pdf");
     return pdf_path;
@@ -672,7 +672,7 @@ void L2A::CheckItemDataStructure()
     }
 
     // Make sure the pdf folder exists.
-    const ai::FilePath pdf_file_directory = L2A::UTIL::GetPdfFileDirectory();
+    const ai::FilePath pdf_file_directory = L2A::GlobalMutable().GetPdfFileDirectory();
     if (working_items.size() > 0) L2A::UTIL::CreateDirectoryL2A(pdf_file_directory);
 
     // Loop over each LaTeX2AI item and check if it is stored correctly.
