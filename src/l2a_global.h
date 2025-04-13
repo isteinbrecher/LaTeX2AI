@@ -50,6 +50,30 @@ namespace L2A
     namespace GLOBAL
     {
         /**
+         * \brief Strategy on where labels shall be stored.
+         */
+        enum class LabelStrategy
+        {
+            //! Labels shall be stored in the global temp directory.
+            label_strategy_temp_,
+
+            //! Labels shall be stored in a local directory relative to the document.
+            label_strategy_local_
+        };
+
+        /**
+         *\brief Define the LabelStrategy enum conversions.
+         */
+        inline std::array<LabelStrategy, 2> LabelStrategyEnums()
+        {
+            return {LabelStrategy::label_strategy_temp_, LabelStrategy::label_strategy_local_};
+        }
+        inline std::array<ai::UnicodeString, 2> LabelStrategyStrings()
+        {
+            return {ai::UnicodeString("label_strategy_temp"), ai::UnicodeString("label_strategy_local")};
+        }
+
+        /**
          * \brief Class for the global object.
          */
         class Global
@@ -75,7 +99,6 @@ namespace L2A
              */
             void GetDefaultParameterList(std::shared_ptr<L2A::UTIL::ParameterList>& parameter_list) const;
 
-           private:
             /**
              * \brief Convert this object to a xml string.
              */
@@ -115,6 +138,9 @@ namespace L2A
             //! Flag if item UI form can be finished by pressing Enter
             //! If this is false, it can be finished by pressing Shift+Enter
             bool item_ui_finish_on_enter_;
+
+            //! Strategy on how to handle the created LaTeX2AI item files
+            LabelStrategy label_strategy_;
 
             //! Flag for warning if ai file is not saved.
             bool warning_ai_not_saved_;
