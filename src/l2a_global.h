@@ -116,6 +116,11 @@ namespace L2A
              */
             ai::FilePath GetPdfFileDirectory();
 
+            /**
+             * \brief Get the direcotry where l2a files will be placed for the label strategy "local".
+             */
+            ai::FilePath GetPdfFileDirectoryLocal();
+
            public:
             //! File that stores global application data.
             ai::FilePath application_data_path_;
