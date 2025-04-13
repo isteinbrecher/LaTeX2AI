@@ -40,6 +40,7 @@
 #include "l2a_parameter_list.h"
 #include "l2a_plugin.h"
 #include "l2a_string_functions.h"
+#include "l2a_utils.h"
 #include "l2a_version.h"
 
 /**
@@ -143,6 +144,8 @@ void L2A::GLOBAL::Global::ToParameterList(std::shared_ptr<L2A::UTIL::ParameterLi
     parameter_list->SetOption(ai::UnicodeString("latex_command_options"), latex_command_options_);
     parameter_list->SetOption(ai::UnicodeString("gs_command"), gs_command_);
     parameter_list->SetOption(ai::UnicodeString("item_ui_finish_on_enter"), item_ui_finish_on_enter_);
+    parameter_list->SetOption(ai::UnicodeString("label_strategy"),
+        L2A::UTIL::KeyToValue(LabelStrategyEnums(), LabelStrategyStrings(), label_strategy_));
     parameter_list->SetOption(ai::UnicodeString("warning_boundary_boxes"), warning_boundary_boxes_);
     parameter_list->SetOption(ai::UnicodeString("warning_ai_not_saved"), warning_ai_not_saved_);
 }
@@ -158,6 +161,8 @@ void L2A::GLOBAL::Global::GetDefaultParameterList(std::shared_ptr<L2A::UTIL::Par
         ai::UnicodeString("-interaction nonstopmode -halt-on-error -file-line-error"));
     parameter_list->SetOption(ai::UnicodeString("gs_command"), ai::UnicodeString(""));
     parameter_list->SetOption(ai::UnicodeString("item_ui_finish_on_enter"), false);
+    parameter_list->SetOption(ai::UnicodeString("label_strategy"),
+        L2A::UTIL::KeyToValue(LabelStrategyEnums(), LabelStrategyStrings(), LabelStrategy::label_strategy_temp_));
     parameter_list->SetOption(ai::UnicodeString("warning_boundary_boxes"), true);
     parameter_list->SetOption(ai::UnicodeString("warning_ai_not_saved"), true);
 }
@@ -184,6 +189,11 @@ bool L2A::GLOBAL::Global::SetFromParameterList(const L2A::UTIL::ParameterList& p
     // Function to convert the key from the parameter list to a bool
     auto conversion_bool = [](const L2A::UTIL::ParameterList& parameter_list, const ai::UnicodeString& key)
     { return bool(parameter_list.GetIntOption(key)); };
+
+    // Function to convert the string LabelStrategy from the parameter list to a enum LabelStrategy
+    auto conversion_label_strategy = [](const L2A::UTIL::ParameterList& parameter_list, const ai::UnicodeString& key) {
+        return L2A::UTIL::KeyToValue(LabelStrategyStrings(), LabelStrategyEnums(), parameter_list.GetStringOption(key));
+    };
 
     // Function to set the variable from one of the possibly multiple given keys. If the key is in the parameter list
     // multiple times, an error will be thrown.
@@ -223,6 +233,8 @@ bool L2A::GLOBAL::Global::SetFromParameterList(const L2A::UTIL::ParameterList& p
         gs_command_, {ai::UnicodeString("gs_command"), ai::UnicodeString("command_gs")}, set_all);
     set_all = set_variable_from_keys(
         item_ui_finish_on_enter_, {ai::UnicodeString("item_ui_finish_on_enter")}, set_all, conversion_bool);
+    set_all = set_variable_from_keys(
+        label_strategy_, {ai::UnicodeString("label_strategy")}, set_all, conversion_label_strategy);
     set_all = set_variable_from_keys(
         warning_boundary_boxes_, {ai::UnicodeString("warning_boundary_boxes")}, set_all, conversion_bool);
     set_all = set_variable_from_keys(
