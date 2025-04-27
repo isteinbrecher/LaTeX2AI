@@ -138,10 +138,21 @@ LaTeX2AI assumes that all Illustrator files in the same folder share the same La
 
 If this file doesn't exist, it is created when needed. You can edit this file to add packages or macros.
 
-## File Structure
+## Label Storage Strategy
 
-LaTeX label `.pdf` files are stored in the `links` subfolder of the document directory.
-LaTeX2AI automatically manages these files and deletes unused ones.
+Each LaTeX2AI label is an individual `.pdf` file linked to the Illustrator document.
+LaTeX2AI allows you to choose where these LaTeX-generated `.pdf` label files are stored.
+You can configure this setting in the LaTeX2AI **Options** panel.
+
+-   **Temporary directory (default)**:
+
+    -   Label `.pdf` files are stored in a global temporary folder and are managed automatically by LaTeX2AI.
+    -   This is the recommended option for most users.
+
+-   **Local `links` directory (legacy option)**:
+    -   This was the default behavior prior to v1.1.
+    -   Label `.pdf` files are stored in a `links/` subfolder next to your Illustrator document and are managed automatically by LaTeX2AI.
+    -   Choose this option if you plan to move your `.ai` document to a different system where LaTeX2AI is not installed. In this case, Illustrator will still be able to locate the labels — but they will no longer be editable.
 
 # Known Issues
 

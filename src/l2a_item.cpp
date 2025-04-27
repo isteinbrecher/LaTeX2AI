@@ -259,7 +259,7 @@ ai::FilePath L2A::Item::GetPDFPath() const
 {
     ai::UnicodeString pdf_file_hash = property_.GetPDFFileHash();
     if (pdf_file_hash.empty()) l2a_error("File hash should not be empty.");
-    ai::FilePath pdf_path = L2A::UTIL::GetPdfFileDirectory();
+    ai::FilePath pdf_path = L2A::GlobalMutable().GetPdfFileDirectory();
     ai::UnicodeString document_name = L2A::UTIL::GetDocumentName();
     pdf_path.AddComponent(document_name + L2A::NAMES::pdf_item_post_fix_ + pdf_file_hash + ".pdf");
     return pdf_path;
@@ -623,7 +623,8 @@ bool L2A::RedoLaTeXItems(std::vector<L2A::Item>& l2a_items)
 void L2A::CheckItemDataStructure()
 {
     // We need a valid document path for this function to work.
-    if (!L2A::UTIL::IsFile(L2A::UTIL::GetDocumentPath(false))) return;
+    const auto document_path = L2A::UTIL::GetDocumentPath(false);
+    if (!L2A::UTIL::IsFile(document_path)) return;
 
     // Get all LaTeX2AI placed items in this document.
     std::vector<AIArtHandle> items_all;
@@ -672,7 +673,7 @@ void L2A::CheckItemDataStructure()
     }
 
     // Make sure the pdf folder exists.
-    const ai::FilePath pdf_file_directory = L2A::UTIL::GetPdfFileDirectory();
+    const ai::FilePath pdf_file_directory = L2A::GlobalMutable().GetPdfFileDirectory();
     if (working_items.size() > 0) L2A::UTIL::CreateDirectoryL2A(pdf_file_directory);
 
     // Loop over each LaTeX2AI item and check if it is stored correctly.
@@ -690,43 +691,76 @@ void L2A::CheckItemDataStructure()
         used_pdf_files.push_back(new_pdf_path);
     }
 
-    // Cleanup pdf links directory.
+    if (L2A::GlobalMutable().label_strategy_ == L2A::GLOBAL::LabelStrategy::label_strategy_temp_)
     {
-        // Get all pdf items.
-        ai::UnicodeString pattern = ai::UnicodeString(".*") + L2A::NAMES::pdf_item_post_fix_ + ".*\\.pdf$";
-        std::vector<ai::FilePath> pdf_item_files = L2A::UTIL::FindFilesInFolder(pdf_file_directory, pattern);
+        // Nothing to do here, as we clean the temp directory each time at startup, and when a document is opened, the
+        // items will be stored in the temp directory. The only thing we do here, is to check if a "links" directory
+        // with LaTeX2AI items exists and warn the user that this will be outdated.
 
-        // Get all documents parallel to the current document.
-        pattern = ai::UnicodeString(".*\\.ai$");
-        std::vector<ai::FilePath> ai_document_files =
-            L2A::UTIL::FindFilesInFolder(L2A::UTIL::GetDocumentPath().GetParent(), pattern);
-
-        // Loop over each pdf label and check if it should be deleted.
-        for (const auto& pdf_path : pdf_item_files)
+        // Check if we already issued a warning for this document
+        const auto document_path_std = L2A::UTIL::FilePathAiToStd(document_path);
+        const bool document_already_warned =
+            L2A::GlobalMutable().label_strategy_warning_tracker_.count(document_path_std) > 0;
+        if (!document_already_warned)
         {
-            bool delete_this_file = true;
-
-            // Check if the pdf if part of this document.
-            for (const auto& used_file : used_pdf_files)
+            // Get all PDF items in the local directory that match the LaTeX2AI naming convention.
+            const ai::FilePath pdf_file_directory_local = L2A::GlobalMutable().GetPdfFileDirectoryLocal();
+            ai::UnicodeString pattern = ai::UnicodeString(".*") + L2A::NAMES::pdf_item_post_fix_ + ".*\\.pdf$";
+            std::vector<ai::FilePath> pdf_item_files = L2A::UTIL::FindFilesInFolder(pdf_file_directory_local, pattern);
+            if (pdf_item_files.size() > 0)
             {
-                if (pdf_path == used_file) delete_this_file = false;
+                l2a_warning(
+                    "There are " + L2A::UTIL::IntegerToString(pdf_item_files.size()) +
+                    " LaTeX2AI items found in the local directory: \"" + pdf_file_directory_local.GetFullPath() +
+                    "\".\nHowever, you currently have the option enabled to store items in the *temporary* folder "
+                    "(this is the default).\n\nThese local items will NOT be updated while this option is active.\n"
+                    "To avoid confusion or outdated content, please delete the items in the local directory.\n"
+                    "If you want to use the local directory instead, you can switch to 'Local links directory' in the "
+                    "LaTeX2AI options.");
+                L2A::GlobalMutable().label_strategy_warning_tracker_.insert(document_path_std);
             }
+        }
+    }
+    else if (L2A::GlobalMutable().label_strategy_ == L2A::GLOBAL::LabelStrategy::label_strategy_local_)
+    {
+        // Cleanup pdf links directory.
+        {
+            // Get all pdf items.
+            ai::UnicodeString pattern = ai::UnicodeString(".*") + L2A::NAMES::pdf_item_post_fix_ + ".*\\.pdf$";
+            std::vector<ai::FilePath> pdf_item_files = L2A::UTIL::FindFilesInFolder(pdf_file_directory, pattern);
 
-            // Check if the pdf fits to another Illustrator document by its name.
-            const ai::UnicodeString pdf_name = pdf_path.GetFileName();
-            for (const auto& ai_file : ai_document_files)
+            // Get all documents parallel to the current document.
+            pattern = ai::UnicodeString(".*\\.ai$");
+            std::vector<ai::FilePath> ai_document_files =
+                L2A::UTIL::FindFilesInFolder(document_path.GetParent(), pattern);
+
+            // Loop over each pdf label and check if it should be deleted.
+            for (const auto& pdf_path : pdf_item_files)
             {
-                // Do not check the name of this document, as the individual items are already checked above.
-                if (L2A::UTIL::GetDocumentPath() == ai_file) continue;
+                bool delete_this_file = true;
 
-                ai::UnicodeString ai_name = ai_file.GetFileNameNoExt();
-                if (L2A::UTIL::StartsWith(pdf_name, ai_name + L2A::NAMES::pdf_item_post_fix_, true))
-                    delete_this_file = false;
+                // Check if the pdf if part of this document.
+                for (const auto& used_file : used_pdf_files)
+                {
+                    if (pdf_path == used_file) delete_this_file = false;
+                }
+
+                // Check if the pdf fits to another Illustrator document by its name.
+                const ai::UnicodeString pdf_name = pdf_path.GetFileName();
+                for (const auto& ai_file : ai_document_files)
+                {
+                    // Do not check the name of this document, as the individual items are already checked above.
+                    if (document_path == ai_file) continue;
+
+                    ai::UnicodeString ai_name = ai_file.GetFileNameNoExt();
+                    if (L2A::UTIL::StartsWith(pdf_name, ai_name + L2A::NAMES::pdf_item_post_fix_, true))
+                        delete_this_file = false;
+                }
+
+                // If the file is not used by this document or shares the name with an existing Illustrator document,
+                // delete it.
+                if (delete_this_file) L2A::UTIL::RemoveFile(pdf_path);
             }
-
-            // If the file is not used by this document or shares the name with an existing Illustrator document, delete
-            // it.
-            if (delete_this_file) L2A::UTIL::RemoveFile(pdf_path);
         }
     }
 }
