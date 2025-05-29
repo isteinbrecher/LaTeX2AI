@@ -35,10 +35,13 @@ The additional requirements to build LaTeX2AI from source are:
     ```
     mklink /D "C:\Users\<USERNAME>\AppData\Roaming\Adobe\CEP\extensions\com.isteinbrecher.latex2ai" "<Adobe Illustrator SDK>\samplecode\latex2ai\ui"
     ```
-1.  Debugging of unsigned extensions has to be turned on ([see the Adobe CEP cookbook](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_11.x/Documentation/CEP%2011.1%20HTML%20Extension%20Cookbook.md#debugging-unsigned-extensions)):
+1.  Debugging of unsigned extensions has to be turned on ([see the Adobe CEP cookbook](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_12.x/Documentation/CEP%2012%20HTML%20Extension%20Cookbook.md#debugging-unsigned-extensions)):
+
     -   Open `regedit`
-    -   Go to the key `HKEY_CURRENT_USER/Software/Adobe/CSXS.11`
+    -   Go to the key `HKEY_CURRENT_USER/Software/Adobe/CSXS.12`
     -   Add a new entry `PlayerDebugMode` of type `string` with the value of `1`
+
+    > Note that depending on your Illustrator version, you might have to chose a different version than CEP 12.
 
 ## macOS
 
@@ -49,7 +52,8 @@ The additional requirements to build LaTeX2AI from source are:
     ```bash
     ln -s "<Adobe Illustrator SDK>\samplecode\latex2ai\ui" "~/Library/Application Support/Adobe/CEP/extensions/com.isteinbrecher.latex2ai"
     ```
-1.  Debugging of unsigned extensions has to be turned on ([see the Adobe CEP cookbook](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_11.x/Documentation/CEP%2011.1%20HTML%20Extension%20Cookbook.md#debugging-unsigned-extensions)):
+1.  Debugging of unsigned extensions has to be turned on ([see the Adobe CEP cookbook](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_12.x/Documentation/CEP%2012%20HTML%20Extension%20Cookbook.md#debugging-unsigned-extensions)):
     ```bash
-    defaults write com.adobe.CSXS.11 PlayerDebugMode 1
+    defaults write com.adobe.CSXS.12 PlayerDebugMode 1
     ```
+    > Note that depending on your Illustrator version, you might have to chose a different version than CEP 12.
