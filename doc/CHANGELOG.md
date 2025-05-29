@@ -1,5 +1,8 @@
 # Changelog
 
+-   **v1.1.0**
+    -   Features:
+        -   Added option to store the LaTeX2AI items in a temporary directory. This is now the default option.
 -   **v1.0.3**
     -   Features:
         -   Pressing `Escape` in the debug form now returns to the item form instead of ending the item create/edit process.

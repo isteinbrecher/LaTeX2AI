@@ -293,17 +293,6 @@ ai::UnicodeString L2A::UTIL::GetDocumentName() { return GetDocumentPath(false).G
 /**
  *
  */
-ai::FilePath L2A::UTIL::GetPdfFileDirectory()
-{
-    ai::FilePath path = L2A::UTIL::GetDocumentPath();
-    path = path.GetParent();
-    path.AddComponent(ai::UnicodeString(L2A::NAMES::pdf_file_directory_));
-    return path;
-}
-
-/**
- *
- */
 std::vector<ai::FilePath> L2A::UTIL::FindFilesInFolder(const ai::FilePath& folder, const ai::UnicodeString& regex)
 {
     const std::regex regex_string(L2A::UTIL::StringAiToStd(regex));
