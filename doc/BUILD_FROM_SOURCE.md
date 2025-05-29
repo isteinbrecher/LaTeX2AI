@@ -41,7 +41,7 @@ The additional requirements to build LaTeX2AI from source are:
     -   Go to the key `HKEY_CURRENT_USER/Software/Adobe/CSXS.12`
     -   Add a new entry `PlayerDebugMode` of type `string` with the value of `1`
 
-    > Note that depending on your Illustrator version, you might have to chose a different version than CEP 12.
+    > Note: Depending on your Illustrator version, you may need to use a different CEP version (e.g., `CSXS.11`, `CSXS.10`, etc.).
 
 ## macOS
 
@@ -53,7 +53,9 @@ The additional requirements to build LaTeX2AI from source are:
     ln -s "<Adobe Illustrator SDK>\samplecode\latex2ai\ui" "~/Library/Application Support/Adobe/CEP/extensions/com.isteinbrecher.latex2ai"
     ```
 1.  Debugging of unsigned extensions has to be turned on ([see the Adobe CEP cookbook](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_12.x/Documentation/CEP%2012%20HTML%20Extension%20Cookbook.md#debugging-unsigned-extensions)):
+
     ```bash
     defaults write com.adobe.CSXS.12 PlayerDebugMode 1
     ```
-    > Note that depending on your Illustrator version, you might have to chose a different version than CEP 12.
+
+    > Note: Depending on your Illustrator version, you may need to use a different CEP version (e.g., `CSXS.11`, `CSXS.10`, etc.).
