@@ -24,14 +24,13 @@
 # -----------------------------------------------------------------------------
 """Compile and create a release for LaTeX2AI."""
 
+import argparse
 import os
-import sys
-import subprocess # nosec B404
 import platform
 import shutil
+import subprocess  # nosec B404
+import sys
 from pathlib import Path
-import argparse
-
 
 from create_headers import get_git_sha
 
@@ -43,7 +42,7 @@ def get_git_tag_or_hash(repo=None):
     git_sha = get_git_sha(repo)
 
     # Get all tags and their sha.
-    process = subprocess.Popen( # nosec B603 B607
+    process = subprocess.Popen(  # nosec B603 B607
         ["git", "show-ref", "--tags"], stdout=subprocess.PIPE, cwd=repo
     )
     out, _err = process.communicate()
@@ -61,7 +60,7 @@ def clean_repository(repository_dir):
 
     # Check if the repository is clean.
     os.chdir(repository_dir)
-    out = subprocess.check_output( # nosec B603 B607
+    out = subprocess.check_output(  # nosec B603 B607
         ["git", "status", "--untracked-files=no", "--porcelain"]
     )
     if out == b"":
@@ -78,7 +77,7 @@ def build_solution_windows(repo_dir, git_identifier, *, build_type="release"):
     script_dir = os.path.join(repo_dir, "scripts")
     os.chdir(script_dir)
     os.environ["L2A_build_type"] = build_type
-    return_value = subprocess.call(["compile_solution.bat"]) # nosec B603 B607
+    return_value = subprocess.call(["compile_solution.bat"])  # nosec B603 B607
 
     if return_value == 0:
         # The build passed, compress the executables.
@@ -128,7 +127,7 @@ if __name__ == "__main__":
     else:
         # Build the plugin
         os.environ["L2A_BUILD_TYPE"] = build_type
-        subprocess.call(os.path.join(repo_dir, "scripts/compile_mac.sh")) # nosec B603
+        subprocess.call(os.path.join(repo_dir, "scripts/compile_mac.sh"))  # nosec B603
         mac_release_dir = os.path.join(
             repo_dir,
             "scripts/release_files/macOS",
@@ -136,7 +135,7 @@ if __name__ == "__main__":
         )
 
         # Sign the UI folder
-        subprocess.call( # nosec B603
+        subprocess.call(  # nosec B603
             [os.path.join(repo_dir, "scripts/ui_signing/sign_ui_folder.sh")],
             # stdout=open(os.devnull, "wb"),
         )
@@ -183,7 +182,7 @@ if __name__ == "__main__":
 
     Path(os.path.join(repo_dir, "scripts/release_zip/")).mkdir(exist_ok=True)
     final_zip_name = f"../release_zip/LaTeX2AI_{git_identifier}_{build_type}.zip"
-    subprocess.call( # nosec B603 B607
+    subprocess.call(  # nosec B603 B607
         ["zip", "-r", final_zip_name, "."],
         cwd=release_zip_temp_dir,
     )

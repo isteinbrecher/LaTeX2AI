@@ -25,18 +25,19 @@
 """Create the header containing constants for c++ and JS."""
 
 # Import python modules.
-import sys
-import subprocess # nosec B404
 import os
 import shutil
-from check_license import get_license_text, license_to_source, get_repository_dir
+import subprocess  # nosec B404
+import sys
+
+from check_license import get_license_text, get_repository_dir, license_to_source
 
 
 def get_git_sha(repo=None):
     """Return the git sha of the repository."""
 
     # Get the git sha of the repository.
-    process = subprocess.Popen( # nosec B603 B607
+    process = subprocess.Popen(  # nosec B603 B607
         ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, cwd=repo
     )
     out, _err = process.communicate()
