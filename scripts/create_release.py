@@ -22,9 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # -----------------------------------------------------------------------------
-"""
-Compile and create a release for LaTeX2AI
-"""
+"""Compile and create a release for LaTeX2AI."""
 
 import os
 import sys
@@ -39,9 +37,7 @@ from create_headers import get_git_sha
 
 
 def get_git_tag_or_hash(repo=None):
-    """
-    Return the commit, if the commit has a tag, return the tag.
-    """
+    """Return the commit, if the commit has a tag, return the tag."""
 
     # Get current sha.
     git_sha = get_git_sha(repo)
@@ -61,9 +57,7 @@ def get_git_tag_or_hash(repo=None):
 
 
 def clean_repository(repository_dir):
-    """
-    Check if the repository is clean.
-    """
+    """Check if the repository is clean."""
 
     # Check if the repository is clean.
     os.chdir(repository_dir)
@@ -77,7 +71,7 @@ def clean_repository(repository_dir):
 
 
 def build_solution_windows(repo_dir, git_identifier, *, build_type="release"):
-    """Build the solution and compress the executable into a zip file"""
+    """Build the solution and compress the executable into a zip file."""
 
     # Build the solution, for this we have to set the build type environment
     # variable.

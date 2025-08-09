@@ -22,10 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # -----------------------------------------------------------------------------
-
-"""
-Create the header containing constants for c++ and JS.
-"""
+"""Create the header containing constants for c++ and JS."""
 
 # Import python modules.
 import sys
@@ -36,9 +33,7 @@ from check_license import get_license_text, license_to_source, get_repository_di
 
 
 def get_git_sha(repo=None):
-    """
-    Return the git sha of the repository.
-    """
+    """Return the git sha of the repository."""
 
     # Get the git sha of the repository.
     process = subprocess.Popen( # nosec B603 B607
@@ -49,9 +44,7 @@ def get_git_sha(repo=None):
 
 
 def create_cpp_version_headers(dir_path, license_c):
-    """
-    Create the header containing the version definitions.
-    """
+    """Create the header containing the version definitions."""
 
     version_lines = [
         "\n",
@@ -69,9 +62,7 @@ def create_cpp_version_headers(dir_path, license_c):
 
 
 def create_cpp_tex_headers(dir_path, license_c):
-    """
-    Create the header containing the TeX definitions.
-    """
+    """Create the header containing the TeX definitions."""
 
     def load_tex_code(file_name):
         """Load the TeX code from the templates."""
@@ -104,9 +95,7 @@ def create_cpp_tex_headers(dir_path, license_c):
 
 
 def create_cpp_headers():
-    """
-    Create the C++ headers.
-    """
+    """Create the C++ headers."""
 
     # Get the license text.
     license_text = get_license_text()
@@ -123,9 +112,7 @@ def create_cpp_headers():
 
 
 def create_js_headers():
-    """
-    Create the headers for the java script files.
-    """
+    """Create the headers for the java script files."""
 
     # Create the header.
     license_text = get_license_text()
@@ -151,7 +138,7 @@ def create_js_headers():
 
 
 if __name__ == "__main__":
-    """Execution part of script"""
+    """Execution part of script."""
 
     if len(sys.argv) != 1:
         raise ValueError("Wrong number of system arguments.")
