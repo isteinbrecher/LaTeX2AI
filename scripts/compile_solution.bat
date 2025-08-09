@@ -23,7 +23,7 @@
 @REM -----------------------------------------------------------------------------
 
 @REM Load the Visual Studio developer command prompt
-call  "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
+call "%VS_ACTIVATION_SCRIPT%"
 
 @REM Compile the LaTeX2AI solutions
-msbuild "..\LaTeX2AI.sln" /nologo /t:rebuild /p:Configuration=%L2A_build_type% /p:Platform=x64
+msbuild "..\LaTeX2AI.sln" /nologo /t:rebuild /p:Configuration=%L2A_BUILD_TYPE% /p:Platform=x64

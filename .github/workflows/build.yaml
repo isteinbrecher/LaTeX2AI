@@ -1,0 +1,111 @@
+name: Build
+
+on:
+  push:
+    branches: [main, develop] # TODO: add custom name for debug branches
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.sdk }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        sdk:
+          - Adobe_Illustrator_2021_SDK_21_07_v5
+          - Adobe_Illustrator_2022_SDK_22_07_v4
+          - Adobe_Illustrator_2023_SDK_23_08_v1
+          - Adobe_Illustrator_2024_SDK_24_09_v1
+          - Adobe_Illustrator_2025_SDK_25_08_v1
+
+    env:
+      SDK_SUFFIX: ${{ matrix.os == 'windows-latest' && '_win' || '_mac' }}
+
+    steps:
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Set up SSH key for SDK repo
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SDK_REPO }}
+
+      - name: Clone SDK repo
+        run: |
+          git clone git@github.com:LaTeX2AI/adobe-illustrator-sdk-private.git ai_sdk
+
+      - name: Checkout main LaTeX2AI repo
+        uses: actions/checkout@v3
+        with:
+          path: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI
+          submodules: true
+
+      - name: Build LaTeX2AI
+        run: python build_executable.py
+        working-directory: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI/scripts
+        env:
+          AI_SDK_VERSION: ${{ matrix.sdk }}
+          VS_ACTIVATION_SCRIPT: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
+          L2A_BUILD_TYPE: "release"
+          RELEASE_PATH_RELATIVE_TO_REPO: "../../../release_files"
+
+      - name: Upload executable as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_${{ matrix.sdk }}${{ env.SDK_SUFFIX }}
+          path: ai_sdk/release_files
+
+  release:
+    name: Combine plugin and signed UI
+    runs-on: macos-latest
+
+    needs: build # depends on all matrix builds finishing
+
+    steps:
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Checkout LaTeX2AI repo
+        uses: actions/checkout@v4
+
+      - name: Create output directory
+        run: |
+          mkdir -p gathered_artifacts
+          mkdir -p final_release_files
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: gathered_artifacts
+          merge-multiple: true # Combines all named artifacts into one folder
+
+      - name: Sign UI folder and create container
+        run: |
+          echo 'export LATEX2AI_CERTIFICATE_PASSWORD="${{ secrets.LATEX2AI_CERTIFICATE_PASSWORD }}"' > scripts/ui_signing/SET_KEY.sh
+          chmod +x scripts/ui_signing/SET_KEY.sh
+          echo "${{ secrets.LATEX2AI_P12_BASE64 }}" | base64 --decode > scripts/ui_signing/latex2ai_certificate.p12
+          python scripts/create_headers.py
+          python scripts/create_release.py
+
+      - name: Upload the created container
+        uses: actions/upload-artifact@v4
+        with:
+          name: LaTeX2AI_installation_files
+          path: final_release_files
+
+      - name: Delete build artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: "build_*"
+          failOnError: false

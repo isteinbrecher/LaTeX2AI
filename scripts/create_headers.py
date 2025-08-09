@@ -27,16 +27,9 @@
 # Import python modules.
 import os
 import shutil
-import subprocess  # nosec B404
 import sys
 
-
-def get_repository_dir():
-    """Get the root directory of this repository."""
-
-    script_path = os.path.realpath(__file__)
-    root_dir = os.path.dirname(os.path.dirname(script_path))
-    return root_dir
+from utils import get_git_sha, get_repository_dir
 
 
 def get_license_text():
@@ -79,17 +72,6 @@ def license_to_source(license_text, source_type):
             source.append(comment + line)
     source.append(comment + " " + start_line)
     return "\n".join(source)
-
-
-def get_git_sha(repo=None):
-    """Return the git sha of the repository."""
-
-    # Get the git sha of the repository.
-    process = subprocess.Popen(  # nosec B603 B607
-        ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, cwd=repo
-    )
-    out, _err = process.communicate()
-    return out.decode("UTF-8").strip()
 
 
 def create_cpp_version_headers(dir_path, license_c):

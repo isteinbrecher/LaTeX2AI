@@ -24,166 +24,110 @@
 # -----------------------------------------------------------------------------
 """Compile and create a release for LaTeX2AI."""
 
-import argparse
 import os
-import platform
 import shutil
 import subprocess  # nosec B404
-import sys
 from pathlib import Path
 
-from create_headers import get_git_sha
+from utils import (
+    check_clean_repo,
+    get_git_tag_or_hash,
+    get_repository_dir,
+    is_github_runner,
+    is_windows,
+)
 
 
-def get_git_tag_or_hash(repo=None):
-    """Return the commit, if the commit has a tag, return the tag."""
+def build_solution_windows(repo_dir, build_type):
+    """Build the solution.
 
-    # Get current sha.
-    git_sha = get_git_sha(repo)
+    Returns:
+        Path to the created executable.
+    """
 
-    # Get all tags and their sha.
-    process = subprocess.Popen(  # nosec B603 B607
-        ["git", "show-ref", "--tags"], stdout=subprocess.PIPE, cwd=repo
-    )
-    out, _err = process.communicate()
-    tags = out.decode("UTF-8").strip().split("\n")
-    tags = [line.split(" ") for line in tags]
-    for sha, tag in tags:
-        if sha == git_sha:
-            # This commit has a tag, return the tag.
-            return git_sha, tag.split("/")[-1]
-    return git_sha, git_sha[:7]
-
-
-def clean_repository(repository_dir):
-    """Check if the repository is clean."""
-
-    # Check if the repository is clean.
-    os.chdir(repository_dir)
-    out = subprocess.check_output(  # nosec B603 B607
-        ["git", "status", "--untracked-files=no", "--porcelain"]
-    )
-    if out == b"":
-        return True
-    else:
-        return False
-
-
-def build_solution_windows(repo_dir, git_identifier, *, build_type="release"):
-    """Build the solution and compress the executable into a zip file."""
-
-    # Build the solution, for this we have to set the build type environment
-    # variable.
     script_dir = os.path.join(repo_dir, "scripts")
     os.chdir(script_dir)
-    os.environ["L2A_build_type"] = build_type
     return_value = subprocess.call(["compile_solution.bat"])  # nosec B603 B607
-
     if return_value == 0:
-        # The build passed, compress the executables.
         executable_dir = os.path.realpath(
             os.path.join(repo_dir, "..\\output", "win", "x64", build_type)
         )
-
         executable = os.path.join(executable_dir, "LaTeX2AI.aip")
-        new_dir = os.path.join(repo_dir, "scripts", "release_files", "WIN")
-        final_name = os.path.join(
-            new_dir, "LaTeX2AI_" + git_identifier + "_" + build_type + ".aip"
-        )
-        Path(new_dir).mkdir(parents=True, exist_ok=True)
-        shutil.move(executable, final_name)
+        return Path(executable)
     else:
-        raise ValueError("Could not build solution in {}".format(repo_dir))
+        raise ValueError("Could not build solution")
+
+
+def build_solution_mac(repo_dir, build_type):
+    """Build the solution.
+
+    Returns:
+        Path to the created executable.
+    """
+    return_value = subprocess.call(os.path.join(repo_dir, "scripts/compile_mac.sh"))  # nosec B603
+    if return_value == 0:
+        mac_release_dir = (
+            Path(repo_dir) / ".." / "output" / "mac" / build_type / "LaTeX2AI.aip"
+        )
+        if not mac_release_dir.exists():
+            raise ValueError("Executable not found")
+        return mac_release_dir
+    else:
+        raise ValueError("Could not build solution")
 
 
 if __name__ == "__main__":
     # Execution part of script
 
-    # Create the CLI parser
-    parser = argparse.ArgumentParser(
-        description="A script to build and package LaTeX2AI."
-    )
-    parser.add_argument("--debug", action="store_true", help="Build debug version")
-    args = parser.parse_args()
-    build_type = "release" if not args.debug else "debug"
+    # Set default environment variables
+    default_env_values = [
+        (
+            "PYTHON_EXE",
+            "python",
+        ),
+        (
+            "L2A_BUILD_TYPE",
+            "release",
+        ),
+        (
+            "VS_ACTIVATION_SCRIPT",
+            "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\Tools\\VsDevCmd.bat",
+        ),
+        (
+            "AI_SDK_VERSION",
+            "",
+        ),
+        ("RELEASE_PATH_RELATIVE_TO_REPO", "."),
+    ]
+    for key, default_value in default_env_values:
+        if key not in os.environ:
+            os.environ[key] = default_value
 
     # Get some basic repo/git information
-    repo_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+    repo_dir = get_repository_dir()
     git_sha, git_identifier = get_git_tag_or_hash(repo_dir)
     os.environ["L2A_GIT_IDENTIFIER"] = git_identifier
 
     # Check if this is a clean repository
-    is_clean_repo = clean_repository(repo_dir)
-    if not is_clean_repo:
-        if input("Repository is not clean. Do You Want To Continue? ").lower() != "y":
-            sys.exit(1)
+    check_clean_repo(repo_dir)
 
-    # Build the release version
-    if platform.system() == "Windows":
-        build_solution_windows(repo_dir, git_identifier, build_type=build_type)
-
-        # Everything else is done on macOS
-        sys.exit(0)
+    # Build LaTeX2AI release
+    build_type = os.environ["L2A_BUILD_TYPE"]
+    if is_windows():
+        executable = build_solution_windows(repo_dir, build_type)
     else:
-        # Build the plugin
-        os.environ["L2A_BUILD_TYPE"] = build_type
-        subprocess.call(os.path.join(repo_dir, "scripts/compile_mac.sh"))  # nosec B603
-        mac_release_dir = os.path.join(
-            repo_dir,
-            "scripts/release_files/macOS",
-            f"LaTeX2AI_{git_identifier}_{build_type}.aip",
+        executable = build_solution_mac(repo_dir, build_type)
+
+    # If this is run on GitHub, move the executable to the executable folder.
+    if is_github_runner:
+        final_name_parts = ["LaTeX2AI", git_identifier]
+        if not os.environ.get("AI_SDK_VERSION") == "":
+            final_name_parts.append(os.environ.get("AI_SDK_VERSION"))
+        final_name_parts.append("win" if is_windows() else "mac")
+        final_name_parts.append(build_type)
+        final_name = f"{'.'.join(final_name_parts)}.aip"
+        final_path = (
+            Path(repo_dir) / os.environ["RELEASE_PATH_RELATIVE_TO_REPO"] / final_name
         )
-
-        # Sign the UI folder
-        subprocess.call(  # nosec B603
-            [os.path.join(repo_dir, "scripts/ui_signing/sign_ui_folder.sh")],
-            # stdout=open(os.devnull, "wb"),
-        )
-        ui_release_dir = os.path.join(
-            repo_dir,
-            "scripts/release_files/",
-            f"com.isteinbrecher.latex2ai.{git_identifier}",
-        )
-
-    # Check if the Windows binaries exist
-    windows_release_file = os.path.join(
-        repo_dir,
-        "scripts/release_files/WIN",
-        f"LaTeX2AI_{git_identifier}_{build_type}.aip",
-    )
-    if not os.path.isfile(windows_release_file):
-        print(f'Could not find matching windows release file "{windows_release_file}"')
-        sys.exit(1)
-
-    # Create the combined release zip
-    release_zip_temp_dir = os.path.join(repo_dir, "scripts/release_zip_temp/")
-    if os.path.exists(release_zip_temp_dir):
-        shutil.rmtree(release_zip_temp_dir)
-    os.mkdir(release_zip_temp_dir)
-    os.mkdir(os.path.join(release_zip_temp_dir, "WIN"))
-    os.mkdir(os.path.join(release_zip_temp_dir, "macOS"))
-
-    shutil.copyfile(
-        os.path.join(repo_dir, "scripts", "release_zip_readme.md"),
-        os.path.join(release_zip_temp_dir, "README.md"),
-    )
-    shutil.copyfile(
-        windows_release_file,
-        os.path.join(release_zip_temp_dir, "WIN", "LaTeX2AI.aip"),
-    )
-    shutil.copytree(
-        mac_release_dir,
-        os.path.join(release_zip_temp_dir, "macOS", "LaTeX2AI.aip"),
-    )
-    shutil.copytree(
-        ui_release_dir,
-        os.path.join(release_zip_temp_dir, "com.isteinbrecher.latex2ai"),
-    )
-
-    Path(os.path.join(repo_dir, "scripts/release_zip/")).mkdir(exist_ok=True)
-    final_zip_name = f"../release_zip/LaTeX2AI_{git_identifier}_{build_type}.zip"
-    subprocess.call(  # nosec B603 B607
-        ["zip", "-r", final_zip_name, "."],
-        cwd=release_zip_temp_dir,
-    )
-    print("Created the final zip file")
+        final_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(executable), str(final_path))
