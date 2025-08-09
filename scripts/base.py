@@ -22,10 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # -----------------------------------------------------------------------------
-
-"""
-Convert integers to different bases and show the ascii equivalent.
-"""
+"""Convert integers to different bases and show the ascii equivalent."""
 
 
 def number_to_digits(number, base):

@@ -31,7 +31,7 @@
 
 #include "test_string_functions.h"
 
-#include "testing_utlity.h"
+#include "testing_utility.h"
 
 #include "l2a_string_functions.h"
 

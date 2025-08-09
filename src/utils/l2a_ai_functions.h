@@ -63,12 +63,12 @@ namespace L2A
         AIArtHandle CreatePlacedItem(const ai::FilePath& pdf_path);
 
         /**
-         * \brief Set the placement of the placed item, acording to the option in property.
+         * \brief Set the placement of the placed item, according to the option in property.
          */
         void SetPlacement(const AIArtHandle& placed_item, const L2A::Property& item_property);
 
         /**
-         * \brief Set the placement of the placed item, acording to the a1 enums.
+         * \brief Set the placement of the placed item, according to the a1 enums.
          */
         void SetPlacement(const AIArtHandle& placed_item, const PlaceMethod& method, const PlaceAlignment& alignment,
             const bool& clip);
@@ -241,7 +241,7 @@ namespace L2A
         /**
          * \brief Rotate the currently active Illustrator item(s). With this rotate, the boundary box is also rotated
          * (opposed to the internal rotation functions).
-         * @param anlge Angle in degrees to rotate.
+         * @param angle Angle in degrees to rotate.
          */
         void Rotate(const AIReal angle);
 
@@ -252,18 +252,18 @@ namespace L2A
         void ResetBoundingBox();
 
         /**
-         * \brief Move the currently acitve Illustrator item(s).
+         * \brief Move the currently active Illustrator item(s).
          * @param delta_x Offset in x direction (in points)
          * @param delta_y Offset in y direction (in points)
-         * @param copy If the item chould be moved or copied and then moved.
+         * @param copy If the item should be moved or copied and then moved.
          */
         void Move(const AIReal delta_x, const AIReal delta_y, bool copy = false);
 
         /**
-         * \brief Scale the currently acitve Illustrator item(s).
+         * \brief Scale the currently active Illustrator item(s).
          * @param scale_x Horizontal scale (unitless).
          * @param scale_y Vertical scale (unitless).
-         * @param copy If the item chould be copied.
+         * @param copy If the item should be copied.
          */
         void Scale(const AIReal scale_x, const AIReal scale_y, bool copy = false);
 
@@ -330,7 +330,7 @@ namespace L2A
         /**
          * \brief Get string input from the user.
          *
-         * Should oly be used for debug purposes. With the current implementation, the user can not cancel the dialog
+         * Should only be used for debug purposes. With the current implementation, the user can not cancel the dialog
          */
         ai::UnicodeString GetInputFromUser();
 

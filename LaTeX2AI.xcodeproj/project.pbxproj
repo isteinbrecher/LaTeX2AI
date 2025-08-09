@@ -82,7 +82,7 @@
 		C6F3D2122B03A022004EF248 /* testing_utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6F3D2002B03A022004EF248 /* testing_utility.cpp */; };
 		C6F3D2132B03A022004EF248 /* test_parameter_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6F3D2012B03A022004EF248 /* test_parameter_list.cpp */; };
 		C6F3D2142B03A022004EF248 /* test_string_functions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6F3D2022B03A022004EF248 /* test_string_functions.cpp */; };
-		C6F3D2152B03A022004EF248 /* testing_utlity.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F3D2032B03A022004EF248 /* testing_utlity.h */; };
+		C6F3D2152B03A022004EF248 /* testing_utility.h in Headers */ = {isa = PBXBuildFile; fileRef = C6F3D2032B03A022004EF248 /* testing_utility.h */; };
 		C6F3D2162B03A022004EF248 /* test_utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6F3D2042B03A022004EF248 /* test_utility.cpp */; };
 		C6FF8A0B2B7CC03D004C592B /* l2a_ui_options.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6FF8A092B7CC03D004C592B /* l2a_ui_options.cpp */; };
 		C6FF8A0C2B7CC03D004C592B /* l2a_ui_options.h in Headers */ = {isa = PBXBuildFile; fileRef = C6FF8A0A2B7CC03D004C592B /* l2a_ui_options.h */; };
@@ -171,7 +171,7 @@
 		C6F3D2002B03A022004EF248 /* testing_utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testing_utility.cpp; path = src/tests/testing_utility.cpp; sourceTree = "<group>"; };
 		C6F3D2012B03A022004EF248 /* test_parameter_list.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_parameter_list.cpp; path = src/tests/test_parameter_list.cpp; sourceTree = "<group>"; };
 		C6F3D2022B03A022004EF248 /* test_string_functions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_string_functions.cpp; path = src/tests/test_string_functions.cpp; sourceTree = "<group>"; };
-		C6F3D2032B03A022004EF248 /* testing_utlity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testing_utlity.h; path = src/tests/testing_utlity.h; sourceTree = "<group>"; };
+		C6F3D2032B03A022004EF248 /* testing_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testing_utility.h; path = src/tests/testing_utility.h; sourceTree = "<group>"; };
 		C6F3D2042B03A022004EF248 /* test_utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_utility.cpp; path = src/tests/test_utility.cpp; sourceTree = "<group>"; };
 		C6FF8A092B7CC03D004C592B /* l2a_ui_options.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = l2a_ui_options.cpp; path = src/l2a_ui_options.cpp; sourceTree = "<group>"; };
 		C6FF8A0A2B7CC03D004C592B /* l2a_ui_options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = l2a_ui_options.h; path = src/l2a_ui_options.h; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 				C6F3D2042B03A022004EF248 /* test_utility.cpp */,
 				C6F3D1F72B03A022004EF248 /* test_utlity.h */,
 				C6F3D2002B03A022004EF248 /* testing_utility.cpp */,
-				C6F3D2032B03A022004EF248 /* testing_utlity.h */,
+				C6F3D2032B03A022004EF248 /* testing_utility.h */,
 				C6F3D1FE2B03A022004EF248 /* testing.cpp */,
 				C6F3D1F62B03A022004EF248 /* testing.h */,
 				C62F72252B25B34A00947D31 /* tinyxml2.cpp */,
@@ -355,7 +355,7 @@
 				C6F3D20C2B03A022004EF248 /* test_string_functions.h in Headers */,
 				C67D8B382B0389DF001F89FA /* l2a_suites.h in Headers */,
 				C6FF8A0C2B7CC03D004C592B /* l2a_ui_options.h in Headers */,
-				C6F3D2152B03A022004EF248 /* testing_utlity.h in Headers */,
+				C6F3D2152B03A022004EF248 /* testing_utility.h in Headers */,
 				C67D8B1D2B0384D5001F89FA /* l2a_math.h in Headers */,
 				C6F3D2092B03A022004EF248 /* test_utlity.h in Headers */,
 				C61B699E2B4AB17400AF2924 /* l2a_ui_manager.h in Headers */,

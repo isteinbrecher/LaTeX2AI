@@ -31,7 +31,7 @@
 
 #include "test_framework.h"
 
-#include "testing_utlity.h"
+#include "testing_utility.h"
 
 #include "l2a_ai_functions.h"
 #include "l2a_constants.h"
@@ -346,7 +346,7 @@ void L2A::TEST::TestFramework(L2A::TEST::UTIL::UnitTest& ut)
         }
 
         {
-            // Strech the items without rotating them.
+            // Stretch the items without rotating them.
             std::vector<AIArtHandle> art_items;
             L2A::AI::GetItems(art_items, L2A::AI::SelectionState::all);
             L2A::AI::SelectItems(art_items);
@@ -361,7 +361,7 @@ void L2A::TEST::TestFramework(L2A::TEST::UTIL::UnitTest& ut)
         }
 
         {
-            // Strech the items, then rotate them.
+            // Stretch the items, then rotate them.
             std::vector<AIArtHandle> art_items;
             L2A::AI::GetItems(art_items, L2A::AI::SelectionState::all);
             L2A::AI::SelectItems(art_items);
@@ -387,7 +387,7 @@ void L2A::TEST::TestFramework(L2A::TEST::UTIL::UnitTest& ut)
         }
 
         {
-            // Strech the items (this will create diamond items (since the items are already rotated).
+            // Stretch the items (this will create diamond items (since the items are already rotated).
             std::vector<AIArtHandle> art_items;
             L2A::AI::GetItems(art_items, L2A::AI::SelectionState::all);
             L2A::AI::SelectItems(art_items);

@@ -83,7 +83,7 @@ void L2A::UI::Item::OpenCreateItemForm(const AIRealPoint& position)
     action_type_ = ActionType::create_item;
     new_item_insertion_point_ = position;
 
-    // Set the property to the last successfull newly created item value
+    // Set the property to the last successful newly created item value
     property_.SetFromLastInput();
 
     LoadForm();

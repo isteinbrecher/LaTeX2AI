@@ -113,12 +113,12 @@ namespace L2A
             bool SetFromParameterList(const L2A::UTIL::ParameterList& parameter_list);
 
             /**
-             * \brief Get the direcotry where l2a files will be placed for the current document.
+             * \brief Get the directory where l2a files will be placed for the current document.
              */
             ai::FilePath GetPdfFileDirectory();
 
             /**
-             * \brief Get the direcotry where l2a files will be placed for the label strategy "local".
+             * \brief Get the directory where l2a files will be placed for the label strategy "local".
              */
             ai::FilePath GetPdfFileDirectoryLocal();
 

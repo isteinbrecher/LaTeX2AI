@@ -320,7 +320,7 @@ ai::FilePath L2A::LATEX::WriteLatexFiles(const ai::UnicodeString& latex_code, co
     // Make sure the directory exists.
     L2A::UTIL::CreateDirectoryL2A(tex_folder);
 
-    // Define the path varaibles for this function.
+    // Define the path variables for this function.
     ai::FilePath tex_header_file, tex_file;
     tex_header_file = tex_file = tex_folder;
     tex_header_file.AddComponent(ai::UnicodeString(L2A::NAMES::tex_header_name_));
@@ -414,13 +414,13 @@ ai::UnicodeString L2A::LATEX::SearchDefaultGhostScriptCommand()
 {
 #ifdef WIN_ENV
     // Get the path to the programs folder.
-    std::array<std::tuple<REFKNOWNFOLDERID, int>, 2> programm_shortcuts = {
+    std::array<std::tuple<REFKNOWNFOLDERID, int>, 2> program_shortcuts = {
         std::make_tuple(FOLDERID_ProgramFilesX86, 32), std::make_tuple(FOLDERID_ProgramFiles, 64)};
     TCHAR pathBuffer[MAX_PATH];
     ITEMIDLIST* pIDList;
     for (unsigned int i = 0; i < 2; i++)
     {
-        if (S_OK == SHGetKnownFolderIDList(std::get<0>(programm_shortcuts[i]), 0, nullptr, &pIDList))
+        if (S_OK == SHGetKnownFolderIDList(std::get<0>(program_shortcuts[i]), 0, nullptr, &pIDList))
         {
             if (SHGetPathFromIDList(pIDList, pathBuffer))
             {
@@ -439,10 +439,10 @@ ai::UnicodeString L2A::LATEX::SearchDefaultGhostScriptCommand()
                         {
                             // We do not care about the version -> use the first "gs*" folder that we find.
 
-                            // Check if an execuable can be found.
+                            // Check if an executable can be found.
                             gs_folder.AddComponent(ai::UnicodeString("bin"));
                             gs_folder.AddComponent(ai::UnicodeString("gswin") +
-                                                   L2A::UTIL::IntegerToString(std::get<1>(programm_shortcuts[i])) +
+                                                   L2A::UTIL::IntegerToString(std::get<1>(program_shortcuts[i])) +
                                                    "c.exe");
                             if (L2A::UTIL::IsFile(gs_folder))
                                 return gs_folder.GetFullPath();

@@ -572,7 +572,7 @@ void L2A::AI::SaveToPDF()
     if (is_modified && L2A::Global().warning_ai_not_saved_)
     {
         if (YesNoAlert(ai::UnicodeString(
-                "The curent document is not saved. It is advisable to save the document before exporting to pdf.")))
+                "The current document is not saved. It is advisable to save the document before exporting to pdf.")))
         {
             AIDocumentHandle doc;
             result = sAIDocument->GetDocument(&doc);
@@ -768,7 +768,7 @@ void L2A::AI::Rotate(const AIReal angle)
     l2a_check_ai_error(result);
 
     // Perform the rotation action.
-    // An alternative to the action name is kAIRotateSelectionAction, but this gave some problems when reseting the
+    // An alternative to the action name is kAIRotateSelectionAction, but this gave some problems when resetting the
     // boundary box.
     result = sAIActionManager->PlayActionEvent("ai_plugin_bBox_rotate", kDialogOff, action_parameters);
     l2a_check_ai_error(result);
@@ -783,7 +783,7 @@ void L2A::AI::ResetBoundingBox()
     AIErr result;
     AIActionParamValueRef action_parameters;
 
-    // Reseting of the boundary box is not available via the api, therefore it is realized with an
+    // Resetting of the boundary box is not available via the api, therefore it is realized with an
     // action event, where the correspongind menu command is called. In future versions of this SDK, the name of the
     // menu items will be defined in the file "AIMenuCommandString.h".
     result = sAIActionManager->AINewActionParamValue(&action_parameters);

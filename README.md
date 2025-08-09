@@ -181,17 +181,16 @@ To contribute code:
 1. Consider opening an issue for discussion if your changes are substantial.
 1. When ready, create a pull request to the `develop` branch.
 
+To maintain code quality, LaTeX2AI uses a number of different pre-commit hooks to check committed code. Make sure to set up the pre-commit hooks before committing your changes
+
+```bash
+pre-commit install
+```
+
 Please also:
 
 -   Compile a debug build and run framework tests in Illustrator ![Framework tests](/doc/images/tool_testing.png?raw=true "Framework tests").
 -   Consider adding tests in `./src/tests`.
--   Run `./scripts/check_license.py` to ensure proper license headers.
--   Format code with `clang-format`:
-    -   In Visual Studio: `Ctrl-K`, then `Ctrl-D`.
-    -   On macOS:
-        ```bash
-        find src -iname '*.h' -o -iname '*.cpp' | xargs clang-format -i
-        ```
 -   Add a description of your changes to the [Changelog](doc/CHANGELOG.md).
 -   Feel free to add yourself to the [./CONTRIBUTORS](CONTRIBUTORS) file.
 

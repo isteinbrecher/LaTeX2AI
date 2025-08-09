@@ -191,7 +191,8 @@ bool L2A::GLOBAL::Global::SetFromParameterList(const L2A::UTIL::ParameterList& p
     { return bool(parameter_list.GetIntOption(key)); };
 
     // Function to convert the string LabelStrategy from the parameter list to a enum LabelStrategy
-    auto conversion_label_strategy = [](const L2A::UTIL::ParameterList& parameter_list, const ai::UnicodeString& key) {
+    auto conversion_label_strategy = [](const L2A::UTIL::ParameterList& parameter_list, const ai::UnicodeString& key)
+    {
         return L2A::UTIL::KeyToValue(LabelStrategyStrings(), LabelStrategyEnums(), parameter_list.GetStringOption(key));
     };
 

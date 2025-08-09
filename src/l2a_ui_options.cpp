@@ -180,7 +180,7 @@ void L2A::UI::Options::CallbackSelectGhostScript(const csxs::event::Event* const
     // Get the gs path currently set
     ai::FilePath gs_path(options_form->GetStringOption(ai::UnicodeString("gs_command")));
 
-    // Open a window and ask the user to select the execuable
+    // Open a window and ask the user to select the executable
     AIFileDialogFilters options;
 #ifdef WIN_ENV
     options.AddFilter(ai::UnicodeString("Executable (*.exe)"), ai::UnicodeString("*.exe"));

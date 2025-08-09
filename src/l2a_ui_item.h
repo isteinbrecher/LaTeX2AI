@@ -99,7 +99,7 @@ namespace L2A::UI
         ASErr SendData() override;
 
         /**
-         * \brief Set the flag that controlls the "focus" behavior of the form
+         * \brief Set the flag that controls the "focus" behavior of the form
          */
         void SetCloseOnFocus(const bool value);
 

@@ -92,7 +92,7 @@ namespace L2A
                 void CompareInt(const int& val1, const int& val2);
 
                 /**
-                 * \brief Compare two floats with a tollerance.
+                 * \brief Compare two floats with a tolerance.
                  */
                 void CompareFloat(const AIReal& val1, const AIReal& val2, const AIReal& eps);
 

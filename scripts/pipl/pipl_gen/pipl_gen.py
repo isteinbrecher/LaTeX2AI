@@ -27,7 +27,7 @@ import platform
 ############################################
 def make_4_byte_hex_string(number_string):
 	hex_number = hex(number_string).lstrip("0x")
-	len_hex = len(hex_number) 
+	len_hex = len(hex_number)
 	if(len_hex > 4):
 		raise Exception("value shoult not be more than 4 bytes")
 	hex_number = "".join('0' for i in range(8 - len_hex)) + hex_number
@@ -38,7 +38,7 @@ def make_4_byte_hex_string(number_string):
 #Converts any string to a multiple of 4 bytes
 ##############################################
 def make_string_multiple_of_4(string_val):
-	len_string = len(string_val) 
+	len_string = len(string_val)
 	multiple_4_len = (len_string + 3) & ~3
 	final_string_val = string_val + "".join('\0' for i in range(multiple_4_len - len_string))
 	return final_string_val
@@ -105,7 +105,7 @@ class pipl:
 ##############################################
 	def generate_pipl_bin(self, pipl_path):
 		generate_multi_pipl_bin([self], pipl_path)
-		
+
 
 ################################################################
 #Dump Pipl from dict object recursively
@@ -131,7 +131,7 @@ def generate_pipl_bin_recursively_from_dict(pipl_dict, file_obj):
 			if 'id' in pipl_dict[key]:
 				prop_id = pipl_dict[key]['id']
 			file_obj.write(make_4_byte_hex_string(prop_id))
-			
+
 			#determine property value
 			out_prop_value = ""
 			if type(pipl_dict[key]['value']) == type(0):
@@ -148,10 +148,10 @@ def generate_pipl_bin_recursively_from_dict(pipl_dict, file_obj):
 			else:
 				file_obj.write(out_prop_value)
 
-		
+
 ##############################################
 #Dump given Pipl object to file_obj as binary
-##############################################		
+##############################################
 def generate_pipl_bin(pipl_obj, file_obj):
 	output_data = clean_pipl_json(pipl_obj)
 	#write version
@@ -159,8 +159,8 @@ def generate_pipl_bin(pipl_obj, file_obj):
 	#write count
 	file_obj.write(make_4_byte_hex_string(len(output_data)))
 	generate_pipl_bin_recursively_from_dict(output_data, file_obj)
-	
-		
+
+
 
 ##############################################
 #Dump given Pipl objects to file_obj as bin
@@ -177,7 +177,7 @@ def generate_multi_pipl_bin(pipl_obj_list, pipl_path):
 
 ##################################################
 #clean given Pipl object by removing unused props
-##################################################	
+##################################################
 def clean_pipl_json_recursively(pipl_dict):
 	output_data = {}
 	for key in pipl_dict:
@@ -195,7 +195,7 @@ def clean_pipl_json_recursively(pipl_dict):
 
 ##################################################
 #clean given Pipl object by removing unused props
-##################################################	
+##################################################
 def clean_pipl_json(pipl_obj):
 	return clean_pipl_json_recursively(pipl_obj.data)
 
@@ -212,8 +212,3 @@ def generate_multi_pipl_json(pipl_obj_list, pipl_path):
 		list_pipl += [output_data]
 	json.dump(list_pipl, f_out_json)
 	f_out_json.close()
-
-
-
-			
-	
