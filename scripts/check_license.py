@@ -29,7 +29,7 @@ Check if the source files in the repository have the correct header.
 
 # Import python modules.
 import os
-import subprocess
+import subprocess # nosec B404
 
 
 def get_repository_dir():
@@ -59,7 +59,7 @@ def get_all_source_files():
 
     # Get the files in the git repository.
     repo_dir = get_repository_dir()
-    process = subprocess.Popen(
+    process = subprocess.Popen( # nosec B603 B607
         ["git", "ls-files"], stdout=subprocess.PIPE, cwd=repo_dir
     )
     out, _err = process.communicate()
