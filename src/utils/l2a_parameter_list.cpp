@@ -67,7 +67,7 @@ void L2A::UTIL::ParameterList::SetFromXML(const tinyxml2::XMLElement* xml_elemen
 {
     // Loop overchild elements.
     for (const tinyxml2::XMLElement* child = xml_element->FirstChildElement(); child != nullptr;
-         child = child->NextSiblingElement())
+        child = child->NextSiblingElement())
         SetSubList(ai::UnicodeString(child->Name()), std::make_shared<ParameterList>(child), true);
 
     // Loop over options and set them.
