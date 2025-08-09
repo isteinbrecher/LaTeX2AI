@@ -30,7 +30,55 @@ import shutil
 import subprocess  # nosec B404
 import sys
 
-from check_license import get_license_text, get_repository_dir, license_to_source
+
+def get_repository_dir():
+    """Get the root directory of this repository."""
+
+    script_path = os.path.realpath(__file__)
+    root_dir = os.path.dirname(os.path.dirname(script_path))
+    return root_dir
+
+
+def get_license_text():
+    """Return the license text as a string."""
+
+    license_path = os.path.join(get_repository_dir(), "LICENSE")
+    with open(license_path) as license_file:
+        return license_file.read().strip()
+
+
+def license_to_source(license_text, source_type):
+    """Convert the license text to a text that can be written to source
+    code."""
+
+    header = None
+    start_line = "-" * 77
+    if source_type == "py":
+        header = "# -*- coding: utf-8 -*-"
+        comment = "#"
+    elif source_type == "c" or source_type == "js":
+        comment = "//"
+    elif source_type == "bat":
+        comment = "@REM"
+    elif source_type == "sh":
+        header = "#! /bin/bash"
+        comment = "#"
+    elif source_type == "tex":
+        comment = "%"
+    else:
+        raise ValueError("Wrong extension!")
+
+    source = []
+    if header is not None:
+        source.append(header)
+    source.append(comment + " " + start_line)
+    for line in license_text.split("\n"):
+        if len(line) > 0:
+            source.append(comment + " " + line)
+        else:
+            source.append(comment + line)
+    source.append(comment + " " + start_line)
+    return "\n".join(source)
 
 
 def get_git_sha(repo=None):
