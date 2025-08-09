@@ -38,7 +38,7 @@ $(function () {
     // However, this form is put into focus again, so we close it then. If user wants to re-edit
     // the item, the debug form sends a callback to this form, that resets the close_on_focus
     // flag and prevents this shutdown.
-    // Initially the close_on_focus flag ist activated when the debug form is opened
+    // Initially the close_on_focus flag is activated when the debug form is opened
     window.addEventListener("focus", function () {
         if (close_on_focus) {
             csInterface.closeExtension()

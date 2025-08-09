@@ -133,7 +133,7 @@ void L2A::UTIL::RemoveFile(const ai::FilePath& file, const bool& fail_if_not_exi
  */
 void L2A::UTIL::RemoveDirectoryAI(const ai::FilePath& directory, const bool& fail_if_not_exist)
 {
-    // Check that it exists and is directroy.
+    // Check that it exists and is directory.
     if (IsDirectory(directory))
     {
         std::error_code ec;
@@ -183,7 +183,7 @@ void L2A::UTIL::WriteFileUTF8(const ai::FilePath& path, const ai::UnicodeString&
 
     // Check if the file already exists.
     if (IsFile(path) && !overwrite)
-        l2a_error("The file '" + path.GetFullPath() + "' alreday exists and the option overwrite is false!");
+        l2a_error("The file '" + path.GetFullPath() + "' already exists and the option overwrite is false!");
 
     // Write text to file.
     std::ofstream f(FilePathAiToStd(path));

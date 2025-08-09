@@ -133,7 +133,7 @@ def create_js_headers():
     dir_path = os.path.join(get_repository_dir(), "ui/js")
     os.makedirs(dir_path, exist_ok=True)
 
-    # The script is caled form the base repository directory.
+    # The script is called form the base repository directory.
     with open(os.path.join(dir_path, "auto_generated.js"), "w") as version_header:
         version_header.write(license_c + "\n".join(version_lines))
 

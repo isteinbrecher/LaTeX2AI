@@ -62,7 +62,7 @@ L2A::UTIL::CommandResult L2A::UTIL::INTERNAL::ExecuteCommandLineStd(const ai::Un
 #define pclose _pclose
 #define WEXITSTATUS
     l2a_error(
-        "ExecuteCommandLineStd is not tested for Windows. If this is adaped, check that unicode works as expected!");
+        "ExecuteCommandLineStd is not tested for Windows. If this is adapted, check that unicode works as expected!");
 #endif
     FILE* pipe = popen(L2A::UTIL::StringAiToStd(command).c_str(), "r");
     if (pipe == nullptr)
@@ -150,7 +150,7 @@ L2A::UTIL::CommandResult L2A::UTIL::INTERNAL::ExecuteCommandLineWindowsNoConsole
         // Successfully created the process. First close the write handle so the process can finish.
         CloseHandle(g_hChildStd_OUT_Wr);
 
-        // Now we continuously read the ouput of the process
+        // Now we continuously read the output of the process
         DWORD dwRead;
         static const int BUFSIZE = 4096;
         CHAR chBuf[BUFSIZE];
@@ -197,8 +197,8 @@ void L2A::UTIL::OpenFileWithDefaultApplication(const ai::FilePath& file_path)
     ShellExecute(0, 0, L2A::UTIL::StringAiToStd(file_path.GetFullPath()).c_str(), 0, 0, SW_SHOW);
 #else
     std::string command = "open ";
-    std::string full_commad = command + "\"" + L2A::UTIL::StringAiToStd(file_path.GetFullPath()) + "\"";
-    system(full_commad.c_str());
+    std::string full_command = command + "\"" + L2A::UTIL::StringAiToStd(file_path.GetFullPath()) + "\"";
+    system(full_command.c_str());
 #endif
 }
 
@@ -213,6 +213,6 @@ void L2A::UTIL::OpenFolder(const ai::FilePath& folder_path)
 #else
     std::string command = "open ";
 #endif
-    std::string full_commad = command + "\"" + L2A::UTIL::StringAiToStd(folder_path.GetFullPath()) + "\"";
-    system(full_commad.c_str());
+    std::string full_command = command + "\"" + L2A::UTIL::StringAiToStd(folder_path.GetFullPath()) + "\"";
+    system(full_command.c_str());
 }

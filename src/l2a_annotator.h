@@ -67,7 +67,7 @@ namespace L2A
         bool IsActive() const;
 
         /**
-         * \brief Set the annotator including invalidating the annotator and reseting the item position tracker vector.
+         * \brief Set the annotator including invalidating the annotator and resetting the item position tracker vector.
          */
         void SetAnnotatorWithInvalidateBounds(bool active);
 

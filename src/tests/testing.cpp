@@ -37,8 +37,8 @@
 #include "test_latex.h"
 #include "test_parameter_list.h"
 #include "test_string_functions.h"
-#include "test_utlity.h"
-#include "testing_utlity.h"
+#include "test_utility.h"
+#include "testing_utility.h"
 
 
 /**

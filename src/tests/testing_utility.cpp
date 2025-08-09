@@ -29,7 +29,7 @@
 
 #include "IllustratorSDK.h"
 
-#include "testing_utlity.h"
+#include "testing_utility.h"
 
 #include "l2a_constants.h"
 #include "l2a_string_functions.h"
@@ -137,7 +137,7 @@ void L2A::TEST::UTIL::UnitTest::CompareRect(const AIRealRect& val1, const AIReal
     else
     {
         ai::UnicodeString error_string("");
-        error_string += "Rectangle compair failed!\n";
+        error_string += "Rectangle compare failed!\n";
         error_string += "\nval1.bottom = ";
         error_string += ai::UnicodeString(std::to_string(val1.bottom));
         error_string += "\nval2.bottom = ";

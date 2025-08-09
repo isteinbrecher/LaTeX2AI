@@ -31,7 +31,7 @@
 
 #include "test_parameter_list.h"
 
-#include "testing_utlity.h"
+#include "testing_utility.h"
 
 #include "l2a_parameter_list.h"
 #include "l2a_string_functions.h"

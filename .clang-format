@@ -20,7 +20,7 @@ IncludeCategories:
   - Regex: "IllustratorSDK\\.h"
     Priority: -1
 
-  # Header corresponging to cpp file has priority 0
+  # Header corresponding to cpp file has priority 0
 
   # LaTeX2AI headers
   - Regex: "l2a_.*\\.(h|H)"

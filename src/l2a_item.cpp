@@ -502,8 +502,8 @@ bool L2A::Item::IsDiamond() const
     // Check if the angle between the two directors is pi/2
     AIReal angle_1 = GetAngle(0);
     AIReal angle_2 = GetAngle(1);
-    // Use the strech tollerance here, because not the angles are compared, but their cosines.
-    if (abs(cos(angle_2 - angle_1)) < L2A::CONSTANTS::eps_strech_)
+    // Use the stretch tolerance here, because not the angles are compared, but their cosines.
+    if (abs(cos(angle_2 - angle_1)) < L2A::CONSTANTS::eps_stretch_)
         return false;
     else
         return true;
@@ -528,9 +528,9 @@ AIReal L2A::Item::GetStretch(unsigned short director) const
  */
 bool L2A::Item::IsStretched() const
 {
-    // Check if item is streched, both strech factors must be smaller than eps.
-    if ((abs(1. - GetStretch(0)) < L2A::CONSTANTS::eps_strech_) &&
-        (abs(1. - GetStretch(1)) < L2A::CONSTANTS::eps_strech_))
+    // Check if item is stretched, both stretch factors must be smaller than eps.
+    if ((abs(1. - GetStretch(0)) < L2A::CONSTANTS::eps_stretch_) &&
+        (abs(1. - GetStretch(1)) < L2A::CONSTANTS::eps_stretch_))
         return false;
     else
         return true;

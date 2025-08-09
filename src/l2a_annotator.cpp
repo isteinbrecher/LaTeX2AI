@@ -91,7 +91,7 @@ void L2A::Annotator::ArtSelectionChanged()
             for (unsigned int i_placement = 0; i_placement < placements.size(); i_placement++)
                 item_boundaries[placements[i_placement]] = item_points[i_placement];
 
-            // Add to the item vetor.
+            // Add to the item vector.
             item_vector_.push_back(std::make_pair(new_item, item_boundaries));
         }
     }

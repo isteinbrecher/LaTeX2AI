@@ -210,7 +210,7 @@ namespace L2A
         Property();
 
         /**
-         * \brief Set the default element vlaues in this object.
+         * \brief Set the default element values in this object.
          */
         void DefaultPropertyValues();
 
@@ -270,7 +270,7 @@ namespace L2A
         void WriteLastInput() const;
 
         /**
-         * \brief Set the parameters acording to the last input file.
+         * \brief Set the parameters according to the last input file.
          *
          * If the file can not be parsed to a xml, it will be deleted.
          */
