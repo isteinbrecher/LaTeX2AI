@@ -43,7 +43,7 @@ def main(args):
 				obj.add_plugin_entry(str(pipl_data['entry_point']))
 			if 'stsp' in pipl_data and pipl_data['stsp'] is True:
 				obj.add_plugin_stsp(1)
-            
+
 			pipl_obj_list += [obj]
 	else:
 		obj = pipl()
@@ -53,8 +53,3 @@ def main(args):
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
-
-
-
-			
-	
