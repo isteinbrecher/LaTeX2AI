@@ -33,6 +33,7 @@
 
 #include "AppContext.hpp"
 
+#include <array>
 #include <set>
 
 // Forward declarations.
