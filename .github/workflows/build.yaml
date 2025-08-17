@@ -19,7 +19,6 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
         sdk:
-          - Adobe_Illustrator_2021_SDK_21_07_v5
           - Adobe_Illustrator_2022_SDK_22_07_v4
           - Adobe_Illustrator_2023_SDK_23_08_v1
           - Adobe_Illustrator_2024_SDK_24_09_v1
