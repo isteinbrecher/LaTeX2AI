@@ -2,6 +2,27 @@
 
 LaTeX2AI is a plugin for Adobe Illustrator (macOS and Windows) that enables the use of editable text labels typeset in LaTeX inside an Illustrator document.
 
+# Overview <!-- omit from toc -->
+
+-   [License \& How to Cite](#license--how-to-cite)
+-   [Installation](#installation)
+    -   [Requirements](#requirements)
+    -   [Windows](#windows)
+    -   [macOS](#macos)
+-   [How to Use LaTeX2AI](#how-to-use-latex2ai)
+    -   [Create / Edit a LaTeX2AI Label](#create--edit-a-latex2ai-label)
+        -   [Placement](#placement)
+            -   [Baseline Placement](#baseline-placement)
+    -   [Item Scaling Behavior](#item-scaling-behavior)
+    -   [LaTeX Header](#latex-header)
+    -   [Label Storage Strategy](#label-storage-strategy)
+-   [Known Issues](#known-issues)
+    -   [Creative Cloud Documents](#creative-cloud-documents)
+-   [Work That Uses LaTeX2AI](#work-that-uses-latex2ai)
+-   [Contributing](#contributing)
+-   [Build LaTeX2AI from Source](#build-latex2ai-from-source)
+-   [Changelog](#changelog)
+
 # License & How to Cite
 
 LaTeX2AI is under the MIT license, see [./LICENSE](LICENSE).
