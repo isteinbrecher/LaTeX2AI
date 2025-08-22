@@ -296,7 +296,7 @@
     <ClInclude Include="src\tests\test_latex.h" />
     <ClInclude Include="src\tests\test_parameter_list.h" />
     <ClInclude Include="src\tests\test_string_functions.h" />
-    <ClInclude Include="src\tests\testing_utlity.h" />
+    <ClInclude Include="src\tests\testing_utility.h" />
     <ClInclude Include="src\tests\test_utlity.h" />
     <ClInclude Include="src\utils\l2a_ai_functions.h" />
     <ClInclude Include="src\utils\l2a_error.h" />

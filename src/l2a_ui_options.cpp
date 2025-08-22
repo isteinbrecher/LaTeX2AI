@@ -133,15 +133,11 @@ void L2A::UI::Options::CallbackSave(const csxs::event::Event* const eventParam)
 
     // Store the data in the global object
     auto& global_mutable = L2A::GlobalMutable();
-    global_mutable.latex_engine_ = options_form->GetStringOption(ai::UnicodeString("tex_engine"));
-    global_mutable.latex_command_options_ = options_form->GetStringOption(ai::UnicodeString("latex_command_options"));
-    global_mutable.latex_bin_path_ = ai::FilePath(options_form->GetStringOption(ai::UnicodeString("latex_bin_path")));
-    global_mutable.gs_command_ = options_form->GetStringOption(ai::UnicodeString("gs_command"));
-    global_mutable.item_ui_finish_on_enter_ =
-        options_form->GetIntOption(ai::UnicodeString("item_ui_finish_on_enter")) == 1;
-    global_mutable.warning_boundary_boxes_ =
-        options_form->GetIntOption(ai::UnicodeString("warning_boundary_boxes")) == 1;
-    global_mutable.warning_ai_not_saved_ = options_form->GetIntOption(ai::UnicodeString("warning_ai_not_saved")) == 1;
+    const bool set_all = global_mutable.SetFromParameterList(*options_form);
+    if (!set_all)
+    {
+        l2a_error("Could not set all options from form");
+    }
 
     CloseForm();
 }
@@ -184,7 +180,7 @@ void L2A::UI::Options::CallbackSelectGhostScript(const csxs::event::Event* const
     // Get the gs path currently set
     ai::FilePath gs_path(options_form->GetStringOption(ai::UnicodeString("gs_command")));
 
-    // Open a window and ask the user to select the execuable
+    // Open a window and ask the user to select the executable
     AIFileDialogFilters options;
 #ifdef WIN_ENV
     options.AddFilter(ai::UnicodeString("Executable (*.exe)"), ai::UnicodeString("*.exe"));

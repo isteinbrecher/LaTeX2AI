@@ -1,16 +1,16 @@
 //========================================================================================
-//  
+//
 //  $File$
 //
 //  $Revision$
 //
 //  Copyright 1987 Adobe Systems Incorporated. All rights reserved.
-//  
-//  NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance 
+//
+//  NOTICE:  Adobe permits you to use, modify, and distribute this file in accordance
 //  with the terms of the Adobe license agreement accompanying it.  If you have received
-//  this file from a source other than Adobe, then your use, modification, or 
+//  this file from a source other than Adobe, then your use, modification, or
 //  distribution of it requires the prior written permission of Adobe.
-//  
+//
 //========================================================================================
 
 //Microsoft Developer Studio generated resource script.
@@ -59,18 +59,18 @@ plugin pipl "plugin.pipl"
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE DISCARDABLE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE DISCARDABLE
 BEGIN
     "#include ""l2a_constants.h""\r\n"
     "#include ""windows.h""\r\n"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE DISCARDABLE
 BEGIN
     "\r\n"
     "\0"

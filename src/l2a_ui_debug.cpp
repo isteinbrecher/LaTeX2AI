@@ -126,7 +126,7 @@ void L2A::UI::Debug::CallbackOpenLog(const csxs::event::Event* const eventParam)
 void L2A::UI::Debug::CallbackCreateDebugFolder(const csxs::event::Event* const eventParam)
 {
     auto app_context = L2A::GlobalPluginAppContext();
-    ai::FilePath debug_directory = L2A::UTIL::GetPdfFileDirectory();
+    ai::FilePath debug_directory = L2A::GlobalMutable().GetPdfFileDirectory();
     debug_directory.AddComponent(ai::UnicodeString("debug"));
 
     if (L2A::UTIL::IsDirectory(debug_directory))

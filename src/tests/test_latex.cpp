@@ -31,7 +31,7 @@
 
 #include "test_latex.h"
 
-#include "testing_utlity.h"
+#include "testing_utility.h"
 
 #include "l2a_file_system.h"
 #include "l2a_latex.h"

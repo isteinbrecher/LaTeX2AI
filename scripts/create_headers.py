@@ -22,36 +22,60 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # -----------------------------------------------------------------------------
-
-"""
-Create the header containing constants for c++ and JS.
-"""
+"""Create the header containing constants for c++ and JS."""
 
 # Import python modules.
-import sys
-import subprocess
 import os
 import shutil
-from check_license import get_license_text, license_to_source, get_repository_dir
+import sys
+
+from utils import get_git_sha, get_repository_dir
 
 
-def get_git_sha(repo=None):
-    """
-    Return the git sha of the repository.
-    """
+def get_license_text():
+    """Return the license text as a string."""
 
-    # Get the git sha of the repository.
-    process = subprocess.Popen(
-        ["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, cwd=repo
-    )
-    out, _err = process.communicate()
-    return out.decode("UTF-8").strip()
+    license_path = os.path.join(get_repository_dir(), "LICENSE")
+    with open(license_path) as license_file:
+        return license_file.read().strip()
+
+
+def license_to_source(license_text, source_type):
+    """Convert the license text to a text that can be written to source
+    code."""
+
+    header = None
+    start_line = "-" * 77
+    if source_type == "py":
+        header = "# -*- coding: utf-8 -*-"
+        comment = "#"
+    elif source_type == "c" or source_type == "js":
+        comment = "//"
+    elif source_type == "bat":
+        comment = "@REM"
+    elif source_type == "sh":
+        header = "#! /bin/bash"
+        comment = "#"
+    elif source_type == "tex":
+        comment = "%"
+    else:
+        raise ValueError("Wrong extension!")
+
+    source = []
+    if header is not None:
+        source.append(header)
+    source.append(comment + " " + start_line)
+    for line in license_text.split("\n"):
+        if len(line) > 0:
+            source.append(comment + " " + line)
+        else:
+            source.append(comment + line)
+    source.append(comment + " " + start_line)
+    return "\n".join(source)
 
 
 def create_cpp_version_headers(dir_path, license_c):
-    """
-    Create the header containing the version definitions.
-    """
+    """Create the header containing the version definitions."""
 
     version_lines = [
         "\n",
@@ -69,9 +93,7 @@ def create_cpp_version_headers(dir_path, license_c):
 
 
 def create_cpp_tex_headers(dir_path, license_c):
-    """
-    Create the header containing the TeX definitions.
-    """
+    """Create the header containing the TeX definitions."""
 
     def load_tex_code(file_name):
         """Load the TeX code from the templates."""
@@ -104,9 +126,7 @@ def create_cpp_tex_headers(dir_path, license_c):
 
 
 def create_cpp_headers():
-    """
-    Create the C++ headers.
-    """
+    """Create the C++ headers."""
 
     # Get the license text.
     license_text = get_license_text()
@@ -123,9 +143,7 @@ def create_cpp_headers():
 
 
 def create_js_headers():
-    """
-    Create the headers for the java script files.
-    """
+    """Create the headers for the java script files."""
 
     # Create the header.
     license_text = get_license_text()
@@ -145,13 +163,13 @@ def create_js_headers():
     dir_path = os.path.join(get_repository_dir(), "ui/js")
     os.makedirs(dir_path, exist_ok=True)
 
-    # The script is caled form the base repository directory.
+    # The script is called form the base repository directory.
     with open(os.path.join(dir_path, "auto_generated.js"), "w") as version_header:
         version_header.write(license_c + "\n".join(version_lines))
 
 
 if __name__ == "__main__":
-    """Execution part of script"""
+    """Execution part of script."""
 
     if len(sys.argv) != 1:
         raise ValueError("Wrong number of system arguments.")

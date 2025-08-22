@@ -157,7 +157,7 @@
     <ClInclude Include="tpl\StackWalker\Main\StackWalker\StackWalker.h">
       <Filter>tpl</Filter>
     </ClInclude>
-    <ClInclude Include="src\tests\testing_utlity.h">
+    <ClInclude Include="src\tests\testing_utility.h">
       <Filter>src\tests</Filter>
     </ClInclude>
     <ClInclude Include="src\tests\test_utlity.h">

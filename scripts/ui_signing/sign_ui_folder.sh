@@ -34,10 +34,10 @@ ZXP_FILE=${SCRIPT_DIR}/latex2ai_ui.zxp
 rm -f $ZXP_FILE
 
 # Create the signed zxp file
-${SCRIPT_DIR}/ZXPSignCmd-64bit -sign ${SCRIPT_DIR}/../../ui $ZXP_FILE ${SCRIPT_DIR}/latex2ai_certificate.p12 $LATEX2AI_CERTIFICATE_PASSWORD -tsa http://timestamp.digicert.com
+${SCRIPT_DIR}/ZXPSignCmd -sign ${SCRIPT_DIR}/../../ui $ZXP_FILE ${SCRIPT_DIR}/latex2ai_certificate.p12 $LATEX2AI_CERTIFICATE_PASSWORD -tsa http://timestamp.digicert.com
 
 # Unzip to folder
-SIGNED_UI_FOLDER=${SCRIPT_DIR}/../release_files/com.isteinbrecher.latex2ai.${L2A_GIT_IDENTIFIER}
+SIGNED_UI_FOLDER=${SCRIPT_DIR}/com.isteinbrecher.latex2ai
 rm -rf $SIGNED_UI_FOLDER
 mkdir $SIGNED_UI_FOLDER
 unzip $ZXP_FILE -d $SIGNED_UI_FOLDER

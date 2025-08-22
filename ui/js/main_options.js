@@ -1,3 +1,25 @@
+// MIT License
+//
+// Copyright (c) 2020-2025 Ivo Steinbrecher
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 $(function () {
     var csInterface = new CSInterface()
 
@@ -148,8 +170,8 @@ function form_content_to_xml() {
 
     // Set the options
     xml_document.documentElement.setAttribute(
-        "tex_engine",
-        $("#tex_engine").prop("value")
+        "latex_engine",
+        $("#latex_engine").prop("value")
     )
     xml_document.documentElement.setAttribute(
         "latex_command_options",
@@ -167,6 +189,19 @@ function form_content_to_xml() {
         "item_ui_finish_on_enter",
         bool_to_string($("#item_ui_finish_on_enter").prop("checked"))
     )
+    if ($("#label_strategy_temp").prop("checked")) {
+        xml_document.documentElement.setAttribute(
+            "label_strategy",
+            "label_strategy_temp"
+        )
+    } else if ($("#label_strategy_local").prop("checked")) {
+        xml_document.documentElement.setAttribute(
+            "label_strategy",
+            "label_strategy_local"
+        )
+    } else {
+        alert("Got unexpected result for label_strategy")
+    }
     xml_document.documentElement.setAttribute(
         "warning_boundary_boxes",
         bool_to_string($("#warning_save_boundary_box").prop("checked"))
@@ -206,7 +241,7 @@ function update_form(event) {
             "latex_command_options",
             "tex_options"
         )
-        if_found_update_value(latex2ai_data, "latex_engine", "tex_engine")
+        if_found_update_value(latex2ai_data, "latex_engine", "latex_engine")
 
         // Item creation options
         if_found_update_checkbox(
@@ -214,6 +249,19 @@ function update_form(event) {
             "item_ui_finish_on_enter",
             "item_ui_finish_on_enter"
         )
+
+        // How to handle LaTeX2AI items
+        var label_strategy = if_found_get_string(
+            latex2ai_data,
+            "label_strategy"
+        )
+        if (label_strategy == "label_strategy_temp") {
+            $("#label_strategy_temp").prop("checked", true)
+        } else if (label_strategy == "label_strategy_local") {
+            $("#label_strategy_local").prop("checked", true)
+        } else {
+            alert("Got unexpected result for label_strategy")
+        }
 
         // Warnings
         if_found_update_checkbox(
@@ -286,6 +334,16 @@ function if_found_update_checkbox(xml, xml_name, html_id) {
                     '"'
             )
         }
+    }
+}
+
+function if_found_get_string(xml, xml_name) {
+    // Check if the xml_name attribute is present and if so, return it. Otherwise, throw a warning.
+    var attribute = xml.attr(xml_name)
+    if (attribute !== undefined) {
+        return attribute
+    } else {
+        alert("Could not find attribute: " + xml_name)
     }
 }
 

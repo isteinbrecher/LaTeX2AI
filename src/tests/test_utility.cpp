@@ -29,8 +29,9 @@
 
 #include "IllustratorSDK.h"
 
-#include "test_utlity.h"
-#include "testing_utlity.h"
+#include "test_utility.h"
+
+#include "testing_utility.h"
 
 #include "l2a_ai_functions.h"
 #include "l2a_constants.h"

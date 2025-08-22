@@ -30,14 +30,14 @@
 #ifndef L2A_DEFINES_H_
 #define L2A_DEFINES_H_
 
-//! Include information regarding the curent git version.
+//! Include information regarding the current git version.
 #include "auto_generated/version.h"
 
 //! Name of the plugin.
 #define L2A_PLUGIN_NAME "LaTeX2AI"
 
 //! Version of the plugin.
-#define L2A_VERSION_STRING_ "1.0.3"
+#define L2A_VERSION_STRING_ "1.1.0"
 
 //! Icon IDs.
 #define TOOL_ICON_CREATE_DARK_ID 19000        // icon for create mode in dark mode
@@ -60,14 +60,14 @@ namespace L2A
 {
     namespace CONSTANTS
     {
-        //! Tollerance for positions.
+        //! Tolerance for positions.
         static const AIReal eps_pos_ = (AIReal)0.002;
 
-        //! Tollerance for angles.
+        //! Tolerance for angles.
         static const AIReal eps_angle_ = (AIReal)0.001;
 
-        //! Tollerance for strech values.
-        static const AIReal eps_strech_ = (AIReal)0.001;
+        //! Tolerance for stretch values.
+        static const AIReal eps_stretch_ = (AIReal)0.001;
 
         //! Radius of placement point for annotation.
         static const int radius_ = 7;

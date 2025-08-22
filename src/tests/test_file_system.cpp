@@ -31,7 +31,7 @@
 
 #include "test_file_system.h"
 
-#include "testing_utlity.h"
+#include "testing_utility.h"
 
 #include "l2a_execute.h"
 #include "l2a_file_system.h"

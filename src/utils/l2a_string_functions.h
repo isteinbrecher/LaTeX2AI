@@ -64,7 +64,7 @@ namespace L2A
         /**
          * \brief Convert an integer to an std::string representing its hex value.
          * @value The integer value to convert.
-         * @return The integer in hex formating.
+         * @return The integer in hex formatting.
          */
         template <typename int_type>
         std::string IntegerToHexString(int_type value);
@@ -93,7 +93,7 @@ namespace L2A
             ai::UnicodeString& string, const ai::UnicodeString& search_string, const ai::UnicodeString& replace_string);
 
         /**
-         * \brief Split string at occurences of split_string.
+         * \brief Split string at occurrences of split_string.
          */
         std::vector<ai::UnicodeString> SplitString(
             const ai::UnicodeString& string, const ai::UnicodeString& split_string);
