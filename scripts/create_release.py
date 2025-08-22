@@ -24,166 +24,71 @@
 # -----------------------------------------------------------------------------
 """Compile and create a release for LaTeX2AI."""
 
-import argparse
 import os
-import platform
 import shutil
 import subprocess  # nosec B404
-import sys
 from pathlib import Path
 
-from create_headers import get_git_sha
+from utils import (
+    check_clean_repo,
+    create_zip,
+    get_git_tag_or_hash,
+    get_repository_dir,
+    remove_path,
+)
 
-
-def get_git_tag_or_hash(repo=None):
-    """Return the commit, if the commit has a tag, return the tag."""
-
-    # Get current sha.
-    git_sha = get_git_sha(repo)
-
-    # Get all tags and their sha.
-    process = subprocess.Popen(  # nosec B603 B607
-        ["git", "show-ref", "--tags"], stdout=subprocess.PIPE, cwd=repo
-    )
-    out, _err = process.communicate()
-    tags = out.decode("UTF-8").strip().split("\n")
-    tags = [line.split(" ") for line in tags]
-    for sha, tag in tags:
-        if sha == git_sha:
-            # This commit has a tag, return the tag.
-            return git_sha, tag.split("/")[-1]
-    return git_sha, git_sha[:7]
-
-
-def clean_repository(repository_dir):
-    """Check if the repository is clean."""
-
-    # Check if the repository is clean.
-    os.chdir(repository_dir)
-    out = subprocess.check_output(  # nosec B603 B607
-        ["git", "status", "--untracked-files=no", "--porcelain"]
-    )
-    if out == b"":
-        return True
-    else:
-        return False
-
-
-def build_solution_windows(repo_dir, git_identifier, *, build_type="release"):
-    """Build the solution and compress the executable into a zip file."""
-
-    # Build the solution, for this we have to set the build type environment
-    # variable.
-    script_dir = os.path.join(repo_dir, "scripts")
-    os.chdir(script_dir)
-    os.environ["L2A_build_type"] = build_type
-    return_value = subprocess.call(["compile_solution.bat"])  # nosec B603 B607
-
-    if return_value == 0:
-        # The build passed, compress the executables.
-        executable_dir = os.path.realpath(
-            os.path.join(repo_dir, "..\\output", "win", "x64", build_type)
-        )
-
-        executable = os.path.join(executable_dir, "LaTeX2AI.aip")
-        new_dir = os.path.join(repo_dir, "scripts", "release_files", "WIN")
-        final_name = os.path.join(
-            new_dir, "LaTeX2AI_" + git_identifier + "_" + build_type + ".aip"
-        )
-        Path(new_dir).mkdir(parents=True, exist_ok=True)
-        shutil.move(executable, final_name)
-    else:
-        raise ValueError("Could not build solution in {}".format(repo_dir))
-
+OS_TYPE_FULL = {"mac": "macOS", "win": "Windows"}
 
 if __name__ == "__main__":
     # Execution part of script
 
-    # Create the CLI parser
-    parser = argparse.ArgumentParser(
-        description="A script to build and package LaTeX2AI."
-    )
-    parser.add_argument("--debug", action="store_true", help="Build debug version")
-    args = parser.parse_args()
-    build_type = "release" if not args.debug else "debug"
-
-    # Get some basic repo/git information
-    repo_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    git_sha, git_identifier = get_git_tag_or_hash(repo_dir)
-    os.environ["L2A_GIT_IDENTIFIER"] = git_identifier
+    repo_dir = get_repository_dir()
 
     # Check if this is a clean repository
-    is_clean_repo = clean_repository(repo_dir)
-    if not is_clean_repo:
-        if input("Repository is not clean. Do You Want To Continue? ").lower() != "y":
-            sys.exit(1)
+    check_clean_repo(repo_dir)
 
-    # Build the release version
-    if platform.system() == "Windows":
-        build_solution_windows(repo_dir, git_identifier, build_type=build_type)
+    # Sign the UI folder
+    subprocess.call(  # nosec B603
+        [os.path.join(repo_dir, "scripts/ui_signing/sign_ui_folder.sh")],
+        # stdout=open(os.devnull, "wb"),
+    )
+    ui_release_dir = repo_dir / "scripts" / "ui_signing" / "com.isteinbrecher.latex2ai"
+    if not os.path.isdir(ui_release_dir):
+        raise ValueError("Could find the signed UI folder")
 
-        # Everything else is done on macOS
-        sys.exit(0)
-    else:
-        # Build the plugin
-        os.environ["L2A_BUILD_TYPE"] = build_type
-        subprocess.call(os.path.join(repo_dir, "scripts/compile_mac.sh"))  # nosec B603
-        mac_release_dir = os.path.join(
-            repo_dir,
-            "scripts/release_files/macOS",
-            f"LaTeX2AI_{git_identifier}_{build_type}.aip",
+    # Get the current git identifier
+    _, short_sha = get_git_tag_or_hash(repo_dir)
+
+    # Get the previously build executables
+    directory = repo_dir / "gathered_artifacts"
+    for file_path in directory.iterdir():
+        name_split = file_path.name.split(".")
+        if not name_split[1] == short_sha:
+            raise ValueError(
+                f"The git sha for {file_path.name} does not match the one from the repo {short_sha}"
+            )
+        illustrator_version = name_split[2].split("_")[2]
+        os_type = name_split[3]
+        build_type = name_split[4]
+
+        # Prepare the executable
+        new_file_path = file_path.parent / "LaTeX2AI.aip"
+        file_path.rename(new_file_path)
+
+        # Prepare the readme file
+        readme_file = repo_dir / "scripts" / f"README_{os_type}.txt"
+        readme_file_new = repo_dir / "scripts" / "README.txt"
+        shutil.copy2(readme_file, readme_file_new)
+
+        create_zip(
+            Path("final_release_files")
+            / f"LaTeX2AI_{short_sha}_{OS_TYPE_FULL[os_type]}_Illustrator{illustrator_version}_{build_type}.zip",
+            [
+                new_file_path,
+                ui_release_dir,
+                readme_file_new,
+            ],
         )
 
-        # Sign the UI folder
-        subprocess.call(  # nosec B603
-            [os.path.join(repo_dir, "scripts/ui_signing/sign_ui_folder.sh")],
-            # stdout=open(os.devnull, "wb"),
-        )
-        ui_release_dir = os.path.join(
-            repo_dir,
-            "scripts/release_files/",
-            f"com.isteinbrecher.latex2ai.{git_identifier}",
-        )
-
-    # Check if the Windows binaries exist
-    windows_release_file = os.path.join(
-        repo_dir,
-        "scripts/release_files/WIN",
-        f"LaTeX2AI_{git_identifier}_{build_type}.aip",
-    )
-    if not os.path.isfile(windows_release_file):
-        print(f'Could not find matching windows release file "{windows_release_file}"')
-        sys.exit(1)
-
-    # Create the combined release zip
-    release_zip_temp_dir = os.path.join(repo_dir, "scripts/release_zip_temp/")
-    if os.path.exists(release_zip_temp_dir):
-        shutil.rmtree(release_zip_temp_dir)
-    os.mkdir(release_zip_temp_dir)
-    os.mkdir(os.path.join(release_zip_temp_dir, "WIN"))
-    os.mkdir(os.path.join(release_zip_temp_dir, "macOS"))
-
-    shutil.copyfile(
-        os.path.join(repo_dir, "scripts", "release_zip_readme.md"),
-        os.path.join(release_zip_temp_dir, "README.md"),
-    )
-    shutil.copyfile(
-        windows_release_file,
-        os.path.join(release_zip_temp_dir, "WIN", "LaTeX2AI.aip"),
-    )
-    shutil.copytree(
-        mac_release_dir,
-        os.path.join(release_zip_temp_dir, "macOS", "LaTeX2AI.aip"),
-    )
-    shutil.copytree(
-        ui_release_dir,
-        os.path.join(release_zip_temp_dir, "com.isteinbrecher.latex2ai"),
-    )
-
-    Path(os.path.join(repo_dir, "scripts/release_zip/")).mkdir(exist_ok=True)
-    final_zip_name = f"../release_zip/LaTeX2AI_{git_identifier}_{build_type}.zip"
-    subprocess.call(  # nosec B603 B607
-        ["zip", "-r", final_zip_name, "."],
-        cwd=release_zip_temp_dir,
-    )
-    print("Created the final zip file")
+        # Remove the executable, since we don'd need it anymore
+        remove_path(new_file_path)
