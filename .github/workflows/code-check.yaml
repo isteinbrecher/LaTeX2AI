@@ -34,4 +34,8 @@ jobs:
       - name: Run pre-commit hooks
         run: |
           pre-commit install
-          pre-commit run --all-files
+          if [ "${GITHUB_REF}" = "refs/heads/main" ]; then
+            SKIP=no-commit-to-branch pre-commit run --all-files
+          else
+            pre-commit run --all-files
+          fi
