@@ -149,9 +149,9 @@ ai::UnicodeString L2A::ERR::AIErrorCodeToString(const int& err)
  */
 ai::UnicodeString L2A::ERR::AIErrorCodeToErrorString(const int& err)
 {
-    ai::UnicodeString error_string("Ilustrator Error.\nError code (int): ");
+    ai::UnicodeString error_string("Illustrator Error.\nError code (int): ");
     error_string += L2A::UTIL::IntegerToString(err);
-    error_string += "\nError code: ";
+    error_string += "\nError code (AI): ";
     error_string += AIErrorCodeToString(err);
     return error_string;
 }
