@@ -174,6 +174,22 @@ std::vector<ai::UnicodeString> L2A::UTIL::SplitString(
 /**
  *
  */
+ai::UnicodeString L2A::UTIL::Trim(const ai::UnicodeString& string)
+{
+    const ai::UnicodeString whitespace_characters("\n ");
+    if (string.length() == 0)
+    {
+        return ai::UnicodeString("");
+    }
+    const auto first_character = string.find_first_not_of(whitespace_characters);
+    const auto last_charcter = string.find_last_not_of(whitespace_characters);
+    auto trimmed_string = string.substr(first_character, last_charcter - first_character + 1);
+    return trimmed_string;
+}
+
+/**
+ *
+ */
 ai::UnicodeString L2A::UTIL::StringHash(const ai::UnicodeString& string)
 {
     auto string_std = StringAiToStd(string);
