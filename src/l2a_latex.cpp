@@ -327,7 +327,7 @@ ai::FilePath L2A::LATEX::WriteLatexFiles(const ai::UnicodeString& latex_code, co
     tex_file.AddComponent(ai::UnicodeString(L2A::NAMES::create_pdf_tex_name_));
 
     // Create the header in the temp directory.
-    ai::UnicodeString header_string =
+    const ai::UnicodeString header_string =
         L2A::UTIL::StringStdToAi(L2A::LATEX::GetHeaderWithIncludedInputs(GetHeaderPath()));
     L2A::UTIL::WriteFileUTF8(tex_header_file, header_string, true);
 
@@ -369,20 +369,34 @@ ai::FilePath L2A::LATEX::GetHeaderPath(const bool create_default_if_not_exist)
 std::string L2A::LATEX::GetHeaderWithIncludedInputs(const ai::FilePath& header_path)
 {
     // Get the full path here, so relative directories will be resolved.
-    auto header_path_full = L2A::UTIL::GetFullFilePath(header_path);
-    auto header_dir = header_path_full.GetParent();
-    auto header_text = L2A::UTIL::ReadFileUTF8(header_path_full);
-    std::string header_string = L2A::UTIL::StringAiToStd(header_text);
-    std::string header_string_no_comments =
-        L2A::UTIL::StringAiToStd(StripLatexComments(header_text, LatexCommentStripMode::PreserveWhitespace));
+    const auto header_path_full = L2A::UTIL::GetFullFilePath(header_path);
+    const auto header_dir = header_path_full.GetParent();
+    const auto header_text = L2A::UTIL::ReadFileUTF8(header_path_full);
+    const std::string header_string = L2A::UTIL::StringAiToStd(header_text);
+    const std::string header_string_no_comments =
+        StripLatexComments(header_string, LatexCommentStripMode::PreserveWhitespace);
+
+    // Reject \include early (unsupported)
+    static const std::regex re_include(R"(\\include\s*\{)");
+    if (std::regex_search(header_string_no_comments, re_include))
+    {
+        ai::UnicodeString error_string("LaTeX2AI does not support the \\include{...} command. Found in file:\n\n");
+
+        error_string += header_path_full.GetFullPath();
+        error_string += "\n\n";
+        error_string += "LaTeX2AI supports \\input{...} but not \\include{...}.\n";
+        error_string += "Consider replacing \\include{...} with \\input{...}.\n";
+
+        l2a_error(error_string);
+    }
 
     // Regex string to find inputs in the header.
-    std::regex re_input(R"(\\(input)\s*\{([^}]*)\})");
+    static const std::regex re_input(R"(\\(input)\s*\{([^}]*)\})");
 
     // Loop over inputs.
-    auto input_begin =
+    const auto input_begin =
         std::sregex_iterator(header_string_no_comments.begin(), header_string_no_comments.end(), re_input);
-    auto input_end = std::sregex_iterator();
+    const auto input_end = std::sregex_iterator();
     std::string return_header("");
     size_t last_pos = 0;
     for (std::sregex_iterator i = input_begin; i != input_end; ++i)
