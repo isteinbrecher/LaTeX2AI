@@ -155,6 +155,6 @@ void L2A::TEST::TestLatex(L2A::TEST::UTIL::UnitTest& ut)
     // Test that header inclusions work.
     TestHeader(ut, temp_directory);
 
-    // Test the strip comments functionaliy.
+    // Test the strip comments functionality.
     TestStripComments(ut);
 }
