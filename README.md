@@ -157,7 +157,10 @@ Use the **Redo items** tool to reset the scale of all LaTeX2AI items.
 
 LaTeX2AI assumes that all Illustrator files in the same folder share the same LaTeX header: `LaTeX2AI_header.tex`.
 
-If this file doesn't exist, it is created when needed. You can edit this file to add packages or macros.
+You can edit this file to add packages or macros.
+Other LaTeX documents can be included in the header using `\input{}`, this is useful for shared macros between publications and LaTeX2AI labels.
+
+If this file doesn't exist, it is created when needed.
 
 ## Label Storage Strategy
 
