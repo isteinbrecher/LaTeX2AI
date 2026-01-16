@@ -185,7 +185,10 @@ void TestTrim(L2A::TEST::UTIL::UnitTest& ut)
         {ai::UnicodeString("\n \n test2 \n\n \n "), ai::UnicodeString("test2")},
         {ai::UnicodeString("\n \n te\n st2"), ai::UnicodeString("te\n st2")},
         {ai::UnicodeString("te\n st2 \n\n \n "), ai::UnicodeString("te\n st2")},
-        {ai::UnicodeString("\n \n te\n st2 \n\n \n "), ai::UnicodeString("te\n st2")}};
+        {ai::UnicodeString("\n \n te\n st2 \n\n \n "), ai::UnicodeString("te\n st2")},
+        {ai::UnicodeString(" \n "), ai::UnicodeString("")},
+        {ai::UnicodeString(" \n\ttest\t \r\n"), ai::UnicodeString("test")},
+    };
     for (const auto& [test_string, reference] : test_strings_and_reference)
     {
         const auto trim_result = L2A::UTIL::Trim(test_string);
