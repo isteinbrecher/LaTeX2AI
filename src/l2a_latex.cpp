@@ -373,12 +373,15 @@ std::string L2A::LATEX::GetHeaderWithIncludedInputs(const ai::FilePath& header_p
     auto header_dir = header_path_full.GetParent();
     auto header_text = L2A::UTIL::ReadFileUTF8(header_path_full);
     std::string header_string = L2A::UTIL::StringAiToStd(header_text);
+    std::string header_string_no_comments =
+        L2A::UTIL::StringAiToStd(StripLatexComments(header_text, LatexCommentStripMode::PreserveWhitespace));
 
     // Regex string to find inputs in the header.
     std::regex re_input(R"(\\(input)\s*\{([^}]*)\})");
 
     // Loop over inputs.
-    auto input_begin = std::sregex_iterator(header_string.begin(), header_string.end(), re_input);
+    auto input_begin =
+        std::sregex_iterator(header_string_no_comments.begin(), header_string_no_comments.end(), re_input);
     auto input_end = std::sregex_iterator();
     std::string return_header("");
     size_t last_pos = 0;
@@ -653,4 +656,48 @@ bool L2A::LATEX::CheckLatexCommand(const ai::FilePath& path_latex)
     {
         return false;
     }
+}
+
+/**
+ *
+ */
+std::string L2A::LATEX::StripLatexComments(const std::string& input, LatexCommentStripMode mode)
+{
+    std::string output;
+    output.reserve(input.length());
+
+    bool in_comment = false;
+
+    for (size_t i = 0; i < input.length(); ++i)
+    {
+        const auto c = input[i];
+
+        if (in_comment)
+        {
+            if (c == '\n')
+            {
+                in_comment = false;
+                output.push_back('\n');  // newline always preserved
+            }
+            else if (mode == LatexCommentStripMode::PreserveWhitespace)
+            {
+                output.push_back(' ');
+            }
+            // else: Remove -> skip
+        }
+        else
+        {
+            if (c == '%' && (i == 0 || input[i - 1] != '\\'))
+            {
+                in_comment = true;
+                if (mode == LatexCommentStripMode::PreserveWhitespace) output.push_back(' ');
+            }
+            else
+            {
+                output.push_back(c);
+            }
+        }
+    }
+
+    return output;
 }
