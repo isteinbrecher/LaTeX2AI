@@ -185,22 +185,6 @@ namespace L2A
          * \brief Check that the stored LaTeX command is correct.
          */
         bool CheckLatexCommand(const ai::FilePath& path_latex);
-
-        /**
-         * \brief Options how to strip LaTeX code.
-         */
-        enum class LatexCommentStripMode
-        {
-            PreserveWhitespace,  //! keep length & newlines
-            Remove               //! remove comments
-        };
-
-        /**
-         * \brief Strip comments from a LaTeX string. This works in two ways, where the comments are simply stripped, or
-         * where whitespace is added for the remove characters.
-         */
-        ai::UnicodeString StripLatexComments(const ai::UnicodeString& input, LatexCommentStripMode mode);
-
     }  // namespace LATEX
 }  // namespace L2A
 

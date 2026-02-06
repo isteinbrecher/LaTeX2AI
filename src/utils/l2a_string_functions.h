@@ -99,11 +99,6 @@ namespace L2A
             const ai::UnicodeString& string, const ai::UnicodeString& split_string);
 
         /**
-         * \brief Trim all leading and trailing whitespace of a string.
-         */
-        ai::UnicodeString Trim(const ai::UnicodeString& string);
-
-        /**
          * \brief Calculate a hash from a string.
          */
         ai::UnicodeString StringHash(const ai::UnicodeString& string);
