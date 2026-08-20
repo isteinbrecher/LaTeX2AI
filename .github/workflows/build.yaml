@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: Build ${{ matrix.sdk }} on ${{ matrix.os }}
+    name: Build ${{ matrix.sdk }}/${{ matrix.build_type }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -23,6 +23,7 @@ jobs:
           - Adobe_Illustrator_2023_SDK_23_08_v1
           - Adobe_Illustrator_2024_SDK_24_09_v1
           - Adobe_Illustrator_2025_SDK_25_08_v1
+        build_type: [release, debug]
 
     env:
       SDK_SUFFIX: ${{ matrix.os == 'windows-latest' && '_win' || '_mac' }}
@@ -57,13 +58,13 @@ jobs:
         working-directory: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI/scripts
         env:
           AI_SDK_VERSION: ${{ matrix.sdk }}
-          L2A_BUILD_TYPE: "release"
+          L2A_BUILD_TYPE: ${{ matrix.build_type }}
           RELEASE_PATH_RELATIVE_TO_REPO: "../../../release_files"
 
       - name: Upload executable as artifact
         uses: actions/upload-artifact@v7
         with:
-          name: build_${{ matrix.sdk }}${{ env.SDK_SUFFIX }}
+          name: build_${{ matrix.sdk }}${{ env.SDK_SUFFIX }}_${{ matrix.build_type }}
           path: ai_sdk/release_files
 
   release:
