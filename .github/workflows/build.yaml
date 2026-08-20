@@ -48,12 +48,15 @@ jobs:
           path: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI
           submodules: true
 
+      - name: Setup MSBuild
+        if: runner.os == 'Windows'
+        uses: microsoft/setup-msbuild@v2
+
       - name: Build LaTeX2AI
         run: python build_executable.py
         working-directory: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI/scripts
         env:
           AI_SDK_VERSION: ${{ matrix.sdk }}
-          VS_ACTIVATION_SCRIPT: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
           L2A_BUILD_TYPE: "release"
           RELEASE_PATH_RELATIVE_TO_REPO: "../../../release_files"
 
