@@ -119,7 +119,7 @@ if __name__ == "__main__":
         executable = build_solution_mac(repo_dir, build_type)
 
     # If this is run on GitHub, move the executable to the executable folder.
-    if is_github_runner:
+    if is_github_runner():
         final_name_parts = ["LaTeX2AI", git_identifier]
         if not os.environ.get("AI_SDK_VERSION") == "":
             final_name_parts.append(os.environ.get("AI_SDK_VERSION"))
