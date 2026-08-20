@@ -23,7 +23,8 @@ jobs:
           - Adobe_Illustrator_2023_SDK_23_08_v1
           - Adobe_Illustrator_2024_SDK_24_09_v1
           - Adobe_Illustrator_2025_SDK_25_08_v1
-        build_type: [release, debug]
+        # On main branch, only build release.
+        build_type: ${{ fromJSON(github.ref == 'refs/heads/main' && '["release"]' || '["release","debug"]') }}
 
     env:
       SDK_SUFFIX: ${{ matrix.os == 'windows-latest' && '_win' || '_mac' }}
