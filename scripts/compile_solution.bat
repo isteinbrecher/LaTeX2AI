@@ -22,8 +22,10 @@
 @REM SOFTWARE.
 @REM -----------------------------------------------------------------------------
 
-@REM Load the Visual Studio developer command prompt
-call "%VS_ACTIVATION_SCRIPT%"
+@REM If defined, load the Visual Studio developer command prompt
+if defined VS_ACTIVATION_SCRIPT (
+    call "%VS_ACTIVATION_SCRIPT%"
+)
 
 @REM Compile the LaTeX2AI solutions
 msbuild "..\LaTeX2AI.sln" /nologo /t:rebuild /p:Configuration=%L2A_BUILD_TYPE% /p:Platform=x64

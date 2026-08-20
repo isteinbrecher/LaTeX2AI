@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: Build ${{ matrix.sdk }} on ${{ matrix.os }}
+    name: Build ${{ matrix.sdk }}/${{ matrix.build_type }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -23,18 +23,20 @@ jobs:
           - Adobe_Illustrator_2023_SDK_23_08_v1
           - Adobe_Illustrator_2024_SDK_24_09_v1
           - Adobe_Illustrator_2025_SDK_25_08_v1
+        # On main branch, only build release.
+        build_type: ${{ fromJSON(github.ref == 'refs/heads/main' && '["release"]' || '["release","debug"]') }}
 
     env:
       SDK_SUFFIX: ${{ matrix.os == 'windows-latest' && '_win' || '_mac' }}
 
     steps:
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.12
 
       - name: Set up SSH key for SDK repo
-        uses: webfactory/ssh-agent@v0.7.0
+        uses: webfactory/ssh-agent@v0.10.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SDK_REPO }}
 
@@ -43,24 +45,27 @@ jobs:
           git clone git@github.com:LaTeX2AI/adobe-illustrator-sdk-private.git ai_sdk
 
       - name: Checkout main LaTeX2AI repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           path: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI
           submodules: true
+
+      - name: Setup MSBuild
+        if: runner.os == 'Windows'
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build LaTeX2AI
         run: python build_executable.py
         working-directory: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI/scripts
         env:
           AI_SDK_VERSION: ${{ matrix.sdk }}
-          VS_ACTIVATION_SCRIPT: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
-          L2A_BUILD_TYPE: "release"
+          L2A_BUILD_TYPE: ${{ matrix.build_type }}
           RELEASE_PATH_RELATIVE_TO_REPO: "../../../release_files"
 
       - name: Upload executable as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: build_${{ matrix.sdk }}${{ env.SDK_SUFFIX }}
+          name: build_${{ matrix.sdk }}${{ env.SDK_SUFFIX }}_${{ matrix.build_type }}
           path: ai_sdk/release_files
 
   release:
@@ -71,12 +76,12 @@ jobs:
 
     steps:
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: 3.12
 
       - name: Checkout LaTeX2AI repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Create output directory
         run: |
@@ -84,7 +89,7 @@ jobs:
           mkdir -p final_release_files
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: gathered_artifacts
           merge-multiple: true # Combines all named artifacts into one folder
@@ -98,13 +103,13 @@ jobs:
           python scripts/create_release.py
 
       - name: Upload the created container
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: LaTeX2AI_installation_files
           path: final_release_files
 
       - name: Delete build artifacts
-        uses: geekyeggo/delete-artifact@v5
+        uses: geekyeggo/delete-artifact@v6
         with:
           name: "build_*"
           failOnError: false
