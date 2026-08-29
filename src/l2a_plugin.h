@@ -40,10 +40,10 @@
 //! Check if the Illustrator version is supported.
 //! The only reason we define the max value here is so the user is aware that a new SDK version is being used.
 #define L2A_ILLUSTRATOR_VERSION_MIN 0x26000001
-#define L2A_ILLUSTRATOR_VERSION_MAX 0x30000001
+#define L2A_ILLUSTRATOR_VERSION_MAX 0x31000001
 
 #if (kPluginInterfaceVersion < L2A_ILLUSTRATOR_VERSION_MIN) || (kPluginInterfaceVersion >= L2A_ILLUSTRATOR_VERSION_MAX)
-#error Currently LaTeX2AI only supports Illustrator 2022-2025
+#error Currently LaTeX2AI only supports Illustrator 2022-2026
 #endif
 
 
