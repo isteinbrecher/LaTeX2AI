@@ -33,7 +33,6 @@
 
 #include "l2a_ai_functions.h"
 #include "l2a_error.h"
-#include "l2a_item.h"
 
 
 /**

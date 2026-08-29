@@ -31,15 +31,11 @@
 #define L2A_ANNOTATOR_H_
 
 
+#include "l2a_item.h"
 #include "l2a_suites.h"
 
 #include <map>
 
-// Forward declaration.
-namespace L2A
-{
-    class Item;
-}
 
 
 namespace L2A

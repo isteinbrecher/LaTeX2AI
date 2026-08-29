@@ -102,6 +102,11 @@ namespace L2A
          * \brief Calculate a hash from a string.
          */
         ai::UnicodeString StringHash(const ai::UnicodeString& string);
+
+        /**
+         * \brief Converts a UTF-8 encoded std::u8string to a UTF-8 encoded std::string.
+         */
+        std::string StringU8ToStd(const std::u8string& string_u8);
     }  // namespace UTIL
 }  // namespace L2A
 
