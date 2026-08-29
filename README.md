@@ -4,24 +4,24 @@ LaTeX2AI is a plugin for Adobe Illustrator (macOS and Windows) that enables the 
 
 # Overview <!-- omit from toc -->
 
--   [License \& How to Cite](#license--how-to-cite)
--   [Installation](#installation)
-    -   [Requirements](#requirements)
-    -   [Windows](#windows)
-    -   [macOS](#macos)
--   [How to Use LaTeX2AI](#how-to-use-latex2ai)
-    -   [Create / Edit a LaTeX2AI Label](#create--edit-a-latex2ai-label)
-        -   [Placement](#placement)
-            -   [Baseline Placement](#baseline-placement)
-    -   [Item Scaling Behavior](#item-scaling-behavior)
-    -   [LaTeX Header](#latex-header)
-    -   [Label Storage Strategy](#label-storage-strategy)
--   [Known Issues](#known-issues)
-    -   [Creative Cloud Documents](#creative-cloud-documents)
--   [Work That Uses LaTeX2AI](#work-that-uses-latex2ai)
--   [Contributing](#contributing)
--   [Build LaTeX2AI from Source](#build-latex2ai-from-source)
--   [Changelog](#changelog)
+- [License \& How to Cite](#license--how-to-cite)
+- [Installation](#installation)
+    - [Requirements](#requirements)
+    - [Windows](#windows)
+    - [macOS](#macos)
+- [How to Use LaTeX2AI](#how-to-use-latex2ai)
+    - [Create / Edit a LaTeX2AI Label](#create--edit-a-latex2ai-label)
+        - [Placement](#placement)
+            - [Baseline Placement](#baseline-placement)
+    - [Item Scaling Behavior](#item-scaling-behavior)
+    - [LaTeX Header](#latex-header)
+    - [Label Storage Strategy](#label-storage-strategy)
+- [Known Issues](#known-issues)
+    - [Creative Cloud Documents](#creative-cloud-documents)
+- [Work That Uses LaTeX2AI](#work-that-uses-latex2ai)
+- [Contributing](#contributing)
+- [Build LaTeX2AI from Source](#build-latex2ai-from-source)
+- [Changelog](#changelog)
 
 # License & How to Cite
 
@@ -29,7 +29,7 @@ LaTeX2AI is under the MIT license, see [./LICENSE](LICENSE).
 If you use LaTeX2AI to create figures for your work, please acknowledge it with a link to the GitHub repository.
 For example:
 
--   Sketches in this work have been created using the Adobe Illustrator plug-in LaTeX2AI ([https://github.com/isteinbrecher/latex2ai](https://github.com/isteinbrecher/latex2ai)).
+- Sketches in this work have been created using the Adobe Illustrator plug-in LaTeX2AI ([https://github.com/isteinbrecher/latex2ai](https://github.com/isteinbrecher/latex2ai)).
 
 Feel free to leave a :star: on [GitHub](https://github.com/isteinbrecher/latex2ai).
 You can also add your work to [Work that uses LaTeX2AI](#work-that-uses-latex2ai).
@@ -40,22 +40,20 @@ You can also add your work to [Work that uses LaTeX2AI](#work-that-uses-latex2ai
 
 The following software dependencies are required to run LaTeX2AI:
 
--   A LaTeX compiler such as [TeX Live](https://www.tug.org/texlive) or [MiKTeX](https://miktex.org)
--   [Ghostscript](https://www.ghostscript.com)
+- A LaTeX compiler such as [TeX Live](https://www.tug.org/texlive) or [MiKTeX](https://miktex.org)
+- [Ghostscript](https://www.ghostscript.com)
 
 ### Windows
 
 1. Download LaTeX2AI for your Illustrator version from the [GitHub release page](https://github.com/isteinbrecher/latex2ai/releases).
 1. Unzip the `.zip` file.
 1. Copy the user interface folder `com.isteinbrecher.latex2ai`:
-
     - Installation for **current user**:
         - Copy `com.isteinbrecher.latex2ai` to `C:\Users\<USERNAME>\AppData\Roaming\Adobe\CEP\extensions` (you may need to create this directory).
     - Installation for **all users** (requires administrator privileges):
         - Copy `com.isteinbrecher.latex2ai` to `C:\Program Files\Common Files\Adobe\CEP\extensions\`
 
 1. Copy the plugin:
-
     - Installation for **current user**:
         - Copy `LaTeX2AI.aip` to any directory. Set this as the Adobe Illustrator plugin directory via `Edit > Preferences > Plug-ins & Scratch Disks... > Additional Plug-ins Folder`.
     - Installation for **all users** (requires administrator privileges):
@@ -70,14 +68,12 @@ To uninstall LaTeX2AI, delete the files you copied.
 1. Download LaTeX2AI for your Illustrator version from the [GitHub release page](https://github.com/isteinbrecher/latex2ai/releases).
 1. Unzip the file.
 1. Copy the user interface folder `com.isteinbrecher.latex2ai`:
-
     - Installation for **current user**:
         - Copy `com.isteinbrecher.latex2ai` to `~/Library/Application Support/Adobe/CEP/extensions/`
     - Installation for **all users** (requires administrator privileges):
         - Copy `com.isteinbrecher.latex2ai` to `/Library/Application Support/Adobe/CEP/extensions/`
 
 1. Copy the plugin:
-
     - Installation for **current user**:
         - Copy `LaTeX2AI.aip` to any directory. Set this as the Adobe Illustrator plugin directory via `Edit > Preferences > Plug-ins & Scratch Disks... > Additional Plug-ins Folder`.
     - Installation for **all users** (requires administrator privileges):
@@ -107,10 +103,10 @@ To uninstall LaTeX2AI, delete the files you copied.
 
 LaTeX2AI adds four buttons to the main toolbar:
 
--   ![Create / Edit](/doc/images/tool_create.png?raw=true "Create / Edit") **Create / Edit**: Edit an existing label by clicking on it, or create a new one by clicking somewhere in the document.
--   ![Redo items](/doc/images/tool_redo.png?raw=true "Redo labels") **Redo LaTeX2AI labels**: Recompile or reset the scale of all existing LaTeX2AI labels.
--   ![LaTeX2AI options](/doc/images/tool_options.png?raw=true "LaTeX2AI options") **LaTeX2AI options**: Open a form to set global LaTeX2AI options and edit the LaTeX header in an external application.
--   ![Save document as PDF](/doc/images/tool_save_as_pdf.png?raw=true "Save document as PDF") **Save as PDF**: Save the current `.ai` document as a `.pdf` with the same name. The LaTeX2AI labels are included.
+- ![Create / Edit](/doc/images/tool_create.png?raw=true "Create / Edit") **Create / Edit**: Edit an existing label by clicking on it, or create a new one by clicking somewhere in the document.
+- ![Redo items](/doc/images/tool_redo.png?raw=true "Redo labels") **Redo LaTeX2AI labels**: Recompile or reset the scale of all existing LaTeX2AI labels.
+- ![LaTeX2AI options](/doc/images/tool_options.png?raw=true "LaTeX2AI options") **LaTeX2AI options**: Open a form to set global LaTeX2AI options and edit the LaTeX header in an external application.
+- ![Save document as PDF](/doc/images/tool_save_as_pdf.png?raw=true "Save document as PDF") **Save as PDF**: Save the current `.ai` document as a `.pdf` with the same name. The LaTeX2AI labels are included.
 
 You can also double-click on a LaTeX2AI label to enter edit mode.
 
@@ -157,7 +153,10 @@ Use the **Redo items** tool to reset the scale of all LaTeX2AI items.
 
 LaTeX2AI assumes that all Illustrator files in the same folder share the same LaTeX header: `LaTeX2AI_header.tex`.
 
-If this file doesn't exist, it is created when needed. You can edit this file to add packages or macros.
+You can edit this file to add packages or macros.
+Other LaTeX documents can be included in the header using `\input{}`, this is useful for shared macros between publications and LaTeX2AI labels.
+
+If this file doesn't exist, it is created when needed.
 
 ## Label Storage Strategy
 
@@ -165,15 +164,14 @@ Each LaTeX2AI label is an individual `.pdf` file linked to the Illustrator docum
 LaTeX2AI allows you to choose where these LaTeX-generated `.pdf` label files are stored.
 You can configure this setting in the LaTeX2AI **Options** panel.
 
--   **Temporary directory (default)**:
+- **Temporary directory (default)**:
+    - Label `.pdf` files are stored in a global temporary folder and are managed automatically by LaTeX2AI.
+    - This is the recommended option for most users.
 
-    -   Label `.pdf` files are stored in a global temporary folder and are managed automatically by LaTeX2AI.
-    -   This is the recommended option for most users.
-
--   **Local `links` directory (legacy option)**:
-    -   This was the default behavior prior to LaTeX2AI v1.1.
-    -   Label `.pdf` files are stored in a `links/` subfolder next to your Illustrator document and are managed automatically by LaTeX2AI.
-    -   This option is useful if you plan to move your `.ai` document to a different system where LaTeX2AI is not installed: simply copy the `links/` folder alongside your document, and Illustrator will still be able to locate and display the labels.
+- **Local `links` directory (legacy option)**:
+    - This was the default behavior prior to LaTeX2AI v1.1.
+    - Label `.pdf` files are stored in a `links/` subfolder next to your Illustrator document and are managed automatically by LaTeX2AI.
+    - This option is useful if you plan to move your `.ai` document to a different system where LaTeX2AI is not installed: simply copy the `links/` folder alongside your document, and Illustrator will still be able to locate and display the labels.
 
 # Known Issues
 
@@ -185,10 +183,10 @@ LaTeX2AI does **not** currently support _Creative Cloud documents_.
 
 An incomplete list of work that uses LaTeX2AI:
 
--   Toenniessen, F.: _Die Homotopie der Sphären - Eine Einführung in Spektralsequenzen, Lokalisierungen und Kohomologie-Operationen_, Springer Verlag Heidelberg, 2023.
--   Steinbrecher, I., Popp, A., Meier, C.: _Consistent coupling of positions and rotations for embedding 1D Cosserat beams into 3D solid volumes._ Comput Mech (2021), [Open Access](https://doi.org/10.1007/s00466-021-02111-4)
--   Steinbrecher, I., Mayr, M., Grill, M.J., Kremheller, J., Meier, C., Popp, A.: _A mortar-type finite element approach for embedding 1D beams into 3D solid volumes_, Comput Mech (2020), 66(6):1377-1398, [Open Access](https://doi.org/10.1007/s00466-020-01907-0)
--   Steinbrecher, I., Humer, A., Vu-Quoc, L.: _On the numerical modeling of sliding beams: A comparison of different approaches_, Journal of Sound and Vibration, 408:270-290, [Open Access](https://doi.org/10.1016/j.jsv.2017.07.010)
+- Toenniessen, F.: _Die Homotopie der Sphären - Eine Einführung in Spektralsequenzen, Lokalisierungen und Kohomologie-Operationen_, Springer Verlag Heidelberg, 2023.
+- Steinbrecher, I., Popp, A., Meier, C.: _Consistent coupling of positions and rotations for embedding 1D Cosserat beams into 3D solid volumes._ Comput Mech (2021), [Open Access](https://doi.org/10.1007/s00466-021-02111-4)
+- Steinbrecher, I., Mayr, M., Grill, M.J., Kremheller, J., Meier, C., Popp, A.: _A mortar-type finite element approach for embedding 1D beams into 3D solid volumes_, Comput Mech (2020), 66(6):1377-1398, [Open Access](https://doi.org/10.1007/s00466-020-01907-0)
+- Steinbrecher, I., Humer, A., Vu-Quoc, L.: _On the numerical modeling of sliding beams: A comparison of different approaches_, Journal of Sound and Vibration, 408:270-290, [Open Access](https://doi.org/10.1016/j.jsv.2017.07.010)
 
 # Contributing
 
@@ -210,10 +208,10 @@ pre-commit install
 
 Please also:
 
--   Compile a debug build and run framework tests in Illustrator ![Framework tests](/doc/images/tool_testing.png?raw=true "Framework tests").
--   Consider adding tests in `./src/tests`.
--   Add a description of your changes to the [Changelog](doc/CHANGELOG.md).
--   Feel free to add yourself to the [./CONTRIBUTORS](CONTRIBUTORS) file.
+- Compile a debug build and run framework tests in Illustrator ![Framework tests](/doc/images/tool_testing.png?raw=true "Framework tests").
+- Consider adding tests in `./src/tests`.
+- Add a description of your changes to the [Changelog](doc/CHANGELOG.md).
+- Feel free to add yourself to the [./CONTRIBUTORS](CONTRIBUTORS) file.
 
 # Build LaTeX2AI from Source
 

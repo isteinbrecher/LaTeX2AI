@@ -327,7 +327,7 @@ ai::FilePath L2A::LATEX::WriteLatexFiles(const ai::UnicodeString& latex_code, co
     tex_file.AddComponent(ai::UnicodeString(L2A::NAMES::create_pdf_tex_name_));
 
     // Create the header in the temp directory.
-    ai::UnicodeString header_string =
+    const ai::UnicodeString header_string =
         L2A::UTIL::StringStdToAi(L2A::LATEX::GetHeaderWithIncludedInputs(GetHeaderPath()));
     L2A::UTIL::WriteFileUTF8(tex_header_file, header_string, true);
 
@@ -369,41 +369,74 @@ ai::FilePath L2A::LATEX::GetHeaderPath(const bool create_default_if_not_exist)
 std::string L2A::LATEX::GetHeaderWithIncludedInputs(const ai::FilePath& header_path)
 {
     // Get the full path here, so relative directories will be resolved.
-    auto header_path_full = L2A::UTIL::GetFullFilePath(header_path);
-    auto header_dir = header_path_full.GetParent();
-    auto header_text = L2A::UTIL::ReadFileUTF8(header_path_full);
-    std::string header_string = L2A::UTIL::StringAiToStd(header_text);
+    const auto header_path_full = L2A::UTIL::GetFullFilePath(header_path);
+    const auto header_dir = header_path_full.GetParent();
+    const auto header_text = L2A::UTIL::ReadFileUTF8(header_path_full);
+    const std::string header_string = L2A::UTIL::StringAiToStd(header_text);
+    const std::string header_string_no_comments =
+        StripLatexComments(header_string, LatexCommentStripMode::PreserveWhitespace);
+
+    // Reject \include early (unsupported)
+    static const std::regex re_include(R"(\\include\s*\{)");
+    if (std::regex_search(header_string_no_comments, re_include))
+    {
+        ai::UnicodeString error_string("LaTeX2AI does not support the \\include{...} command. Found in file:\n\n");
+
+        error_string += header_path_full.GetFullPath();
+        error_string += "\n\n";
+        error_string += "LaTeX2AI supports \\input{...} but not \\include{...}.\n";
+        error_string += "Consider replacing \\include{...} with \\input{...}.\n";
+
+        l2a_error(error_string);
+    }
 
     // Regex string to find inputs in the header.
-    std::regex re_input("\\\\(input) *\\{.*\\}");
+    static const std::regex re_input(R"(\\(input)\s*\{([^}]*)\})");
 
     // Loop over inputs.
-    auto input_begin = std::sregex_iterator(header_string.begin(), header_string.end(), re_input);
-    auto input_end = std::sregex_iterator();
+    const auto input_begin =
+        std::sregex_iterator(header_string_no_comments.begin(), header_string_no_comments.end(), re_input);
+    const auto input_end = std::sregex_iterator();
     std::string return_header("");
-    long long int last_pos = 0;
+    size_t last_pos = 0;
     for (std::sregex_iterator i = input_begin; i != input_end; ++i)
     {
         std::smatch match = *i;
         return_header += header_string.substr(last_pos, match.position() - last_pos);
 
-        // Get the path of the input_file.
-        std::smatch brackets_match;
-        std::regex re_brackets("\\{.*\\}");
-        auto input_string = header_string.substr(match.position(), match.length());
-        std::regex_search(input_string, brackets_match, re_brackets);
-        std::string input_path_string = brackets_match.str(0);
-        input_path_string = input_path_string.substr(1, input_path_string.length() - 2);
-        auto input_header_path = header_dir;
-        input_header_path.AddComponent(ai::UnicodeString(input_path_string));
+        std::string input_path_string = match[2].str();
+
+        // We will first check the pure given string (trimmed), if that does not work, we will add the extension .tex
+        // and check if that file exists.
+        ai::FilePath input_header_path = header_dir;
+        input_header_path.AddComponent(L2A::UTIL::Trim(L2A::UTIL::StringStdToAi(input_path_string)));
+        ai::FilePath input_header_path_with_added_extension(input_header_path.GetFullPath() + ".tex");
+
         if (L2A::UTIL::IsFile(input_header_path))
+        {
             return_header += GetHeaderWithIncludedInputs(input_header_path);
+        }
+        else if (L2A::UTIL::IsFile(input_header_path_with_added_extension))
+        {
+            return_header += GetHeaderWithIncludedInputs(input_header_path_with_added_extension);
+        }
         else
-            return_header += input_path_string;
+        {
+            ai::UnicodeString error_string("Could not resolve LaTeX \\input{...} file:\n\n");
+
+            error_string += header_path_full.GetFullPath();
+            error_string += "\n\n";
+
+            error_string += "Command:\n  \\input{";
+            error_string += input_path_string;
+            error_string += "}";
+
+            l2a_error(error_string);
+        }
 
         last_pos = match.position() + match.length();
     }
-    return_header += header_string.substr(last_pos, header_string.length());
+    return_header += header_string.substr(last_pos, header_string.length() - last_pos);
     return return_header;
 }
 
@@ -637,4 +670,48 @@ bool L2A::LATEX::CheckLatexCommand(const ai::FilePath& path_latex)
     {
         return false;
     }
+}
+
+/**
+ *
+ */
+std::string L2A::LATEX::StripLatexComments(const std::string& input, LatexCommentStripMode mode)
+{
+    std::string output;
+    output.reserve(input.length());
+
+    bool in_comment = false;
+
+    for (size_t i = 0; i < input.length(); ++i)
+    {
+        const auto c = input[i];
+
+        if (in_comment)
+        {
+            if (c == '\n')
+            {
+                in_comment = false;
+                output.push_back('\n');  // newline always preserved
+            }
+            else if (mode == LatexCommentStripMode::PreserveWhitespace)
+            {
+                output.push_back(' ');
+            }
+            // else: Remove -> skip
+        }
+        else
+        {
+            if (c == '%' && (i == 0 || input[i - 1] != '\\'))
+            {
+                in_comment = true;
+                if (mode == LatexCommentStripMode::PreserveWhitespace) output.push_back(' ');
+            }
+            else
+            {
+                output.push_back(c);
+            }
+        }
+    }
+
+    return output;
 }

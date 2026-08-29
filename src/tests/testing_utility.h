@@ -47,6 +47,7 @@ namespace L2A
             static const char* test_string_4_ =
                 "Hier ist ein anderer langer Text mit Umlauten äöÄÖÜß@!\nund neue Zeilen\n\n\nthe end<>/''\"!\n";
             static const char* test_string_5_ = "abcdefg123567890";
+            static const char* test_string_6_ = "Umlaute äöÄÖÜß@!";
 
             //! Unicode string
             const char16_t test_string_unicode_characters[] = {
