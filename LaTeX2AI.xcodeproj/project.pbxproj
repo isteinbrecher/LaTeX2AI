@@ -548,7 +548,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A1A458C525E4DC240077068A /* AIPluginDebug.xcconfig */;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++23";
 				HEADER_SEARCH_PATHS = (
 					../../illustratorapi/ate,
 					../../illustratorapi/illustrator,
@@ -574,7 +574,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A1A458C625E4DC240077068A /* AIPluginRelease.xcconfig */;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++23";
 				HEADER_SEARCH_PATHS = (
 					../../illustratorapi/ate,
 					../../illustratorapi/illustrator,
