@@ -117,17 +117,12 @@ repos:
           - --comment-style
           - "<!--||  -->"
           - --no-extra-eol
-  - repo: https://github.com/asmeurer/removestar
-    rev: "1.5.2"
-    hooks:
-      - id: removestar
-        name: Run removestar (remove wildcard imports)
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.2
+    rev: v0.15.20
     hooks:
       - id: ruff # linter
         name: Run ruff (linter for Python)
-        args: ["--fix", "--select", "I,TID252,F401"] # "I => sort imports, TID252 => ban relative imports, F401 => unused imports"
+        args: ["--fix", "--select", "I,TID252,F401,F403"] # I => sort imports, TID252 => ban relative imports, F401 => unused imports, F403 => no wildcard imports
         exclude: "^scripts/pipl"
       - id: ruff-format # formatter
         name: Run ruff (formatter for Python)
