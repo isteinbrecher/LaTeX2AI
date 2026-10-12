@@ -174,6 +174,32 @@ void TestStringU8ToStd(L2A::TEST::UTIL::UnitTest& ut)
 /**
  *
  */
+void TestTrim(L2A::TEST::UTIL::UnitTest& ut)
+{
+    // Test the trim function
+    std::vector<std::pair<ai::UnicodeString, ai::UnicodeString>> test_strings_and_reference{
+        {ai::UnicodeString(""), ai::UnicodeString("")},
+        {ai::UnicodeString("text1text2"), ai::UnicodeString("text1text2")},
+        {ai::UnicodeString("\n \n test2"), ai::UnicodeString("test2")},
+        {ai::UnicodeString("test2 \n\n \n "), ai::UnicodeString("test2")},
+        {ai::UnicodeString("\n \n test2 \n\n \n "), ai::UnicodeString("test2")},
+        {ai::UnicodeString("\n \n te\n st2"), ai::UnicodeString("te\n st2")},
+        {ai::UnicodeString("te\n st2 \n\n \n "), ai::UnicodeString("te\n st2")},
+        {ai::UnicodeString("\n \n te\n st2 \n\n \n "), ai::UnicodeString("te\n st2")},
+        {ai::UnicodeString(" \n "), ai::UnicodeString("")},
+        {ai::UnicodeString(" \n\ttest\t \r\n"), ai::UnicodeString("test")},
+    };
+    for (const auto& [test_string, reference] : test_strings_and_reference)
+    {
+        const auto trim_result = L2A::UTIL::Trim(test_string);
+        ut.CompareStr(trim_result, reference);
+    }
+}
+
+
+/**
+ *
+ */
 void L2A::TEST::TestStringFunctions(L2A::TEST::UTIL::UnitTest& ut)
 {
     // Set test name
@@ -186,4 +212,5 @@ void L2A::TEST::TestStringFunctions(L2A::TEST::UTIL::UnitTest& ut)
     TestReplace(ut);
     TestSplit(ut);
     TestStringU8ToStd(ut);
+    TestTrim(ut);
 }

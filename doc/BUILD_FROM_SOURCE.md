@@ -4,8 +4,8 @@
 
 The additional requirements to build LaTeX2AI from source are:
 
--   A C++ compiler has to be available on the system. This repository includes a Visual Studio 2022 solution for Windows and a Xcode project for macOS.
--   `python3` and `git` have to be available on the system.
+- A C++ compiler has to be available on the system. This repository includes a Visual Studio 2022 solution for Windows and a Xcode project for macOS.
+- `python3` and `git` have to be available on the system.
 
 ## Getting started
 
@@ -23,9 +23,8 @@ The additional requirements to build LaTeX2AI from source are:
 ## Windows
 
 1.  Environment variables:
-
-    -   `PYTHON_EXE` has to point to a valid `python3` executable on the system.
-    -   `ILLUSTRATOR_EXE` has to point to the illustrator executable on the system (this path is used for debugging).
+    - `PYTHON_EXE` has to point to a valid `python3` executable on the system.
+    - `ILLUSTRATOR_EXE` has to point to the illustrator executable on the system (this path is used for debugging).
 
 1.  Open `<Adobe Illustrator SDK>/sample code/latex2ai/LaTeX2AI.sln` with Visual Studio, select the build type (_Release_ or _Debug_) and compile the solution.
     It might be necessary to change the _Windows SDK_ version for `LaTeX2AI` to match the one available on your system.
@@ -36,10 +35,9 @@ The additional requirements to build LaTeX2AI from source are:
     mklink /D "C:\Users\<USERNAME>\AppData\Roaming\Adobe\CEP\extensions\com.isteinbrecher.latex2ai" "<Adobe Illustrator SDK>\samplecode\latex2ai\ui"
     ```
 1.  Debugging of unsigned extensions has to be turned on ([see the Adobe CEP cookbook](https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_12.x/Documentation/CEP%2012%20HTML%20Extension%20Cookbook.md#debugging-unsigned-extensions)):
-
-    -   Open `regedit`
-    -   Go to the key `HKEY_CURRENT_USER/Software/Adobe/CSXS.12`
-    -   Add a new entry `PlayerDebugMode` of type `string` with the value of `1`
+    - Open `regedit`
+    - Go to the key `HKEY_CURRENT_USER/Software/Adobe/CSXS.12`
+    - Add a new entry `PlayerDebugMode` of type `string` with the value of `1`
 
     > Note: Depending on your Illustrator version, you may need to use a different CEP version (e.g., `CSXS.11`, `CSXS.10`, etc.).
 

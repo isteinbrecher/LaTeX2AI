@@ -1,99 +1,99 @@
 # Changelog
 
--   **v1.1.0**
-    -   Features:
-        -   Added option to store the LaTeX2AI items in a temporary directory. This is now the default option.
-    -   Other:
-        -   Build LaTeX2AI on GitHub
-        -   Added code quality checks
--   **v1.0.3**
-    -   Features:
-        -   Pressing `Escape` in the debug form now returns to the item form instead of ending the item create/edit process.
-    -   Bug fixes:
-        -   Fix bug that could arise when the item vector inside the annotator contained items with non-valid pointers
--   **v1.0.2**
-    -   Bug fixes:
-        -   Fix bug that caused Illustrator to crash when deselecting all active LaTeX2AI elements [#189](https://github.com/isteinbrecher/latex2ai/issues/189).
--   **v1.0.1**
-    -   Bug fixes:
-        -   Fix bug that caused problems when using items that were created using a deprecated hash algorithm.
--   **v1.0.0**
-    -   Features:
-        -   Add macOS support.
-        -   Add support for Unicode file paths.
-        -   Fix pdf file structure before missing links message is shown.
-        -   Improve finding of LaTeX and ghostscript paths.
-        -   Rework documentation.
-        -   Fix errors when working with Creative Cloud documents.
-        -   Allow to chose hotkey to finish item create / edit UI.
-    -   Other:
-        -   Use platform independent string hash algorithm.
-        -   Use native `html` based UI.
-        -   Restructured the repository file structure.
-    -   Deprecations:
-        -   Due to the new `html` UI, **Illustrator CS6 support is dropped**.
--   **v0.0.10**
-    -   Features:
-        -   Add optional warnings when saving as PDF.
-    -   Other:
-        -   Add warning that LaTeX2AI is not compatible with non ASCII characters in the document path.
-        -   Support Illustrator 2022
-        -   Improve drawing of borders in preview mode.
--   **v0.0.9**
-    -   Features:
-        -   Add storage of labels inside Illustrator.
-        -   Add undo and redo text.
--   **v0.0.8**
-    -   Bug fixes:
-        -   Fix bug in header include function.
-        -   Fix a bug when using MikTeX.
-    -   Other:
-        -   Deactivate possible externalization in TikZ constructs.
--   **v0.0.7**
-    -   Bug fixes:
-        -   Fix bug in check version.
-    -   Other:
-        -   Improve path finding at startup.
--   **v0.0.6**
-    -   Bug fixes:
-        -   Fix bug when saving a PDF for an unsaved AI document.
-    -   Other:
-        -   LaTeX2AI now checks on startup if new releases are published on GitHub.
-        -   Improve output message for Illustrator errors.
-        -   Multiple images are now split with a single call to ghostscript.
-        -   Add logo.
--   **v0.0.5**
-    -   Other:
-        -   Support Illustrator 2017
--   **v0.0.4**
-    -   Bug fixes:
-        -   Fix error when editing item with missing PDF file.
-        -   Fix error with included headers containing relative paths.
-        -   Clean temp directory at startup.
-        -   Fix bugs when working with locked and or hidden layers / groups.
-    -   Other:
-        -   Create automated build script.
-        -   Support Illustrator CC 2018.
--   **v0.0.3**
-    -   New features:
-        -   Allow to redo boundary box from the create / edit form.
-        -   Allow to redo the latex label from the create / edit form.
-    -   Bug fixes:
-        -   Fix bug with whitespaces in `system` calls.
-    -   Other:
-        -   Add contributing guidelines.
-        -   Change the default placement options.
-        -   Rename environment variable `ILLUSTRATOR_PATH` to `ILLUSTRATOR_EXE`.
--   **v0.0.2**
-    -   New features:
-        -   Allow for `\input` commands in LaTeX headers.
-        -   Add option to edit LaTeX header in the settings form.
-    -   Bug fixes:
-        -   Replace hardcoded path to python executable with environment variable `PYTHON_EXE`.
-        -   Replace hardcoded path to Illustrator executable with environment variable `ILLUSTRATOR_PATH`.
-    -   Other:
-        -   Add information how to cite.
-        -   Forms and the plugin are now compiled in the same directory; also add more detailed build information.
-        -   LaTeX2AI can now also be installed in the default Illustrator plug-in directory.
-        -   Support Illustrator 2021.
--   **v0.0.1:** Initial release
+- **v1.1.0**
+    - Features:
+        - Added option to store the LaTeX2AI items in a temporary directory. This is now the default option.
+    - Other:
+        - Build LaTeX2AI on GitHub
+        - Added code quality checks
+- **v1.0.3**
+    - Features:
+        - Pressing `Escape` in the debug form now returns to the item form instead of ending the item create/edit process.
+    - Bug fixes:
+        - Fix bug that could arise when the item vector inside the annotator contained items with non-valid pointers
+- **v1.0.2**
+    - Bug fixes:
+        - Fix bug that caused Illustrator to crash when deselecting all active LaTeX2AI elements [#189](https://github.com/isteinbrecher/latex2ai/issues/189).
+- **v1.0.1**
+    - Bug fixes:
+        - Fix bug that caused problems when using items that were created using a deprecated hash algorithm.
+- **v1.0.0**
+    - Features:
+        - Add macOS support.
+        - Add support for Unicode file paths.
+        - Fix pdf file structure before missing links message is shown.
+        - Improve finding of LaTeX and ghostscript paths.
+        - Rework documentation.
+        - Fix errors when working with Creative Cloud documents.
+        - Allow to chose hotkey to finish item create / edit UI.
+    - Other:
+        - Use platform independent string hash algorithm.
+        - Use native `html` based UI.
+        - Restructured the repository file structure.
+    - Deprecations:
+        - Due to the new `html` UI, **Illustrator CS6 support is dropped**.
+- **v0.0.10**
+    - Features:
+        - Add optional warnings when saving as PDF.
+    - Other:
+        - Add warning that LaTeX2AI is not compatible with non ASCII characters in the document path.
+        - Support Illustrator 2022
+        - Improve drawing of borders in preview mode.
+- **v0.0.9**
+    - Features:
+        - Add storage of labels inside Illustrator.
+        - Add undo and redo text.
+- **v0.0.8**
+    - Bug fixes:
+        - Fix bug in header include function.
+        - Fix a bug when using MikTeX.
+    - Other:
+        - Deactivate possible externalization in TikZ constructs.
+- **v0.0.7**
+    - Bug fixes:
+        - Fix bug in check version.
+    - Other:
+        - Improve path finding at startup.
+- **v0.0.6**
+    - Bug fixes:
+        - Fix bug when saving a PDF for an unsaved AI document.
+    - Other:
+        - LaTeX2AI now checks on startup if new releases are published on GitHub.
+        - Improve output message for Illustrator errors.
+        - Multiple images are now split with a single call to ghostscript.
+        - Add logo.
+- **v0.0.5**
+    - Other:
+        - Support Illustrator 2017
+- **v0.0.4**
+    - Bug fixes:
+        - Fix error when editing item with missing PDF file.
+        - Fix error with included headers containing relative paths.
+        - Clean temp directory at startup.
+        - Fix bugs when working with locked and or hidden layers / groups.
+    - Other:
+        - Create automated build script.
+        - Support Illustrator CC 2018.
+- **v0.0.3**
+    - New features:
+        - Allow to redo boundary box from the create / edit form.
+        - Allow to redo the latex label from the create / edit form.
+    - Bug fixes:
+        - Fix bug with whitespaces in `system` calls.
+    - Other:
+        - Add contributing guidelines.
+        - Change the default placement options.
+        - Rename environment variable `ILLUSTRATOR_PATH` to `ILLUSTRATOR_EXE`.
+- **v0.0.2**
+    - New features:
+        - Allow for `\input` commands in LaTeX headers.
+        - Add option to edit LaTeX header in the settings form.
+    - Bug fixes:
+        - Replace hardcoded path to python executable with environment variable `PYTHON_EXE`.
+        - Replace hardcoded path to Illustrator executable with environment variable `ILLUSTRATOR_PATH`.
+    - Other:
+        - Add information how to cite.
+        - Forms and the plugin are now compiled in the same directory; also add more detailed build information.
+        - LaTeX2AI can now also be installed in the default Illustrator plug-in directory.
+        - Support Illustrator 2021.
+- **v0.0.1:** Initial release
