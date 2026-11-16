@@ -123,7 +123,13 @@ void L2A::AI::SetPlacedItemPath(AIArtHandle& placed_item, const ai::FilePath& pa
 {
     AIErr error;
     error = sAIPlaced->SetPlacedFileSpecification(placed_item, path);
-    l2a_check_ai_error(error);
+    if (error)
+    {
+        ai::UnicodeString error_message("path: ");
+        error_message += path.GetFullPath() + "\n\n";
+        error_message += L2A::ERR::AIErrorCodeToErrorString(error);
+        l2a_error(error_message);
+    }
     AIBoolean item_is_updated;
     error = sAIArt->UpdateArtworkLink(placed_item, true, &item_is_updated);
     l2a_check_ai_error(error);

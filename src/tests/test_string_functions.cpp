@@ -149,6 +149,31 @@ void TestSplit(L2A::TEST::UTIL::UnitTest& ut)
 /**
  *
  */
+void TestStringU8ToStd(L2A::TEST::UTIL::UnitTest& ut)
+{
+    // Test empty string
+    ut.CompareInt(1, L2A::UTIL::StringU8ToStd(u8"") == "");
+
+    // Test ascii string
+    ut.CompareInt(1, L2A::UTIL::StringU8ToStd(u8"test.ai") == "test.ai");
+
+    // Test unicode string
+    const std::u8string input = u8"\u00E4\u00F6\u00FC \u65E5\u672C\u8A9E";
+    const std::string output = L2A::UTIL::StringU8ToStd(input);
+    const std::string expected =
+        "\xC3\xA4"
+        "\xC3\xB6"
+        "\xC3\xBC"
+        " "
+        "\xE6\x97\xA5"
+        "\xE6\x9C\xAC"
+        "\xE8\xAA\x9E";
+    ut.CompareInt(1, output == expected);
+}
+
+/**
+ *
+ */
 void L2A::TEST::TestStringFunctions(L2A::TEST::UTIL::UnitTest& ut)
 {
     // Set test name
@@ -160,4 +185,5 @@ void L2A::TEST::TestStringFunctions(L2A::TEST::UTIL::UnitTest& ut)
     TestStartsWith(ut);
     TestReplace(ut);
     TestSplit(ut);
+    TestStringU8ToStd(ut);
 }

@@ -182,3 +182,11 @@ ai::UnicodeString L2A::UTIL::StringHash(const ai::UnicodeString& string)
     buffer << std::hex << crc;
     return StringStdToAi(buffer.str());
 }
+
+/**
+ *
+ */
+std::string L2A::UTIL::StringU8ToStd(const std::u8string& string_u8)
+{
+    return {reinterpret_cast<const char*>(string_u8.data()), string_u8.size()};
+}
