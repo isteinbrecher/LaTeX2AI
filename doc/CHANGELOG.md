@@ -1,5 +1,8 @@
 # Changelog
 
+- **pre-release**
+    - Other:
+        - Add support for Illustrator 2027
 - **v1.1.0**
     - Features:
         - Added option to store the LaTeX2AI items in a temporary directory. This is now the default option.
