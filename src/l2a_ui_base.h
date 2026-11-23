@@ -34,6 +34,8 @@
 #include "l2a_error.h"
 #include "l2a_parameter_list.h"
 
+#include <cstddef>
+
 
 namespace L2A::UI
 {
@@ -123,6 +125,9 @@ namespace L2A::UI
 
         //! Vector with all event listeners
         std::vector<EventListenerData> event_listener_data_;
+
+        //! Number of listeners that were successfully registered with PlugPlug
+        std::size_t registered_event_listener_count_ = 0;
     };
 
     /**

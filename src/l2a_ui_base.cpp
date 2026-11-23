@@ -87,14 +87,17 @@ void L2A::UI::FormBase::SetEventListeners(std::vector<EventListenerData>& event_
 csxs::event::EventErrorCode L2A::UI::FormBase::RegisterCSXSEventListeners()
 {
     csxs::event::EventErrorCode result = csxs::event::kEventErrorCode_Success;
-    for (auto& event_data : event_listener_data_)
+    while (registered_event_listener_count_ < event_listener_data_.size())
     {
+        auto& event_data = event_listener_data_[registered_event_listener_count_];
         result = htmlPPLib.AddEventListener(event_data.event_id_.c_str(), event_data.event_listener_, this);
 
         if (result != csxs::event::kEventErrorCode_Success)
         {
             return result;
         }
+
+        ++registered_event_listener_count_;
     }
     return result;
 }
@@ -105,14 +108,17 @@ csxs::event::EventErrorCode L2A::UI::FormBase::RegisterCSXSEventListeners()
 csxs::event::EventErrorCode L2A::UI::FormBase::RemoveEventListeners()
 {
     csxs::event::EventErrorCode result = csxs::event::kEventErrorCode_Success;
-    for (auto& event_data : event_listener_data_)
+    while (registered_event_listener_count_ > 0)
     {
+        auto& event_data = event_listener_data_[registered_event_listener_count_ - 1];
         result = htmlPPLib.RemoveEventListener(event_data.event_id_.c_str(), event_data.event_listener_, this);
 
         if (result != csxs::event::kEventErrorCode_Success)
         {
             return result;
         }
+
+        --registered_event_listener_count_;
     }
 
     return result;
