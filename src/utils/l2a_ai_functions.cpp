@@ -426,7 +426,7 @@ bool L2A::AI::GetSingleIsolationItem(AIArtHandle& item)
             return true;
         }
         else if (l2a_placed_items.size() > 1)
-            l2a_error("Found " + L2A::UTIL::IntegerToString((unsigned int)l2a_placed_items.size()) +
+            l2a_error("Found " + L2A::UTIL::IntegerToString(l2a_placed_items.size()) +
                       " items, expected 0 or 1. This should not happen.");
     }
 

@@ -32,6 +32,8 @@
 
 #include "IllustratorSDK.h"
 
+#include "l2a_error.h"
+
 
 namespace L2A
 {
@@ -57,9 +59,27 @@ namespace L2A
         /**
          * \brief Convert an integer to an ai::UnicodeString.
          * @param number Number to be converted to a string.
-         * @param pad_len Padded length of the string. If this is 0, then the string will not be padded.
+         * @param pad_len Padded length of the string. If this is 0, then the string will not be padded. Padding is
+         * only possible for non-negative numbers.
          */
-        ai::UnicodeString IntegerToString(const unsigned int& number, const unsigned int& pad_len = 0);
+        template <typename T>
+        ai::UnicodeString IntegerToString(const T number, const unsigned int pad_len = 0)
+        {
+            static_assert(std::is_integral_v<T> && !std::is_same_v<T, bool>, "IntegerToString needs an integer type");
+
+            const auto number_string = std::to_string(number);
+
+            if (pad_len == 0)
+            {
+                return StringStdToAi(number_string);
+            }
+            else
+            {
+                if (number_string.starts_with('-')) l2a_error("Padding is only possible for non-negative numbers!");
+                if (pad_len < number_string.size()) l2a_error("Padding length is shorter than integer length!");
+                return StringStdToAi(std::string(pad_len - number_string.size(), '0') + number_string);
+            }
+        }
 
         /**
          * \brief Convert an integer to an std::string representing its hex value.

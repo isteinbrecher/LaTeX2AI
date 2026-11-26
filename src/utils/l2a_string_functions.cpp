@@ -30,7 +30,6 @@
 
 #include "l2a_string_functions.h"
 
-#include "l2a_error.h"
 #include "l2a_suites.h"
 
 #include <iomanip>
@@ -63,35 +62,6 @@ std::wstring L2A::UTIL::StringAiToStdW(const ai::UnicodeString& string_ai)
     return std::wstring(string_utf16.begin(), string_utf16.end());
 }
 #endif
-
-/**
- *
- */
-ai::UnicodeString L2A::UTIL::IntegerToString(const unsigned int& number, const unsigned int& pad_len)
-{
-    ai::NumberFormat format;
-    ai::UnicodeString number_string;
-
-    ASErr error = sAIStringFormatUtils->IntegerToString(format, number, number_string);
-    ai::check_ai_error(error);
-
-    // If string should be padded.
-    if (pad_len != 0)
-    {
-        // Check that the string is not longer than the padding length.
-        if (pad_len < number_string.length()) l2a_error("Paddig length is shorter than integer length!");
-
-        ai::UnicodeString padding("");
-        for (unsigned int i = 0; i < pad_len - number_string.length(); i++) padding.append(ai::UnicodeString("0"));
-
-        padding += number_string;
-        return padding;
-    }
-    else
-    {
-        return number_string;
-    }
-}
 
 /**
  *
