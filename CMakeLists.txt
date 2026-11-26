@@ -240,11 +240,18 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   $<$<CONFIG:Debug>:_DEBUG>
 )
 
-# Equivalent of the SDK's prefix header (IllustratorSDK{Debug,Release}.pch)
-target_precompile_headers(${PROJECT_NAME} PRIVATE
-  "${AI_COMMON}/includes/PluginStd.h"
-  "${AI_COMMON}/includes/IllustratorSDK.h"
-)
+# Precompiled headers
+if(APPLE)
+  # On macOS, we also need the PluginStd.h header which defines MAC_ENV
+  target_precompile_headers(${PROJECT_NAME} PRIVATE
+    "${AI_COMMON}/includes/PluginStd.h"
+    "${AI_COMMON}/includes/IllustratorSDK.h"
+  )
+else()
+  target_precompile_headers(${PROJECT_NAME} PRIVATE
+    "${AI_COMMON}/includes/IllustratorSDK.h"
+  )
+endif()
 
 # Optional: copy the finished plug-in into a folder Illustrator loads plug-ins from
 set(AI_PLUGIN_DEPLOY_DIR "" CACHE PATH "Folder the built plug-in is copied to after each build")
