@@ -31,8 +31,6 @@
 
 #include "l2a_file_system.h"
 
-#include "base64.h"
-
 #include "l2a_error.h"
 #include "l2a_names.h"
 #include "l2a_string_functions.h"
@@ -40,6 +38,8 @@
 
 #include <array>
 #include <regex>
+
+#include <base64.h>
 
 // File encoding.
 #include <codecvt>

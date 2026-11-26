@@ -31,7 +31,7 @@
 
 #include "IllustratorSDK.h"
 
-#include "semver.hpp"
+#include <semver/semver.hpp>
 
 namespace L2A
 {

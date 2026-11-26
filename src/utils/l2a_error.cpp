@@ -36,7 +36,7 @@
 
 
 #if defined(WIN_ENV) && defined(_DEBUG)
-#include "StackWalker.h"
+#include <StackWalker.h>
 
 /**
  * \brief User class to obtain a vector with the current stack.
