@@ -31,13 +31,13 @@
 
 #include "l2a_version.h"
 
-#include "json.hpp"
-
 #include "l2a_constants.h"
 #include "l2a_error.h"
 #include "l2a_execute.h"
 #include "l2a_file_system.h"
 #include "l2a_string_functions.h"
+
+#include <nlohmann/json.hpp>
 
 
 /**

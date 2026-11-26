@@ -26,10 +26,23 @@
 
 # Import python modules.
 import os
-import shutil
 import sys
 
 from utils import get_git_sha, get_repository_dir
+
+
+def write_if_changed(file_path, content):
+    """Write content to file_path, but only if the content differs.
+
+    This keeps the file timestamp unchanged, so the build system does
+    not recompile everything on each build.
+    """
+    if os.path.isfile(file_path):
+        with open(file_path) as existing_file:
+            if existing_file.read() == content:
+                return
+    with open(file_path, "w") as new_file:
+        new_file.write(content)
 
 
 def get_license_text():
@@ -88,8 +101,9 @@ def create_cpp_version_headers(dir_path, license_c):
     ]
 
     # The script is called form the base repository directory.
-    with open(os.path.join(dir_path, "version.h"), "w") as version_header:
-        version_header.write(license_c + "\n".join(version_lines))
+    write_if_changed(
+        os.path.join(dir_path, "version.h"), license_c + "\n".join(version_lines)
+    )
 
 
 def create_cpp_tex_headers(dir_path, license_c):
@@ -121,8 +135,7 @@ def create_cpp_tex_headers(dir_path, license_c):
     ]
 
     # The script is called form the base repository directory.
-    with open(os.path.join(dir_path, "tex.h"), "w") as tex_header:
-        tex_header.write(license_c + "\n".join(tex_lines))
+    write_if_changed(os.path.join(dir_path, "tex.h"), license_c + "\n".join(tex_lines))
 
 
 def create_cpp_headers():
@@ -132,11 +145,9 @@ def create_cpp_headers():
     license_text = get_license_text()
     license_c = license_to_source(license_text, "c")
 
-    # Clean the directory for the automatic generated headers.
+    # Create the directory for the automatic generated headers.
     dir_path = os.path.join(get_repository_dir(), "src/auto_generated")
-    if os.path.exists(dir_path):
-        shutil.rmtree(dir_path)
-    os.makedirs(dir_path)
+    os.makedirs(dir_path, exist_ok=True)
 
     create_cpp_version_headers(dir_path, license_c)
     create_cpp_tex_headers(dir_path, license_c)
@@ -164,8 +175,10 @@ def create_js_headers():
     os.makedirs(dir_path, exist_ok=True)
 
     # The script is called form the base repository directory.
-    with open(os.path.join(dir_path, "auto_generated.js"), "w") as version_header:
-        version_header.write(license_c + "\n".join(version_lines))
+    write_if_changed(
+        os.path.join(dir_path, "auto_generated.js"),
+        license_c + "\n".join(version_lines),
+    )
 
 
 if __name__ == "__main__":

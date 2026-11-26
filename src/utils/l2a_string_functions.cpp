@@ -37,7 +37,7 @@
 
 #define CRCPP_USE_CPP11
 #define CRCPP_INCLUDE_ESOTERIC_CRC_DEFINITIONS
-#include "CRC.h"
+#include <CRC.h>
 
 
 /**

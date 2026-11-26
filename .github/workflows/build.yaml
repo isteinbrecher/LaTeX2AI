@@ -19,17 +19,22 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
         sdk:
-          - Adobe_Illustrator_2022_SDK_22_07_v4
-          - Adobe_Illustrator_2023_SDK_23_08_v1
-          - Adobe_Illustrator_2024_SDK_24_09_v1
-          - Adobe_Illustrator_2025_SDK_25_08_v1
-          - Adobe_Illustrator_2026_SDK_26_08_v1
+          # - Adobe_Illustrator_2022_SDK_22_07_v4
+          # - Adobe_Illustrator_2023_SDK_23_08_v1
+          # - Adobe_Illustrator_2024_SDK_24_09_v1
+          # - Adobe_Illustrator_2025_SDK_25_08_v1
+          # - Adobe_Illustrator_2026_SDK_26_08_v1
           - Adobe_Illustrator_2027_SDK_27_11_v1
         # On main branch, only build release.
         build_type: ${{ fromJSON(github.ref == 'refs/heads/main' && '["release"]' || '["release","debug"]') }}
 
     env:
-      SDK_SUFFIX: ${{ matrix.os == 'windows-latest' && '_win' || '_mac' }}
+      OS_SHORT: ${{ matrix.os == 'windows-latest' && 'win' || 'mac' }}
+      BUILD_CONFIG: ${{ matrix.build_type == 'release' && 'Release' || 'Debug' }}
+
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Set up Python 3.12
@@ -46,29 +51,29 @@ jobs:
         run: |
           git clone git@github.com:LaTeX2AI/adobe-illustrator-sdk-private.git ai_sdk
 
-      - name: Checkout main LaTeX2AI repo
+      - name: Checkout LaTeX2AI repo
         uses: actions/checkout@v7
         with:
-          path: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI
-          submodules: true
+          path: latex2ai
 
-      - name: Setup MSBuild
-        if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v3
-
+      - name: Configure LaTeX2AI
+        run: >
+          cmake -S latex2ai -B build -DCMAKE_BUILD_TYPE=$BUILD_CONFIG "-DAI_SDK_DIR=$GITHUB_WORKSPACE/ai_sdk/${{ matrix.sdk }}_$OS_SHORT" ${{ runner.os == 'macOS' && '"-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64"' || '' }} #magic___^_^___line
       - name: Build LaTeX2AI
-        run: python build_executable.py
-        working-directory: ai_sdk/${{ matrix.sdk }}${{ env.SDK_SUFFIX }}/samplecode/LaTeX2AI/scripts
-        env:
-          AI_SDK_VERSION: ${{ matrix.sdk }}
-          L2A_BUILD_TYPE: ${{ matrix.build_type }}
-          RELEASE_PATH_RELATIVE_TO_REPO: "../../../release_files"
+        run: cmake --build build --config $BUILD_CONFIG --parallel
+
+      - name: Collect plug-in
+        run: |
+          # The file name here is parsed by scripts/create_release.py in the release job
+          mkdir -p release_files
+          mv "build/$BUILD_CONFIG/LaTeX2AI.aip" \
+             "release_files/LaTeX2AI.${GITHUB_SHA::7}.${{ matrix.sdk }}.$OS_SHORT.${{ matrix.build_type }}.aip"
 
       - name: Upload executable as artifact
         uses: actions/upload-artifact@v7
         with:
-          name: build_${{ matrix.sdk }}${{ env.SDK_SUFFIX }}_${{ matrix.build_type }}
-          path: ai_sdk/release_files
+          name: build_${{ matrix.sdk }}_${{ env.OS_SHORT }}_${{ matrix.build_type }}
+          path: release_files
 
   release:
     name: Combine plugin and signed UI

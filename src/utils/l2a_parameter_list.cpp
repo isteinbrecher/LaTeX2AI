@@ -31,10 +31,10 @@
 
 #include "l2a_parameter_list.h"
 
-#include "tinyxml2.h"
-
 #include "l2a_error.h"
 #include "l2a_string_functions.h"
+
+#include <tinyxml2.h>
 
 
 /**

@@ -29,3 +29,11 @@ IncludeCategories:
   # Standard library headers
   - Regex: "<[a-z_]+>"
     Priority: 100
+
+  # Third party library headers
+  - Regex: "<.+\\.(h|hpp)>"
+    Priority: 200
+
+  # All other headers (e.g., Illustrator SDK headers)
+  - Regex: ".*"
+    Priority: 1

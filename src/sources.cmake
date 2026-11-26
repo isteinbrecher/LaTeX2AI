@@ -1,4 +1,3 @@
-#! /bin/bash
 # -----------------------------------------------------------------------------
 # MIT License
 #
@@ -23,12 +22,8 @@
 # SOFTWARE.
 # -----------------------------------------------------------------------------
 
-# Get the path of the current script
-SCRIPT_DIR="$(dirname "$0")"
+# LaTeX2AI sources in src/
+l2a_add_sources()
 
-# Remove an existing version
-BUILD_PATH=${SCRIPT_DIR}/../../output/mac/${L2A_BUILD_TYPE}/LaTeX2AI.aip
-rm -rf ${BUILD_PATH}
-
-# Build the version of LaTeX2AI
-xcodebuild -project ${SCRIPT_DIR}/../LaTeX2AI.xcodeproj -scheme "LaTeX2AI" -configuration "${L2A_BUILD_TYPE}" -destination "generic/platform=macOS" clean build
+include("${CMAKE_CURRENT_LIST_DIR}/tests/sources.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/utils/sources.cmake")
