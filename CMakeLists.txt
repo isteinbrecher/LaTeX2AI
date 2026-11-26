@@ -367,11 +367,19 @@ elseif(WIN32)
   target_compile_options(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:C,CXX>:${_msvc_options}>")
   target_link_options(${PROJECT_NAME} PRIVATE /DYNAMICBASE:NO /LARGEADDRESSAWARE /SUBSYSTEM:WINDOWS)
 
-  # These files do not use the precompiled header
+  # These files do not use the precompiled header (as in the previous Visual Studio project).
+  # Some SDK sources do not work with it, e.g., IllustratorSDK.h defines sprintf as sprintf_s,
+  # which breaks a sprintf call in Main.cpp.
   set_source_files_properties(
     ${TPL_SOURCES}
+    ${AI_COMMON}/source/AppContext.cpp
+    ${AI_COMMON}/source/Main.cpp
+    ${AI_COMMON}/source/Plugin.cpp
     ${AI_COMMON}/source/SDKPlugPlug.cpp
+    ${AI_COMMON}/source/Suites.cpp
     ${AI_API}/illustrator/IAIFilePath.cpp
+    ${AI_API}/illustrator/IAIStringFormatUtils.cpp
+    ${AI_API}/illustrator/IAIUnicodeString.cpp
     PROPERTIES SKIP_PRECOMPILE_HEADERS ON
   )
   set_source_files_properties(${AI_COMMON}/source/Plugin.cpp PROPERTIES COMPILE_OPTIONS "/wd4100")
