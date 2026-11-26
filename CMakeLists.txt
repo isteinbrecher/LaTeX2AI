@@ -42,7 +42,9 @@ endif()
 set(AI_COMMON "${AI_SDK_DIR}/samplecode/common")
 set(AI_API "${AI_SDK_DIR}/illustratorapi")
 
-# --- macOS settings (must be set before project()) ---------------------------
+#
+# macOS settings
+#
 if(CMAKE_HOST_APPLE)
   # Default deployment target: the highest one the SDK's xcconfig requests for any architecture.
   if(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
@@ -61,19 +63,23 @@ if(CMAKE_HOST_APPLE)
     endif()
     set(CMAKE_OSX_DEPLOYMENT_TARGET "${_ai_deployment_target}" CACHE STRING "Minimum macOS version")
   endif()
-  # CMAKE_OSX_ARCHITECTURES is not set here: by default CMake builds for the architecture of
-  # this Mac. For a universal binary, pass -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" or set the
-  # environment variable CMAKE_OSX_ARCHITECTURES (as the CI does for release builds).
 endif()
 
+#
 # Multi-config generators (Xcode, Visual Studio): only offer Debug and Release
+#
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
+#
 # The plug-in version is taken from the source code
+#
 file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/src/l2a_constants.h" _l2a_version_line
      REGEX "#define L2A_VERSION_STRING_")
 string(REGEX MATCH "[0-9]+\\.[0-9]+\\.[0-9]+" L2A_VERSION "${_l2a_version_line}")
 
+#
+# Define the project
+#
 if(CMAKE_HOST_APPLE)
   project(LaTeX2AI VERSION ${L2A_VERSION} LANGUAGES C CXX OBJCXX)
 elseif(CMAKE_HOST_WIN32)
@@ -83,17 +89,24 @@ elseif(CMAKE_HOST_WIN32)
 else()
   message(FATAL_ERROR "LaTeX2AI can only be built on macOS or Windows.")
 endif()
-
 message(STATUS "Using Illustrator SDK: ${AI_SDK_DIR}")
 
+#
 # Single-config generators (Ninja, Makefiles): default to Release
+#
 get_property(_is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 if(NOT _is_multi_config AND NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type (Debug or Release)" FORCE)
 endif()
 
+#
+# Locate python for the automatic generation of headers
+#
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
+#
+# Define language options
+#
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -101,30 +114,35 @@ set(CMAKE_OBJCXX_STANDARD 23)
 set(CMAKE_OBJCXX_STANDARD_REQUIRED ON)
 set(CMAKE_OBJCXX_EXTENSIONS OFF)
 
-# --- Sources -----------------------------------------------------------------
-# Add all .cpp files in the folder of the calling sources.cmake to L2A_SOURCES and all .h files
-# to L2A_HEADERS (not recursive). The headers are not compiled, they are only listed so IDEs
-# show them. CONFIGURE_DEPENDS re-checks the folder at each build, so added or removed files
-# are picked up without re-running CMake manually.
+#
+# Add source files via a macro
+#
 function(l2a_add_sources)
   file(GLOB _sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
   file(GLOB _headers CONFIGURE_DEPENDS "${CMAKE_CURRENT_LIST_DIR}/*.h")
   set(L2A_SOURCES ${L2A_SOURCES} ${_sources} PARENT_SCOPE)
   set(L2A_HEADERS ${L2A_HEADERS} ${_headers} PARENT_SCOPE)
+  set(L2A_INCLUDE_DIRS ${L2A_INCLUDE_DIRS} "${CMAKE_CURRENT_LIST_DIR}" PARENT_SCOPE)
 endfunction()
 
-# Each source folder has a sources.cmake that calls l2a_add_sources()
 set(L2A_SOURCES)
 set(L2A_HEADERS)
+set(L2A_INCLUDE_DIRS)
 include(src/sources.cmake)
 
-# Show the same folder structure as on disk in Xcode / Visual Studio
+#
+# Single-config generators (Ninja, Makefiles): default to Release
+#
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" PREFIX "src" FILES ${L2A_SOURCES} ${L2A_HEADERS})
 
-# --- Third party libraries -----------------------------------------------------
+#
+# Third party libraries
+#
 include(cmake/third_party.cmake)
 
-# --- Illustrator SDK sources -------------------------------------------------
+#
+# Add the sources that have to be compiled from the SDK
+#
 set(SDK_SOURCES
   ${AI_COMMON}/source/AppContext.cpp
   ${AI_COMMON}/source/HtmlUIController.cpp
@@ -139,7 +157,9 @@ set(SDK_SOURCES
   ${AI_API}/illustrator/IAIUnicodeString.cpp
 )
 
-# Resources that are packed into the plug-in
+#
+# Resources
+#
 set(L2A_SVG_RESOURCES
   resources/raw/LaTeX2AI_tool_create_dark@2x.svg
   resources/raw/LaTeX2AI_tool_create_light@2x.svg
@@ -157,9 +177,9 @@ set(L2A_SVG_RESOURCES
 )
 set(L2A_TXT_RESOURCES resources/raw/IDToFile.txt)
 
-# --- Generated files -----------------------------------------------------------
-# Headers with the git sha and the TeX code (src/auto_generated/*.h, ui/js/auto_generated.js).
-# Runs on every build, the script only touches the files if their content changed.
+#
+# Generate the headers with the version and the LaTeX commands
+#
 add_custom_target(${PROJECT_NAME}_headers
   COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/scripts/create_headers.py"
   BYPRODUCTS
@@ -171,8 +191,9 @@ add_custom_target(${PROJECT_NAME}_headers
   VERBATIM
 )
 
-# PiPL (plug-in properties). The tool always writes "plugin.pipl" into the current directory.
-# As in the previous Xcode / Visual Studio projects, the entry point is only set on Windows.
+#
+# PIPL
+#
 set(PIPL_INPUT "[{\"name\": \"${PROJECT_NAME}\", \"entry_point\": \"PluginMain\"}]")
 set(PIPL_DIR "${CMAKE_CURRENT_BINARY_DIR}/pipl")
 set(PIPL_FILE "${PIPL_DIR}/plugin.pipl")
@@ -191,7 +212,9 @@ add_custom_command(
 )
 add_custom_target(${PROJECT_NAME}_pipl DEPENDS "${PIPL_FILE}")
 
-# --- The plug-in (.aip) --------------------------------------------------------
+#
+# Define how the aip file is created
+#
 add_library(${PROJECT_NAME} MODULE ${L2A_SOURCES} ${L2A_HEADERS} ${TPL_SOURCES} ${SDK_SOURCES})
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_headers ${PROJECT_NAME}_pipl)
 
@@ -203,10 +226,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-  src
-  src/auto_generated
-  src/tests
-  src/utils
+  ${L2A_INCLUDE_DIRS}
   ${AI_COMMON}/includes
   ${AI_API}/ate
   ${AI_API}/illustrator
@@ -228,6 +248,9 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE
 
 # Optional: copy the finished plug-in into a folder Illustrator loads plug-ins from
 set(AI_PLUGIN_DEPLOY_DIR "" CACHE PATH "Folder the built plug-in is copied to after each build")
+
+# Optional: set the path to the Illustrator executable for debugging in Xcode or Visual Studio.
+set(AI_APP_PATH "" CACHE FILEPATH "Illustrator app launched by the IDE scheme")
 
 if(APPLE)
   # The SDK compiles all C++ as Objective-C++ on macOS
@@ -296,9 +319,6 @@ if(APPLE)
   endif()
 
   # Xcode: Run/Debug launches Illustrator with the debugger attached
-  # Generate with:  cmake -S . -B build-xcode -G Xcode
-  set(AI_APP_PATH "/Applications/Adobe Illustrator 2027/Adobe Illustrator.app"
-      CACHE FILEPATH "Illustrator app launched by the Xcode scheme")
   set_target_properties(${PROJECT_NAME} PROPERTIES
     XCODE_GENERATE_SCHEME ON
     XCODE_SCHEME_EXECUTABLE "${AI_APP_PATH}"
@@ -340,7 +360,7 @@ elseif(WIN32)
   target_compile_options(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:C,CXX>:${_msvc_options}>")
   target_link_options(${PROJECT_NAME} PRIVATE /DYNAMICBASE:NO /LARGEADDRESSAWARE /SUBSYSTEM:WINDOWS)
 
-  # Same as in the previous Visual Studio project: these files do not use the precompiled header
+  # These files do not use the precompiled header
   set_source_files_properties(
     ${TPL_SOURCES}
     ${AI_COMMON}/source/SDKPlugPlug.cpp
@@ -358,12 +378,6 @@ elseif(WIN32)
   endif()
 
   # Visual Studio: Run/Debug launches Illustrator with the debugger attached
-  if(DEFINED ENV{ILLUSTRATOR_EXE})
-    set(_ai_app_default "$ENV{ILLUSTRATOR_EXE}")
-  else()
-    set(_ai_app_default "C:/Program Files/Adobe/Adobe Illustrator 2027/Support Files/Contents/Windows/Illustrator.exe")
-  endif()
-  set(AI_APP_PATH "${_ai_app_default}" CACHE FILEPATH "Illustrator executable launched by the Visual Studio debugger")
   set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND "${AI_APP_PATH}")
   set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 endif()
