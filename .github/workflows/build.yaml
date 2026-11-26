@@ -19,11 +19,11 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
         sdk:
-          - Adobe_Illustrator_2022_SDK_22_07_v4
-          - Adobe_Illustrator_2023_SDK_23_08_v1
-          - Adobe_Illustrator_2024_SDK_24_09_v1
-          - Adobe_Illustrator_2025_SDK_25_08_v1
-          - Adobe_Illustrator_2026_SDK_26_08_v1
+          # - Adobe_Illustrator_2022_SDK_22_07_v4
+          # - Adobe_Illustrator_2023_SDK_23_08_v1
+          # - Adobe_Illustrator_2024_SDK_24_09_v1
+          # - Adobe_Illustrator_2025_SDK_25_08_v1
+          # - Adobe_Illustrator_2026_SDK_26_08_v1
           - Adobe_Illustrator_2027_SDK_27_11_v1
         # On main branch, only build release.
         build_type: ${{ fromJSON(github.ref == 'refs/heads/main' && '["release"]' || '["release","debug"]') }}
