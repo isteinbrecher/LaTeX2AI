@@ -83,20 +83,7 @@ void L2A::UI::Options::OpenOptionsForm() { LoadForm(); }
 /**
  *
  */
-ASErr L2A::UI::Options::SendData(const std::shared_ptr<L2A::UTIL::ParameterList>& form_data)
-{
-    // TODO: is this really needed?
-    ASErr error = kNoErr;
-
-    SendDataWrapper(form_data, EVENT_TYPE_UPDATE);
-
-    return error;
-}
-
-/**
- *
- */
-void L2A::UI::Options::CallbackFormReady(const csxs::event::Event* const eventParam)
+void L2A::UI::Options::CallbackFormReady(const csxs::event::Event* const /*eventParam*/)
 {
     // We need to activate the app context here, because otherwise functions like the GetDocumentName will not work
     auto app_context = L2A::GlobalPluginAppContext();
@@ -117,7 +104,7 @@ void L2A::UI::Options::CallbackFormReady(const csxs::event::Event* const eventPa
     SetHeaderData(form_parameter_list);
 
     // Send data to form
-    SendData(form_parameter_list);
+    SendDataWrapper(form_parameter_list, EVENT_TYPE_UPDATE);
 }
 
 /**
@@ -145,7 +132,7 @@ void L2A::UI::Options::CallbackSave(const csxs::event::Event* const eventParam)
 /**
  *
  */
-void L2A::UI::Options::CallbackGetDefaultValues(const csxs::event::Event* const eventParam)
+void L2A::UI::Options::CallbackGetDefaultValues(const csxs::event::Event* const /*eventParam*/)
 {
     // We need to activate the app context here, because otherwise functions like the GetDocumentName will not work
     auto app_context = L2A::GlobalPluginAppContext();
@@ -166,7 +153,7 @@ void L2A::UI::Options::CallbackGetDefaultValues(const csxs::event::Event* const 
         default_options_parameter_list->SetOption(ai::UnicodeString("gs_command"), auto_gs_command);
     }
 
-    SendData(default_parameter_list);
+    SendDataWrapper(default_parameter_list, EVENT_TYPE_UPDATE);
 }
 
 /**
@@ -197,7 +184,7 @@ void L2A::UI::Options::CallbackSelectGhostScript(const csxs::event::Event* const
     auto parameter_list = std::make_shared<L2A::UTIL::ParameterList>();
     auto l2a_options = parameter_list->SetSubList(ai::UnicodeString("latex2ai_options"));
     l2a_options->SetOption(ai::UnicodeString("gs_command"), gs_path);
-    SendData(parameter_list);
+    SendDataWrapper(parameter_list, EVENT_TYPE_UPDATE);
 }
 
 /**
@@ -224,13 +211,13 @@ void L2A::UI::Options::CallbackSelectLatex(const csxs::event::Event* const event
     std::shared_ptr<L2A::UTIL::ParameterList> parameter_list = std::make_shared<L2A::UTIL::ParameterList>();
     auto l2a_options = parameter_list->SetSubList(ai::UnicodeString("latex2ai_options"));
     l2a_options->SetOption(ai::UnicodeString("latex_bin_path"), latex_bin_path);
-    SendData(parameter_list);
+    SendDataWrapper(parameter_list, EVENT_TYPE_UPDATE);
 }
 
 /**
  *
  */
-void L2A::UI::Options::CallbackOpenHeader(const csxs::event::Event* const eventParam)
+void L2A::UI::Options::CallbackOpenHeader(const csxs::event::Event* const /*eventParam*/)
 {
     // We need to activate the app context here, because otherwise functions like the GetDocumentName will not work
     auto app_context = L2A::GlobalPluginAppContext();
@@ -242,7 +229,7 @@ void L2A::UI::Options::CallbackOpenHeader(const csxs::event::Event* const eventP
 /**
  *
  */
-void L2A::UI::Options::CallbackCreateDefaultHeader(const csxs::event::Event* const eventParam)
+void L2A::UI::Options::CallbackCreateDefaultHeader(const csxs::event::Event* const /*eventParam*/)
 {
     // We need to activate the app context here, because otherwise functions like the GetDocumentName will not work
     auto app_context = L2A::GlobalPluginAppContext();
@@ -251,7 +238,7 @@ void L2A::UI::Options::CallbackCreateDefaultHeader(const csxs::event::Event* con
     L2A::LATEX::GetHeaderPath(create_default_if_not_exist);
     auto form_parameter_list = std::make_shared<L2A::UTIL::ParameterList>();
     SetHeaderData(form_parameter_list);
-    SendData(form_parameter_list);
+    SendDataWrapper(form_parameter_list, EVENT_TYPE_UPDATE);
 }
 
 /**

@@ -116,7 +116,7 @@ void L2A::TEST::TestVersion(L2A::TEST::UTIL::UnitTest& ut)
         ut.CompareInt(1, version_a <= version_d);
         ut.CompareInt(1, version_b > version_c);
     }
-    catch (semver::semver_exception& exception)
+    catch (const semver::semver_exception&)
     {
         L2A::AI::MessageAlert(ai::UnicodeString("Parsing error in version testing"));
     }

@@ -70,13 +70,13 @@ namespace L2A
             Result result_;
 
             //! Path to the log file
-            ai::FilePath log_file_;
+            ai::FilePath log_file_{};
 
             //! Path to the tex file
-            ai::FilePath tex_file_;
+            ai::FilePath tex_file_{};
 
             //! Path to the tex header
-            ai::FilePath tex_header_file_;
+            ai::FilePath tex_header_file_{};
         };
 
         /**

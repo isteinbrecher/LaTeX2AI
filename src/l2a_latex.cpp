@@ -128,7 +128,7 @@ std::vector<ai::FilePath> L2A::LATEX::SplitPdfPages(
     split_files_regex += pdf_name_no_ext;
     split_files_regex += "_[0-9]+\\.pdf$";
     const auto old_pdf_pages = L2A::UTIL::FindFilesInFolder(pdf_folder, split_files_regex);
-    for (const auto old_split_page : old_pdf_pages)
+    for (const auto& old_split_page : old_pdf_pages)
     {
         L2A::UTIL::RemoveFile(old_split_page, false);
     }
@@ -163,7 +163,7 @@ std::vector<ai::FilePath> L2A::LATEX::SplitPdfPages(
     if (n_pages != new_pdf_pages.size())
         l2a_error("The given number of pdf pages " + L2A::UTIL::IntegerToString(n_pages) +
                   " does not match with the number of created split files " +
-                  L2A::UTIL::IntegerToString(static_cast<unsigned int>(new_pdf_pages.size())));
+                  L2A::UTIL::IntegerToString(new_pdf_pages.size()));
 #endif
 
     // Get vector of pdf files for the created split items

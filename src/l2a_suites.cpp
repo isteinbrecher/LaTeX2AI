@@ -61,45 +61,26 @@ extern "C"
     AILayerSuite* sAILayer = nullptr;
 }
 
-ImportSuite gImportSuites[] = {kAIToolSuite, kAIToolVersion, &sAITool, kAIUnicodeStringSuite, kAIUnicodeStringVersion,
-    &sAIUnicodeString, kAIPluginSuite, kAIPluginSuiteVersion, &sAIPlugin, kSPBlocksSuite, kSPBlocksSuiteVersion,
-    &sSPBlocks, kAIStringFormatUtilsSuite, kAIStringFormatUtilsSuiteVersion, &sAIStringFormatUtils,
+ImportSuite gImportSuites[] = {{kAIToolSuite, kAIToolVersion, &sAITool},
+    {kAIUnicodeStringSuite, kAIUnicodeStringVersion, &sAIUnicodeString},
+    {kAIPluginSuite, kAIPluginSuiteVersion, &sAIPlugin}, {kSPBlocksSuite, kSPBlocksSuiteVersion, &sSPBlocks},
+    {kAIStringFormatUtilsSuite, kAIStringFormatUtilsSuiteVersion, &sAIStringFormatUtils},
 
     // Non default suites needed for L2A.
-    kAIDocumentSuite, kAIDocumentSuiteVersion, &sAIDocument,
-    //
-    kAIDocumentListSuite, kAIDocumentListSuiteVersion, &sAIDocumentList,
-    //
-    kAIPlacedSuite, kAIPlacedSuiteVersion, &sAIPlaced,
-    //
-    kAIArtSuite, kAIArtSuiteVersion, &sAIArt,
-    //
-    kAIRealMathSuite, kAIRealMathSuiteVersion, &sAIRealMath,
-    //
-    kAITransformArtSuite, kAITransformArtSuiteVersion, &sAITransformArt,
-    //
-    kAIIsolationModeSuite, kAIIsolationModeSuiteVersion, &sAIIsolationMode, kAIMatchingArtSuite,
-    //
-    kAIMatchingArtSuiteVersion, &sAIMatchingArt,
-    //
-    kAIMdMemorySuite, kAIMdMemorySuiteVersion, &sAIMdMemorySuite,
-    //
-    kAIUndoSuite, kAIUndoSuiteVersion, &sAIUndo,
-    //
-    kAIAnnotatorSuite, kAIAnnotatorSuiteVersion, &sAIAnnotator,
-    //
-    kAIAnnotatorDrawerSuite, kAIAnnotatorDrawerSuiteVersion, &sAIAnnotatorDrawer,
-    //
-    kAIDocumentViewSuite, kAIDocumentViewSuiteVersion, &sAIDocumentView,
-    //
-    kAIHitTestSuite, kAIHitTestSuiteVersion, &sAIHitTest,
-    //
-    kAIActionManagerSuite, kAIActionManagerSuiteVersion, &sAIActionManager,
-    //
-    kAIPathSuite, kAIPathSuiteVersion, &sAIPath,
-    //
-    kAIPathStyleSuite, kAIPathStyleSuiteVersion, &sAIPathStyle,
-    //
-    kAILayerSuite, kAILayerSuiteVersion, &sAILayer,
+    {kAIDocumentSuite, kAIDocumentSuiteVersion, &sAIDocument},
+    {kAIDocumentListSuite, kAIDocumentListSuiteVersion, &sAIDocumentList},
+    {kAIPlacedSuite, kAIPlacedSuiteVersion, &sAIPlaced}, {kAIArtSuite, kAIArtSuiteVersion, &sAIArt},
+    {kAIRealMathSuite, kAIRealMathSuiteVersion, &sAIRealMath},
+    {kAITransformArtSuite, kAITransformArtSuiteVersion, &sAITransformArt},
+    {kAIIsolationModeSuite, kAIIsolationModeSuiteVersion, &sAIIsolationMode},
+    {kAIMatchingArtSuite, kAIMatchingArtSuiteVersion, &sAIMatchingArt},
+    {kAIMdMemorySuite, kAIMdMemorySuiteVersion, &sAIMdMemorySuite}, {kAIUndoSuite, kAIUndoSuiteVersion, &sAIUndo},
+    {kAIAnnotatorSuite, kAIAnnotatorSuiteVersion, &sAIAnnotator},
+    {kAIAnnotatorDrawerSuite, kAIAnnotatorDrawerSuiteVersion, &sAIAnnotatorDrawer},
+    {kAIDocumentViewSuite, kAIDocumentViewSuiteVersion, &sAIDocumentView},
+    {kAIHitTestSuite, kAIHitTestSuiteVersion, &sAIHitTest},
+    {kAIActionManagerSuite, kAIActionManagerSuiteVersion, &sAIActionManager},
+    {kAIPathSuite, kAIPathSuiteVersion, &sAIPath}, {kAIPathStyleSuite, kAIPathStyleSuiteVersion, &sAIPathStyle},
+    {kAILayerSuite, kAILayerSuiteVersion, &sAILayer},
 
-    nullptr, 0, nullptr};
+    {nullptr, 0, nullptr}};

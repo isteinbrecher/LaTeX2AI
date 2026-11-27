@@ -104,7 +104,7 @@ namespace L2A::UI
         /**
          * \brief Overload this abstract method
          */
-        void ParseData(const char* eventData) override {};
+        void ParseData(const char* /*eventData*/) override {};
 
         /**
          * @brief Reset internal data of the form that is not relevant after it is closed

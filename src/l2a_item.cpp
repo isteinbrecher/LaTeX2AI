@@ -660,7 +660,7 @@ void L2A::CheckItemDataStructure()
     {
         // Ask the user if the missing items should be redone.
         ai::UnicodeString message_string("There are ");
-        message_string += L2A::UTIL::IntegerToString((int)redo_items.size());
+        message_string += L2A::UTIL::IntegerToString(redo_items.size());
         message_string +=
             " LaTeX2AI item(s) in the document that have to be redone due to missing PDF links.\nRedo now?";
         if (L2A::AI::YesNoAlert(message_string))

@@ -106,7 +106,7 @@ void L2A::UI::Item::OpenEditItemForm(const AIArtHandle& art_handle)
 /**
  *
  */
-void L2A::UI::Item::CallbackFormReady(const csxs::event::Event* const eventParam) { SendData(); }
+void L2A::UI::Item::CallbackFormReady(const csxs::event::Event* const /*eventParam*/) { SendData(); }
 
 /**
  *
@@ -197,6 +197,7 @@ void L2A::UI::Item::EditItem(const ai::UnicodeString& return_value, const L2A::U
  */
 ASErr L2A::UI::Item::SendData()
 {
+    // TODO: Nothing happens to the error here.
     ASErr error = kNoErr;
 
     auto form_parameter_list = std::make_shared<L2A::UTIL::ParameterList>();
@@ -237,6 +238,8 @@ ASErr L2A::UI::Item::SendData()
 
     // Send the data to the form
     SendDataWrapper(form_parameter_list, EVENT_TYPE_UPDATE);
+
+    return error;
 }
 
 /**

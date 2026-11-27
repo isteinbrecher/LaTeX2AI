@@ -83,7 +83,7 @@ namespace L2A
         Result result_;
 
         //! Container with the results from the latex creation
-        L2A::LATEX::LatexCreationResult latex_creation_result_;
+        L2A::LATEX::LatexCreationResult latex_creation_result_{};
     };
 
 

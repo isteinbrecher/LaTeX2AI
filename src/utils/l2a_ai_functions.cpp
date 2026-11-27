@@ -426,7 +426,7 @@ bool L2A::AI::GetSingleIsolationItem(AIArtHandle& item)
             return true;
         }
         else if (l2a_placed_items.size() > 1)
-            l2a_error("Found " + L2A::UTIL::IntegerToString((unsigned int)l2a_placed_items.size()) +
+            l2a_error("Found " + L2A::UTIL::IntegerToString(l2a_placed_items.size()) +
                       " items, expected 0 or 1. This should not happen.");
     }
 
@@ -710,7 +710,7 @@ void L2A::AI::SaveAs(const ai::FilePath& document_path)
         l2a_check_ai_error(result);
 
         // 2
-        result = sAIActionManager->AIActionSetBoolean(action_parameters, 'pdf', true);
+        result = sAIActionManager->AIActionSetBoolean(action_parameters, 'pdf ', true);
         l2a_check_ai_error(result);
 
         // 3
@@ -1030,8 +1030,8 @@ bool L2A::AI::YesNoAlert(const ai::UnicodeString& message)
 ai::UnicodeString L2A::AI::GetInputFromUser()
 {
     // Lambda that is called for each keystroke to check the input
-    auto any_string = [](AIValidationStage validationStage, const ai::UnicodeString& input, ai::UnicodeString& errorStf,
-                          void* userdata) -> AIBoolean { return true; };
+    auto any_string = [](AIValidationStage /*validationStage*/, const ai::UnicodeString& /*input*/,
+                          ai::UnicodeString& /*errorStf*/, void* /*userdata*/) -> AIBoolean { return true; };
 
     ai::UnicodeString return_string;
     const auto prompt_string = ai::UnicodeString("LaTeX2AI Debug Dialog");

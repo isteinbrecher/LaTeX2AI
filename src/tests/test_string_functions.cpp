@@ -35,6 +35,8 @@
 
 #include "l2a_string_functions.h"
 
+#include <cstdint>
+
 /**
  *
  */
@@ -58,15 +60,27 @@ void TestConvertIntegerToString(L2A::TEST::UTIL::UnitTest& ut)
     ai::UnicodeString int_to_string = L2A::UTIL::IntegerToString(1234567890);
     ut.CompareStr(int_to_string, ai::UnicodeString("1234567890"));
 
+    // Convert negative integer
+    ut.CompareStr(L2A::UTIL::IntegerToString(-42), ai::UnicodeString("-42"));
+
     // Convert integer to string padded
     int_to_string = L2A::UTIL::IntegerToString(1234567890, 15);
     ut.CompareStr(int_to_string, ai::UnicodeString("000001234567890"));
+
+    // Different integer types
+    ut.CompareStr(L2A::UTIL::IntegerToString(std::int8_t{7}), ai::UnicodeString("7"));
+    ut.CompareStr(L2A::UTIL::IntegerToString(std::size_t{42}), ai::UnicodeString("42"));
+    ut.CompareStr(L2A::UTIL::IntegerToString(std::int64_t{2147483647}), ai::UnicodeString("2147483647"));
+    ut.CompareStr(L2A::UTIL::IntegerToString(std::int64_t{-2147483647 - 1}), ai::UnicodeString("-2147483648"));
+    ut.CompareStr(L2A::UTIL::IntegerToString(std::int64_t{1} << 40), ai::UnicodeString("1099511627776"));
 
     // Convert string to integer
     int string_to_int = L2A::UTIL::StringToInteger(ai::UnicodeString("1234567890"));
     ut.CompareInt(string_to_int, 1234567890);
     string_to_int = L2A::UTIL::StringToInteger(ai::UnicodeString("000001234567890"));
     ut.CompareInt(string_to_int, 1234567890);
+    string_to_int = L2A::UTIL::StringToInteger(ai::UnicodeString("-42"));
+    ut.CompareInt(string_to_int, -42);
 }
 
 
