@@ -53,17 +53,14 @@ L2A::UTIL::CommandResult L2A::UTIL::ExecuteCommandLine(const ai::UnicodeString& 
 /**
  *
  */
-L2A::UTIL::CommandResult L2A::UTIL::INTERNAL::ExecuteCommandLineStd(const ai::UnicodeString& command)
+L2A::UTIL::CommandResult L2A::UTIL::INTERNAL::ExecuteCommandLineStd([[maybe_unused]] const ai::UnicodeString& command)
 {
-    std::array<char, 8192> buffer{};
-    std::string result;
 #ifdef WIN_ENV
-#define popen _popen
-#define pclose _pclose
-#define WEXITSTATUS
     l2a_error(
         "ExecuteCommandLineStd is not tested for Windows. If this is adapted, check that unicode works as expected!");
-#endif
+#else
+    std::array<char, 8192> buffer{};
+    std::string result;
     FILE* pipe = popen(L2A::UTIL::StringAiToStd(command).c_str(), "r");
     if (pipe == nullptr)
     {
@@ -87,12 +84,14 @@ L2A::UTIL::CommandResult L2A::UTIL::INTERNAL::ExecuteCommandLineStd(const ai::Un
     int res = pclose(pipe);
     const int exitcode = WEXITSTATUS(res);
     return CommandResult{exitcode, L2A::UTIL::StringStdToAi(result)};
+#endif
 }
 
 /**
  *
  */
-L2A::UTIL::CommandResult L2A::UTIL::INTERNAL::ExecuteCommandLineWindowsNoConsole(const ai::UnicodeString& command)
+L2A::UTIL::CommandResult L2A::UTIL::INTERNAL::ExecuteCommandLineWindowsNoConsole(
+    [[maybe_unused]] const ai::UnicodeString& command)
 {
 #ifndef WIN_ENV
     l2a_error("You are using the function for the wrong OS! Use the system calls via ExecuteCommandLine!");

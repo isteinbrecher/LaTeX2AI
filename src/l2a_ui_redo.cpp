@@ -79,7 +79,7 @@ void L2A::UI::Redo::OpenRedoForm() { LoadForm(); }
 /**
  *
  */
-void L2A::UI::Redo::CallbackFormReady(const csxs::event::Event* const eventParam)
+void L2A::UI::Redo::CallbackFormReady(const csxs::event::Event* const /*eventParam*/)
 {
     // We need to activate the app context here, because otherwise functions like the GetDocumentName will not work
     auto app_context = L2A::GlobalPluginAppContext();

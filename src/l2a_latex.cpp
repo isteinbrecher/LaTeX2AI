@@ -128,7 +128,7 @@ std::vector<ai::FilePath> L2A::LATEX::SplitPdfPages(
     split_files_regex += pdf_name_no_ext;
     split_files_regex += "_[0-9]+\\.pdf$";
     const auto old_pdf_pages = L2A::UTIL::FindFilesInFolder(pdf_folder, split_files_regex);
-    for (const auto old_split_page : old_pdf_pages)
+    for (const auto& old_split_page : old_pdf_pages)
     {
         L2A::UTIL::RemoveFile(old_split_page, false);
     }

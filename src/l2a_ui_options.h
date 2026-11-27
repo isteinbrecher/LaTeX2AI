@@ -69,11 +69,6 @@ namespace L2A::UI
         void OpenOptionsForm();
 
         /**
-         * \brief Send the complete data to the form
-         */
-        ASErr SendData(const std::shared_ptr<L2A::UTIL::ParameterList>& form_data);
-
-        /**
          * @brief This function is called once the ui is loaded. We send the data to the ui here
          */
         void CallbackFormReady(const csxs::event::Event* const eventParam);

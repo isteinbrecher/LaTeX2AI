@@ -148,7 +148,7 @@ void TestCreateDirectory(L2A::TEST::UTIL::UnitTest& ut, const ai::FilePath& temp
 /**
  *
  */
-void TestExecute(L2A::TEST::UTIL::UnitTest& ut)
+void TestExecute([[maybe_unused]] L2A::TEST::UTIL::UnitTest& ut)
 {
     // Test that we can call a command with unicode characters and get the unicode result string.
     // Currently this does not work with Windoww as `echo` can't be found when calling the command.

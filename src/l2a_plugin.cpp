@@ -376,7 +376,7 @@ ASErr L2APlugin::AddTools(SPInterfaceMessage* message)
 
     // Create all tools.
     tool_handles_.resize(n_tools);
-    for (short i = 0; i < n_tools; i++)
+    for (unsigned int i = 0; i < n_tools; i++)
     {
         // Define the name and icon for the tool.
         data.title = ai::UnicodeString(tool_title[i]);

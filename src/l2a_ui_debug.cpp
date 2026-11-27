@@ -83,12 +83,12 @@ void L2A::UI::Debug::OpenDebugForm(const Action action, L2A::LATEX::LatexCreatio
 /**
  *
  */
-void L2A::UI::Debug::CallbackFormReady(const csxs::event::Event* const eventParam) { SendData(); }
+void L2A::UI::Debug::CallbackFormReady(const csxs::event::Event* const /*eventParam*/) { SendData(); }
 
 /**
  *
  */
-void L2A::UI::Debug::CallbackReeditLatexCode(const csxs::event::Event* const eventParam)
+void L2A::UI::Debug::CallbackReeditLatexCode(const csxs::event::Event* const /*eventParam*/)
 {
     // We let the item form know that the user wants to reedit the item, i.e., the form is not closed once it comes back
     // into focus
@@ -102,7 +102,7 @@ void L2A::UI::Debug::CallbackReeditLatexCode(const csxs::event::Event* const eve
 /**
  *
  */
-void L2A::UI::Debug::CallbackCancel(const csxs::event::Event* const eventParam)
+void L2A::UI::Debug::CallbackCancel(const csxs::event::Event* const /*eventParam*/)
 {
     if (L2A::GlobalPluginMutable().GetUiManager().GetItemForm().GetActionType() != L2A::UI::Item::ActionType::none)
     {
@@ -115,7 +115,7 @@ void L2A::UI::Debug::CallbackCancel(const csxs::event::Event* const eventParam)
 /**
  *
  */
-void L2A::UI::Debug::CallbackOpenLog(const csxs::event::Event* const eventParam)
+void L2A::UI::Debug::CallbackOpenLog(const csxs::event::Event* const /*eventParam*/)
 {
     L2A::UTIL::OpenFileWithDefaultApplication(latex_creation_result_.log_file_);
 }
@@ -123,7 +123,7 @@ void L2A::UI::Debug::CallbackOpenLog(const csxs::event::Event* const eventParam)
 /**
  *
  */
-void L2A::UI::Debug::CallbackCreateDebugFolder(const csxs::event::Event* const eventParam)
+void L2A::UI::Debug::CallbackCreateDebugFolder(const csxs::event::Event* const /*eventParam*/)
 {
     auto app_context = L2A::GlobalPluginAppContext();
     ai::FilePath debug_directory = L2A::GlobalMutable().GetPdfFileDirectory();
